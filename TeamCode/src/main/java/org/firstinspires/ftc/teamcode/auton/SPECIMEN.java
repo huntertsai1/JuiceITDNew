@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -62,6 +63,14 @@ public class SPECIMEN extends LinearOpMode {
                 .lineToY(HPDeposit)
                 .build();
 
+        Action cycle1 = drive.actionBuilder(drive.pose)
+                .splineToLinearHeading(new Pose2d(24, -44, Math.toRadians(-45)), Math.toRadians(180))
+                .waitSeconds(0.5)
+                .setTangent(Math.toRadians(180))
+                .splineTo(new Vector2d(4, -33), Math.toRadians(135))
+                .waitSeconds(0.5)
+                .build();
+
         robot.initSubsystems();
 
         waitForStart();
@@ -71,7 +80,8 @@ public class SPECIMEN extends LinearOpMode {
                 new ParallelAction(
                         new SequentialAction(
                             preload,
-                            allSpikes
+                            allSpikes,
+                            cycle1
                         ),
                         new LoopAction(() -> {
 //                            robot.lift.update();
