@@ -4,27 +4,18 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.NullAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.arcrobotics.ftclib.command.WaitCommand;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.commands.CommandMaster;
 import org.firstinspires.ftc.teamcode.subsystems.claw.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.climb.ClimbWinch;
 import org.firstinspires.ftc.teamcode.subsystems.extension.Extension;
 import org.firstinspires.ftc.teamcode.subsystems.lift.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.arm.Arm;
-import org.firstinspires.ftc.teamcode.util.enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.util.enums.ClimbType;
 import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 import org.firstinspires.ftc.teamcode.util.hardware.Component;
@@ -33,14 +24,6 @@ import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class Robot {
 
@@ -68,16 +51,9 @@ public class Robot {
     Motor frontLeft;
     Motor frontRight;
 
-    public IMU imu;
-
     public Robot(HardwareMap map, boolean auton){
         this.auton = auton;
 
-        //Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
-
-        //this.drive = new KalmanDrive(map, PoseKeeper.get(), limelight);
-
-//        this.cv = new CVMaster(map);
         this.components = new Component[]{
                 new Motor(0, "leftBack", map, true),                //0 left odometer
                 new Motor(1, "rightBack", map, false),              //1 right odometer
@@ -101,7 +77,6 @@ public class Robot {
         };
 
         VoltageSensor voltageSensor = map.voltageSensor.iterator().next();
-        //RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
         BrushlandColorSensor colorSensor = new BrushlandColorSensor(0, "color", map);
 
         // INIT SUBSYSTEMS
@@ -112,32 +87,13 @@ public class Robot {
         this.claw = new Claw((ContinuousServo) components[10], (ContinuousServo) components[11], colorSensor);
         this.climbWinch = new ClimbWinch((ContinuousServo) components[12], (ContinuousServo) components[13]);
 
-        //this.imu = hardwareMap.get(IMU.class, "imu");
-
         this.commands = new CommandMaster(this);
-//        this.cv = new CVMaster(limelight, hardwareMap.get(WebcamName.class, "Webcam 1"));
-        //this.cv = new CVMaster(limelight,null);
         this.hardwareMap = map;
 
         backLeft = (Motor) components[0];
         backRight = (Motor) components[1];
         frontLeft = (Motor) components[2];
         frontRight = (Motor) components[3];
-    }
-
-    // SUBSYSTEM INITIALIZATION AND MANAGEMENT
-    public Action initSubsystems(boolean action){
-        return new InstantAction(()->{
-            arm.runToPreset(Levels.INIT);
-            lift.runToPreset(Levels.INIT);
-            extension.runToPreset(Levels.INIT);
-        });
-    }
-
-    public void initSubsystems(){
-        arm.runToPreset(Levels.INIT);
-        lift.runToPreset(Levels.INIT);
-        extension.runToPreset(Levels.INIT);
     }
 
     // STATE MANAGEMENT AND TOGGLES
@@ -153,103 +109,7 @@ public class Robot {
         activateSensor = !activateSensor;
     }
 
-    public void toggleGamepiece(Gamepiece p) {
-        mode = p;
-    }
-
-    public void toggleGamepieceColor(AllianceColor allianceColor) {
-        if ((targetColor == SampleColors.BLUE || targetColor == SampleColors.RED) && mode == Gamepiece.SAMPLE) {
-            targetColor = SampleColors.YELLOW;
-        } else {
-            if (allianceColor == AllianceColor.RED) {
-                targetColor = SampleColors.RED;
-            } else {
-                targetColor = SampleColors.BLUE;
-            }
-        }
-    }
-
-    public void toggleClimbMode() {
-        if (climbMode == ClimbType.LEVEL_2) {
-            climbMode = ClimbType.LEVEL_3;
-        } else if (climbMode == ClimbType.LEVEL_3) {
-            climbMode = ClimbType.LEVEL_2;
-        }
-    }
-
     // INTAKE OPERATIONS
-    public void intakePreset() {
-        lift.runToPreset(Levels.INTAKE);
-        arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
-        extension.runToPreset(Levels.INTAKE);
-
-        new Thread(() -> {
-            sleep(3000);
-            arm.runToPreset(Levels.INTAKE);
-            claw.startIntake();
-            intaking = true;
-            state = Levels.INTAKE;
-        }).start();
-    }
-
-    public void intakePreset(double extTicks) {
-        lift.runToPreset(Levels.INTAKE);
-        arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
-        //TODO: CONVERT FROM INCHES TO TICKS
-        extension.runToPosition((float) extTicks);
-
-        new Thread(() -> {
-            sleep(3000);
-            arm.runToPreset(Levels.INTAKE);
-            claw.startIntake();
-            intaking = true;
-            state = Levels.INTAKE;
-        }).start();
-    }
-
-    public Action intakePreset(double extTicks, boolean action) {
-        return new SequentialAction(
-                new InstantAction(() -> {
-                    lift.runToPreset(Levels.INTAKE);
-                    extension.runToPreset(Levels.INTAKE);
-                }),
-                new SleepAction(0.5),
-                new InstantAction(() -> {
-                    arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
-                    lift.slides1.resetEncoder();
-                    state = Levels.INTAKE_INTERMEDIATE;
-                }),
-                new SleepAction(0.2),
-                new InstantAction(()->{
-                    claw.startIntake();
-                    arm.runToPreset(Levels.INTAKE);
-                    intaking = true;
-                    state = Levels.INTAKE;})
-
-        );
-    }
-
-    public Action retractedIntakePreset(boolean action) {
-        return new SequentialAction(
-                new InstantAction(() -> {
-                    lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(200);
-                }),
-                new SleepAction(0.5),
-                new InstantAction(() -> {
-                    arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
-                    lift.slides1.resetEncoder();
-                    state = Levels.INTAKE_INTERMEDIATE;
-                }),
-                new SleepAction(0.2),
-                new InstantAction(()->{
-                    claw.startIntake();
-                    arm.runToPreset(Levels.INTAKE);
-                    intaking = true;
-                    state = Levels.INTAKE;})
-
-        );
-    }
 
     public Action teleIntakePreset(boolean action) {
         return new SequentialAction(
@@ -349,13 +209,6 @@ public class Robot {
     }
 
     // DEPOSIT OPERATIONS
-    public void lowBasket() {
-        arm.runToPreset(Levels.LOW_BASKET);
-        extension.runToPreset(Levels.LOW_BASKET);
-        lift.runToPreset(Levels.LOW_BASKET);
-        state = Levels.LOW_BASKET;
-    }
-
     public Action lowBasketAction() {
         return new InstantAction(()-> {
             arm.runToPreset(Levels.LOW_BASKET);
@@ -364,13 +217,6 @@ public class Robot {
             state = Levels.LOW_BASKET;
         });
     }
-
-    public void highBasket() {
-        arm.runToPreset(Levels.HIGH_BASKET);
-        extension.runToPreset(Levels.HIGH_BASKET);
-        lift.runToPreset(Levels.HIGH_BASKET);
-        state = Levels.HIGH_BASKET;
-    }
     public Action highBasketAction() {
         return new InstantAction(()-> {
             arm.runToPreset(Levels.HIGH_BASKET);
@@ -378,20 +224,6 @@ public class Robot {
             lift.runToPreset(Levels.HIGH_BASKET);
             state = Levels.HIGH_BASKET;
         });
-    }
-
-    public void lowRung() {
-        arm.runToPreset(Levels.LOW_RUNG);
-        extension.runToPreset(Levels.LOW_RUNG);
-        lift.runToPreset(Levels.LOW_RUNG);
-        state = Levels.LOW_RUNG;
-    }
-
-    public void highRung() {
-        arm.runToPreset(Levels.HIGH_RUNG);
-        extension.runToPreset(Levels.HIGH_RUNG);
-        lift.runToPreset(Levels.HIGH_RUNG);
-        state = Levels.HIGH_RUNG;
     }
     public Action highRung(boolean action) {
         return new InstantAction( () ->
@@ -402,20 +234,7 @@ public class Robot {
         );
     }
 
-    public void teleDepositPreset() {
-        if (mode == Gamepiece.SAMPLE) {
-            highBasket();
-        } else {
-            highRung();
-        }
-    }
-
     // OUTTAKE
-
-    public void outtakeSample() {
-        claw.eject();
-    }
-
     public Action outtakeSample(boolean action) {
 
         return new SequentialAction(
@@ -425,15 +244,6 @@ public class Robot {
         );
     }
 
-    public void outtakeSpecimen() {
-        claw.stall();
-        lift.runToPosition(lift.getPos() - 10);
-        new Thread(() -> {
-            sleep(50);
-            claw.stall();
-        }).start();
-    }
-
     public Action outtakeSpecimen(boolean action) {
         return new SequentialAction(
                 claw.setStall(true,true),
@@ -441,51 +251,6 @@ public class Robot {
                 claw.setStall(false,true)
         );
     }
-
-    public void outtakeSpecimenPreload() {
-        claw.stall();
-        lift.runToPosition(lift.getPos() - 10);
-        new Thread(() -> {
-            sleep(50);
-            lift.runToPosition(0);
-            claw.stall()
-            ;
-        }).start();
-    }
-
-    public void smartOuttake() {
-        if (state == Levels.LOW_BASKET || state == Levels.HIGH_BASKET) {
-            outtakeSample();
-            intermediatePreset();
-            state = Levels.INTERMEDIATE;
-        } else if (state == Levels.LOW_RUNG || state == Levels.HIGH_RUNG) {
-            outtakeSpecimen();
-            intermediatePreset();
-            state = Levels.INTERMEDIATE;
-        }
-    }
-
-    public Action smartOuttake(boolean action) {
-        if (state == Levels.LOW_BASKET || state == Levels.HIGH_BASKET) {
-            return new SequentialAction(
-                    outtakeSample(true),
-                    new InstantAction(() -> {
-                        intermediatePreset();
-                        state = Levels.INTERMEDIATE;
-                    })
-            );
-        } else if (state == Levels.LOW_RUNG || state == Levels.HIGH_RUNG) {
-            return new SequentialAction(
-                    outtakeSpecimen(true),
-                    new InstantAction(() -> {
-                        intermediatePreset();
-                        state = Levels.INTERMEDIATE;
-                    })
-            );
-        }
-        return new NullAction();
-    }
-
     // DRIVE OPERATIONS
     public void setDrivePower(double x, double y, double rx) {
         double powerFrontLeft = y + x + rx;
@@ -513,23 +278,6 @@ public class Robot {
         frontRight.setSpeed((float) powerFrontRight);
         backLeft.setSpeed(-(float) powerBackLeft);
         backRight.setSpeed(-(float) powerBackRight);
-    }
-
-    // UTILITY METHODS
-    public void sleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static double normalizeRadians(double angle) {
-        angle = angle % (2 * Math.PI);
-        if (angle < 0) {
-            angle += 2 * Math.PI;
-        }
-        return angle;
     }
 
     // ENUMS
