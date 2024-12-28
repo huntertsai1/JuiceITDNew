@@ -55,12 +55,10 @@ public class Robot {
     public CommandMaster commands;
     public HardwareMap hardwareMap;
 
-
     // STATE VARS
     boolean auton;
     boolean intaking = false;
     public boolean activateSensor = true;
-    public boolean l3ClimbOverride = false;
     public Levels state = Levels.INIT;
     public Gamepiece mode = Gamepiece.SAMPLE;
     public SampleColors targetColor = SampleColors.YELLOW;
@@ -71,7 +69,6 @@ public class Robot {
     Motor frontRight;
 
     public IMU imu;
-
 
     public Robot(HardwareMap map, boolean auton){
         this.auton = auton;
@@ -128,6 +125,7 @@ public class Robot {
         frontRight = (Motor) components[3];
     }
 
+    // SUBSYSTEM INITIALIZATION AND MANAGEMENT
     public Action initSubsystems(boolean action){
         return new InstantAction(()->{
             arm.runToPreset(Levels.INIT);
@@ -135,12 +133,14 @@ public class Robot {
             extension.runToPreset(Levels.INIT);
         });
     }
+
     public void initSubsystems(){
         arm.runToPreset(Levels.INIT);
         lift.runToPreset(Levels.INIT);
         extension.runToPreset(Levels.INIT);
     }
 
+    // STATE MANAGEMENT AND TOGGLES
     public void toggleGamepiece() {
         if (mode == Gamepiece.SAMPLE) {
             mode = Gamepiece.SPECIMEN;
@@ -177,8 +177,7 @@ public class Robot {
         }
     }
 
-    // INTAKE PRESETS
-
+    // INTAKE OPERATIONS
     public void intakePreset() {
         lift.runToPreset(Levels.INTAKE);
         arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
@@ -302,24 +301,11 @@ public class Robot {
         }
     }
 
-    public void autonObParkPreset() {
-        lift.runToPreset(Levels.INTAKE);
-        arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
-        extension.runToPosition(100);
-    }
-
     public void intermediatePreset() {
         arm.runToPreset(Levels.INTERMEDIATE);
         extension.runToPreset(Levels.INTERMEDIATE);
         lift.runToPreset(Levels.INTERMEDIATE);
         state = Levels.INTERMEDIATE;
-    }
-
-    public void scanForTargetsPreset() {
-        arm.runToPreset(Levels.INTERMEDIATE);
-        extension.runToPreset(Levels.INTERMEDIATE);
-        lift.runToPreset(Levels.INTERMEDIATE);
-        state = Levels.LOCATING_TARGETS;
     }
 
     public void stopIntake() {
@@ -362,7 +348,7 @@ public class Robot {
         return true;
     }
 
-    // DEPOSIT PRESETS
+    // DEPOSIT OPERATIONS
     public void lowBasket() {
         arm.runToPreset(Levels.LOW_BASKET);
         extension.runToPreset(Levels.LOW_BASKET);
@@ -415,24 +401,6 @@ public class Robot {
             state = Levels.HIGH_RUNG;}
         );
     }
-
-    public void preloadHighRung() {
-        arm.runToPosition(0);
-        extension.runToPosition(0);
-        lift.runToPosition(0);
-        state = Levels.HIGH_RUNG;
-    }
-
-    /**
-     * <h1>Drop preload to the goat <u><b>DITA RAJEEV</b></u></h1>
-     */
-    public void preloadDropPreset() {
-        arm.runToPreset(Levels.INTAKE);
-        extension.runToPosition(0);
-        lift.runToPreset(Levels.INTAKE);
-        state = Levels.INTERMEDIATE;
-    }
-
 
     public void teleDepositPreset() {
         if (mode == Gamepiece.SAMPLE) {
@@ -518,7 +486,7 @@ public class Robot {
         return new NullAction();
     }
 
-    //DRIVE
+    // DRIVE OPERATIONS
     public void setDrivePower(double x, double y, double rx) {
         double powerFrontLeft = y + x + rx;
         double powerFrontRight = y - x - rx;
@@ -547,6 +515,7 @@ public class Robot {
         backRight.setSpeed(-(float) powerBackRight);
     }
 
+    // UTILITY METHODS
     public void sleep(int millis) {
         try {
             Thread.sleep(millis);
@@ -555,16 +524,17 @@ public class Robot {
         }
     }
 
-    public enum Gamepiece {
-        SAMPLE,
-        SPECIMEN
-    }
-
     public static double normalizeRadians(double angle) {
         angle = angle % (2 * Math.PI);
         if (angle < 0) {
             angle += 2 * Math.PI;
         }
         return angle;
+    }
+
+    // ENUMS
+    public enum Gamepiece {
+        SAMPLE,
+        SPECIMEN
     }
 }
