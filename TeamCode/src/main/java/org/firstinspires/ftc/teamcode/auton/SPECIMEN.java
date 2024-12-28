@@ -57,9 +57,9 @@ public class SPECIMEN extends LinearOpMode {
         
         TrajectoryActionBuilder cycle1 = allSpikes.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(16, -44, Math.toRadians(-45)), Math.toRadians(180))
-                .waitSeconds(0.2)
+                .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
                 .waitSeconds(0.2);
 
         robot.initSubsystems();
