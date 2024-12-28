@@ -518,31 +518,6 @@ public class Robot {
         return new NullAction();
     }
 
-
-    public Action primeClimb() {
-        if (climbMode == ClimbType.LEVEL_3) {
-            return new SequentialAction(
-                    climbWinch.up(),
-                    new InstantAction(() -> {
-                        lift.runToPreset(Levels.CLIMB_EXTENDED);
-                        state = Levels.CLIMB_PRIMED;
-                    })
-            );
-        } else {
-            return new SequentialAction(
-                    climbWinch.up(),
-                    new InstantAction(() -> state = Levels.CLIMB_PRIMED)
-            );
-        }
-    }
-
-    public Action startClimbL3() {
-        return new InstantAction(() -> {
-            lift.runToPreset(Levels.CLIMB_RETRACTED);
-            state = Levels.CLIMB_L3;
-        });
-    }
-
     //DRIVE
     public void setDrivePower(double x, double y, double rx) {
         double powerFrontLeft = y + x + rx;

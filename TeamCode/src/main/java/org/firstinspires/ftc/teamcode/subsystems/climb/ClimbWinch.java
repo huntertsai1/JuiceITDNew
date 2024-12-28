@@ -4,7 +4,6 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 
-import org.firstinspires.ftc.teamcode.commands.WinchStopAtPosition;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 
 public class ClimbWinch {
@@ -32,24 +31,6 @@ public class ClimbWinch {
     public void setPower(float p) {
         servo1.setSpeed(p);
         servo2.setSpeed(p);
-    }
-
-    public Action prime() {
-        return new SequentialAction(
-                new InstantAction(() -> setPower(-1)),
-                new WinchStopAtPosition(this, PRIMED_POS)
-        );
-    }
-
-    public Action up() {
-        return new SequentialAction(
-                new InstantAction(() -> setPower(1)),
-                new WinchStopAtPosition(this, EXTENDED_POS)
-        );
-    }
-
-    public Action startClimb() {
-        return new InstantAction(() -> setPower(-1));
     }
 
     public float getPosition() {

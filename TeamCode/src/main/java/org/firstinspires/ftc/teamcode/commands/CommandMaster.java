@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.acmerobotics.roadrunner.Action;
-import com.qualcomm.robotcore.hardware.Gamepad;
-
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.subsystems.climb.ClimbWinch;
-import org.firstinspires.ftc.teamcode.subsystems.vision.CVMaster;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 
 public class CommandMaster {
