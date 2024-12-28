@@ -48,7 +48,7 @@ public class MeepMeepTesting {
                 //DEPOSITS
 
                 //2ND SPEC
-
+                .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(16, -44, Math.toRadians(-45)), Math.toRadians(180))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
@@ -56,29 +56,29 @@ public class MeepMeepTesting {
                 .waitSeconds(waits)
 
                 //3RD SPEC
-
+                .setTangent(Math.toRadians(-90))
                 .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
                 .waitSeconds(waits)
 
-                //4TH SPEC
-
-                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
-                .waitSeconds(waits)
-
-                //5TH SPEC
-
-                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
-                .waitSeconds(waits)
-                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+//                //4TH SPEC
+//
+//                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+//                .waitSeconds(1)
+//                .setTangent(Math.toRadians(180))
+//                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
+//                .waitSeconds(waits)
+//
+//                //5TH SPEC
+//
+//                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+//                .waitSeconds(1)
+//                .setTangent(Math.toRadians(180))
+//                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
+//                .waitSeconds(waits)
+//                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
 
                 .build());
 
