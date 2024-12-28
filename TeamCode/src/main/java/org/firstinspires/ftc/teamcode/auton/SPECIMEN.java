@@ -32,10 +32,11 @@ public class SPECIMEN extends LinearOpMode {
 
         double HPDeposit = -46;
         double spikeBack = -12;
+        double waits = 0.2;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 .lineToY(-33)
-                .waitSeconds(0.2);
+                .waitSeconds(waits);
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(30, -38, Math.toRadians(-90)), Math.toRadians(0))
@@ -55,12 +56,19 @@ public class SPECIMEN extends LinearOpMode {
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit);
         
-        TrajectoryActionBuilder cycle1 = allSpikes.endTrajectory().fresh()
+        TrajectoryActionBuilder Spec2 = allSpikes.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(16, -44, Math.toRadians(-45)), Math.toRadians(180))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
-                .waitSeconds(0.2);
+                .waitSeconds(waits);
+
+        TrajectoryActionBuilder Spec3 = Spec2.endTrajectory().fresh()
+                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
+                .waitSeconds(waits);
 
         robot.initSubsystems();
 
@@ -72,7 +80,10 @@ public class SPECIMEN extends LinearOpMode {
                         new SequentialAction(
                             preload.build(),
                             allSpikes.build(),
-                            cycle1.build()
+                            Spec2.build(),
+                            Spec3.build(),
+                            Spec3.build(),
+                            Spec3.build()
                         ),
                         new LoopAction(() -> {
 //                            robot.lift.update();

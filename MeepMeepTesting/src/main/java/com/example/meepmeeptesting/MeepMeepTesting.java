@@ -11,8 +11,8 @@ public class MeepMeepTesting {
         MeepMeep meepMeep = new MeepMeep(800);
         Pose2d startPose = new Pose2d(6, -62, Math.toRadians(-90));
 
-        double HPDeposit = -46;
-        double spikeBack = -13;
+        double HPDeposit = -48;
+        double spikeBack = -12;
         double waits = 0.2;
         
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -34,41 +34,52 @@ public class MeepMeepTesting {
                 .lineToX(44)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
-                .lineToY(-12)
+                .lineToY(spikeBack)
                 .setTangent(Math.toRadians(0))
                 .lineToX(54)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
-                .lineToY(-12)
+                .lineToY(spikeBack)
                 .setTangent(Math.toRadians(0))
                 .lineToX(64)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
 
                 //DEPOSITS
+
+                //2ND SPEC
+
                 .splineToLinearHeading(new Pose2d(16, -44, Math.toRadians(-45)), Math.toRadians(180))
-                .waitSeconds(waits)
+                .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
                 .waitSeconds(waits)
 
+                //3RD SPEC
 
+                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
+                .waitSeconds(waits)
 
-//                .splineToLinearHeading(new Pose2d(24, -44, Math.toRadians(-45)), Math.toRadians(180))
-//                .waitSeconds(waits)
-//                .setTangent(Math.toRadians(180))
-//                .splineTo(new Vector2d(4, -33), Math.toRadians(135))
-//                .waitSeconds(waits)
-//                .splineToLinearHeading(new Pose2d(24, -44, Math.toRadians(-45)), Math.toRadians(180))
-//                .waitSeconds(waits)
-//                .setTangent(Math.toRadians(180))
-//                .splineTo(new Vector2d(4, -33), Math.toRadians(135))
-//                .waitSeconds(waits)
-//                .splineToLinearHeading(new Pose2d(24, -44, Math.toRadians(-45)), Math.toRadians(180))
-//                .waitSeconds(waits)
-//                .setTangent(Math.toRadians(180))
-//                .splineTo(new Vector2d(4, -33), Math.toRadians(135))
-//                .waitSeconds(waits)
+                //4TH SPEC
+
+                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
+                .waitSeconds(waits)
+
+                //5TH SPEC
+
+                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
+                .waitSeconds(waits)
+                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
