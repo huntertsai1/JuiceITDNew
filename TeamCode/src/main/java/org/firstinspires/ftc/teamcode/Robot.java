@@ -109,6 +109,20 @@ public class Robot {
         activateSensor = !activateSensor;
     }
 
+    public Action initSubsystems(boolean action){
+        return new InstantAction(()->{
+            arm.runToPreset(Levels.INIT);
+            lift.runToPreset(Levels.INIT);
+            extension.runToPreset(Levels.INIT);
+        });
+    }
+
+    public void initSubsystems(){
+        arm.runToPreset(Levels.INIT);
+        lift.runToPreset(Levels.INIT);
+        extension.runToPreset(Levels.INIT);
+    }
+
     // INTAKE OPERATIONS
 
     public Action teleIntakePreset(boolean action) {

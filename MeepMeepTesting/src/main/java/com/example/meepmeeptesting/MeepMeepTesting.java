@@ -22,8 +22,12 @@ public class MeepMeepTesting {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(startPose)
+
+                //PRELOAD
                 .lineToY(-33)
                 .waitSeconds(waits)
+
+                //ALL SPIKES
                 .splineToLinearHeading(new Pose2d(38, -33, Math.toRadians(-90)), Math.toRadians(0))
                 .setTangent(Math.toRadians(90))
                 .lineToY(spikeBack)
@@ -47,11 +51,16 @@ public class MeepMeepTesting {
                 .lineToX(63.5)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
+
+                //DEPOSITS
                 .splineToLinearHeading(new Pose2d(24, -44, Math.toRadians(-45)), Math.toRadians(180))
                 .waitSeconds(waits)
                 .setTangent(Math.toRadians(180))
                 .splineTo(new Vector2d(4, -33), Math.toRadians(135))
                 .waitSeconds(waits)
+
+
+
 //                .splineToLinearHeading(new Pose2d(24, -44, Math.toRadians(-45)), Math.toRadians(180))
 //                .waitSeconds(waits)
 //                .setTangent(Math.toRadians(180))
