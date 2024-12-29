@@ -105,6 +105,8 @@ public class SPECIMEN extends LinearOpMode {
                             allSpikes.build(),
 
                             intakeSpec2.build(),
+                            robot.autoIntake(true),
+                            new SleepAction(5),
 
                             depositSpec2.build(),
 
