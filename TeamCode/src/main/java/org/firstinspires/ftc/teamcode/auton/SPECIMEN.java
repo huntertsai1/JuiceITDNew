@@ -65,51 +65,27 @@ public class SPECIMEN extends LinearOpMode {
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit);
         
-        TrajectoryActionBuilder Spec2 = allSpikes.endTrajectory().fresh()
+        TrajectoryActionBuilder intakeSpec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(17, -46), Math.toRadians(-45))
-                .waitSeconds(intakeWait)
+                .strafeToLinearHeading(new Vector2d(17, -46), Math.toRadians(-45));
+
+        TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(waits);
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
-        TrajectoryActionBuilder Spec3 = Spec2.endTrajectory().fresh()
+        TrajectoryActionBuilder intakeSpec3 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
-                        new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(waits);
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
-        TrajectoryActionBuilder Spec4 = Spec3.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
-                        new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(1)
+        TrajectoryActionBuilder depositSpec3 = intakeSpec3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(waits);
-
-        TrajectoryActionBuilder Spec5 = Spec4.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
-                        new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
-                        new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(waits);
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         robot.initSubsystems();
 
@@ -128,13 +104,13 @@ public class SPECIMEN extends LinearOpMode {
 
                             allSpikes.build(),
 
-                            Spec2.build(),
+                            intakeSpec2.build(),
 
-                            Spec3.build(),
+                            depositSpec2.build(),
 
-                            Spec4.build(),
+                            intakeSpec3.build(),
 
-                            Spec5.build()
+                            depositSpec3.build()
                         ),
                         new LoopAction(() -> {
                             robot.lift.update();
