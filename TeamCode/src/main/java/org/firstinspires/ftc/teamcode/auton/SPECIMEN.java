@@ -39,7 +39,8 @@ public class SPECIMEN extends LinearOpMode {
                 .waitSeconds(waits);
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(30, -38, Math.toRadians(-90)), Math.toRadians(0))
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(30, -42, Math.toRadians(-90)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(40, -12, Math.toRadians(-90)), Math.toRadians(90))
                 .setTangent(Math.toRadians(0))
                 .lineToX(44)
@@ -58,7 +59,7 @@ public class SPECIMEN extends LinearOpMode {
         
         TrajectoryActionBuilder Spec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(16, -44, Math.toRadians(-45)), Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(16, -44), Math.toRadians(-45))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
@@ -66,10 +67,10 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder Spec3 = Spec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+                .splineToLinearHeading(new Pose2d(16, -44, Math.toRadians(-45)), Math.toRadians(0))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-95)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
                 .waitSeconds(waits);
 
         robot.initSubsystems();

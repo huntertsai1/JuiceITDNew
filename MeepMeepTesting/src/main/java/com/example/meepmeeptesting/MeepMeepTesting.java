@@ -6,6 +6,8 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
+import java.util.Vector;
+
 public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
@@ -28,7 +30,8 @@ public class MeepMeepTesting {
                 .waitSeconds(waits)
 
                 //ALL SPIKES
-                .splineToLinearHeading(new Pose2d(30, -38, Math.toRadians(-90)), Math.toRadians(0))
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(30, -42, Math.toRadians(-90)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(40, -12, Math.toRadians(-90)), Math.toRadians(90))
                 .setTangent(Math.toRadians(0))
                 .lineToX(44)
@@ -49,7 +52,7 @@ public class MeepMeepTesting {
 
                 //2ND SPEC
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(16, -44, Math.toRadians(-45)), Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(16, -44), Math.toRadians(-45))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
@@ -57,7 +60,7 @@ public class MeepMeepTesting {
 
                 //3RD SPEC
                 .setTangent(Math.toRadians(-90))
-                .splineTo(new Vector2d(16, -44), Math.toRadians(-45))
+                .splineToLinearHeading(new Pose2d(16, -44, Math.toRadians(-45)), Math.toRadians(0))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
