@@ -75,7 +75,7 @@ public class SPECIMEN extends LinearOpMode {
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
-        TrajectoryActionBuilder intakeSpec3 = intakeSpec2.endTrajectory().fresh()
+        TrajectoryActionBuilder intakeSpec3 = depositSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
