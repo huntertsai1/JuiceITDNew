@@ -49,7 +49,7 @@ public class SPECIMEN extends LinearOpMode {
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(18, -42, Math.toRadians(-90)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(38, -12, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(36, -12, Math.toRadians(-90)), Math.toRadians(90))
                 .setTangent(Math.toRadians(0))
                 .lineToX(46)
                 .setTangent(Math.toRadians(90))
@@ -122,7 +122,7 @@ public class SPECIMEN extends LinearOpMode {
                                 ),
                             new SleepAction(0.2),
                                 robot.highRung(true),
-                            new SleepAction(0.5),
+                            new SleepAction(0.2),
 
                             depositSpec3.build(),
                             robot.autoSpecimen(true)
