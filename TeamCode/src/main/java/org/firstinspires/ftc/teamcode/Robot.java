@@ -135,22 +135,19 @@ public class Robot {
         return new SequentialAction(
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(180);
+                    extension.runToPosition(200);
                 }),
-                new SleepAction(0.5),
-                new InstantAction(() -> {
-                    arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
-                    lift.slides1.resetEncoder();
-                    state = Levels.INTAKE_INTERMEDIATE;
-                }),
-                new SleepAction(0.2),
+                new SleepAction(0.3),
                 new InstantAction(()->{
-                    claw.startIntake();
                     arm.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(225);
+                    lift.slides1.resetEncoder();
+                    claw.startIntake();
                     intaking = true;
-                    state = Levels.INTAKE;})
-
+                    state = Levels.INTAKE;}),
+                new SleepAction(1),
+                new InstantAction(() -> {
+                    extension.runToPosition(225);
+                })
         );
     }
 
