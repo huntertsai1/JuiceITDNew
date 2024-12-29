@@ -44,7 +44,7 @@ public class MeepMeepTesting {
                 .lineToY(HPDeposit)
                 .lineToY(spikeBack)
                 .setTangent(Math.toRadians(0))
-                .lineToX(64)
+                .lineToX(63)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
 
@@ -52,18 +52,18 @@ public class MeepMeepTesting {
 
                 //2ND SPEC
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(16, -44), Math.toRadians(-45))
+                .strafeToLinearHeading(new Vector2d(17, -46), Math.toRadians(-45))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90))
                 .waitSeconds(waits)
 
                 //3RD SPEC
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(16, -44, Math.toRadians(-45)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-97)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90))
                 .waitSeconds(waits)
 
 //                //4TH SPEC

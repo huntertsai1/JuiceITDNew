@@ -30,7 +30,7 @@ public class SPECIMEN extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double HPDeposit = -46;
+        double HPDeposit = -48;
         double spikeBack = -12;
         double waits = 0.2;
 
@@ -53,7 +53,7 @@ public class SPECIMEN extends LinearOpMode {
                 .lineToY(HPDeposit)
                 .lineToY(spikeBack)
                 .setTangent(Math.toRadians(0))
-                .lineToX(64)
+                .lineToX(63)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit);
         
