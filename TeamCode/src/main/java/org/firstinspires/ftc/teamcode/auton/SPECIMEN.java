@@ -63,7 +63,7 @@ public class SPECIMEN extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(17, -46), Math.toRadians(-45))
                 .waitSeconds(intakeWait)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90))
                 .waitSeconds(waits);
 
         TrajectoryActionBuilder Spec3 = Spec2.endTrajectory().fresh()
@@ -71,7 +71,7 @@ public class SPECIMEN extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0))
                 .waitSeconds(intakeWait)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90))
                 .waitSeconds(waits);
 
         TrajectoryActionBuilder Spec4 = Spec3.endTrajectory().fresh()
@@ -79,7 +79,7 @@ public class SPECIMEN extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0))
                 .waitSeconds(intakeWait)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90))
                 .waitSeconds(waits);
 
         TrajectoryActionBuilder Spec5 = Spec4.endTrajectory().fresh()
@@ -87,7 +87,7 @@ public class SPECIMEN extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0))
                 .waitSeconds(intakeWait)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90))
                 .waitSeconds(waits);
 
         robot.initSubsystems();
