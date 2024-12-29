@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode.auton;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -35,8 +37,14 @@ public class SPECIMEN extends LinearOpMode {
         double waits = 0.2;
         double intakeWait = 1;
 
+        double veloLim = 60.0;
+        double accelUpperLim = 60.0;
+        double accelLowerLim = -40.0;
+
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
-                .lineToY(-33)
+                .lineToY(-33,
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits);
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
@@ -63,31 +71,45 @@ public class SPECIMEN extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(17, -46), Math.toRadians(-45))
                 .waitSeconds(intakeWait)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits);
 
         TrajectoryActionBuilder Spec3 = Spec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0))
-                .waitSeconds(intakeWait)
+                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+                .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits);
 
         TrajectoryActionBuilder Spec4 = Spec3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0))
-                .waitSeconds(intakeWait)
+                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+                .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits);
 
         TrajectoryActionBuilder Spec5 = Spec4.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0))
-                .waitSeconds(intakeWait)
+                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+                .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits);
 
         robot.initSubsystems();

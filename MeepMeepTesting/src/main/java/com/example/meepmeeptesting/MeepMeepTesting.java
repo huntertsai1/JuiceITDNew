@@ -1,6 +1,8 @@
 package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
@@ -16,17 +18,23 @@ public class MeepMeepTesting {
         double HPDeposit = -48;
         double spikeBack = -12;
         double waits = 0.2;
-        
+
+        double veloLim = 60.0;
+        double accelUpperLim = 60.0;
+        double accelLowerLim = -40.0;
+
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setDimensions(12.5, 17.5)
-                .setConstraints(72, 72, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(84, 84, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(startPose)
 
                 //PRELOAD
-                .lineToY(-33)
+                .lineToY(-33,
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits)
 
                 //ALL SPIKES
@@ -55,15 +63,21 @@ public class MeepMeepTesting {
                 .strafeToLinearHeading(new Vector2d(17, -46), Math.toRadians(-45))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits)
 
                 //3RD SPEC
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits)
 
 //                //4TH SPEC
