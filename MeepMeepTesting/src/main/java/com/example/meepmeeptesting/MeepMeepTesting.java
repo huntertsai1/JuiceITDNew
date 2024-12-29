@@ -63,7 +63,7 @@ public class MeepMeepTesting {
                 .strafeToLinearHeading(new Vector2d(17, -46), Math.toRadians(-45))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits)
@@ -75,7 +75,7 @@ public class MeepMeepTesting {
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits)
