@@ -32,7 +32,7 @@ public class SPECIMEN extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double HPDeposit = -51;
+        double HPDeposit = -52;
         double spikeBack = -12;
         double waits = 0.2;
         double intakeWait = 1;
@@ -49,14 +49,14 @@ public class SPECIMEN extends LinearOpMode {
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(18, -42, Math.toRadians(-90)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(40, -12, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(38, -12, Math.toRadians(-90)), Math.toRadians(90))
                 .setTangent(Math.toRadians(0))
-                .lineToX(45)
+                .lineToX(46)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
                 .lineToY(spikeBack)
                 .setTangent(Math.toRadians(0))
-                .lineToX(53)
+                .lineToX(55)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
                 .lineToY(spikeBack)
