@@ -44,8 +44,7 @@ public class SPECIMEN extends LinearOpMode {
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 .lineToY(-33,
                         new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(waits);
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
@@ -120,15 +119,26 @@ public class SPECIMEN extends LinearOpMode {
         Actions.runBlocking(
                 new ParallelAction(
                         new SequentialAction(
-                            preload.build(),
+                                //PRELOAD
+                                new ParallelAction(
+                                        preload.build(),
+                                        new InstantAction(() -> robot.highRung(true))
+                                ),
+                            new SleepAction(0.5),
+                            robot.autoSpecimen(true),
+
                             allSpikes.build(),
+
                             Spec2.build(),
+
                             Spec3.build(),
+
                             Spec4.build(),
+
                             Spec5.build()
                         ),
                         new LoopAction(() -> {
-//                            robot.lift.update();
+                            robot.lift.update();
                         }, this::isStopRequested)
                 )
         );

@@ -109,18 +109,25 @@ public class Robot {
         activateSensor = !activateSensor;
     }
 
-    public Action initSubsystems(boolean action){
-        return new InstantAction(()->{
-            arm.runToPreset(Levels.INIT);
-            lift.runToPreset(Levels.INIT);
-            extension.runToPreset(Levels.INIT);
-        });
-    }
+//AUTO OPERATIONS
 
     public void initSubsystems(){
         arm.runToPreset(Levels.INIT);
         lift.runToPreset(Levels.INIT);
         extension.runToPreset(Levels.INIT);
+    }
+
+    public Action autoSpecimen (boolean action) {
+        return new SequentialAction(
+                new InstantAction(() -> {
+                    lift.runToPreset(Levels.INTAKE);
+                }),
+                new SleepAction(0.5),
+                new InstantAction(() -> {
+                    arm.runToPreset(Levels.INTERMEDIATE);
+                    state = Levels.INTERMEDIATE;
+                })
+        );
     }
 
     // INTAKE OPERATIONS
