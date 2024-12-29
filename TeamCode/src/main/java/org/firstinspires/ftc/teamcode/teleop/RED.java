@@ -80,7 +80,7 @@ public class RED extends LinearOpMode {
                     actionsQueue.add(robot.highBasketAction());
                 }else{
                     actionsQueue.add(robot.highRung(true));
-                    actionsQueue.add(robot.claw.setStall(true, true));
+//                    actionsQueue.add(robot.claw.setStall(true, true));
                 }
             }
             oldLBumper = gamepad1.left_bumper;

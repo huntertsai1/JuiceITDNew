@@ -122,9 +122,8 @@ public class SPECIMEN extends LinearOpMode {
                                 //PRELOAD
                                 new ParallelAction(
                                         preload.build(),
-                                        new InstantAction(() -> robot.highRung(true))
+                                        robot.highRung(true)
                                 ),
-                            new SleepAction(0.5),
                             robot.autoSpecimen(true),
 
                             allSpikes.build(),

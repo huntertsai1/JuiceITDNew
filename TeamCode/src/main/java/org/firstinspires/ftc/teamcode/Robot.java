@@ -122,10 +122,11 @@ public class Robot {
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
                 }),
-                new SleepAction(0.5),
+                new SleepAction(0.2),
                 new InstantAction(() -> {
                     arm.runToPreset(Levels.INTERMEDIATE);
                     state = Levels.INTERMEDIATE;
+                    claw.setPower(0);
                 })
         );
     }
@@ -251,6 +252,7 @@ public class Robot {
         {arm.runToPreset(Levels.HIGH_RUNG);
             extension.runToPreset(Levels.HIGH_RUNG);
             lift.runToPreset(Levels.HIGH_RUNG);
+            claw.setStall(true);
             state = Levels.HIGH_RUNG;}
         );
     }
