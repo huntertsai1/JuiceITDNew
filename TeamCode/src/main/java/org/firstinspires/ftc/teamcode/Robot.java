@@ -122,7 +122,7 @@ public class Robot {
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
                 }),
-                new SleepAction(0.2),
+                new SleepAction(0.1),
                 new InstantAction(() -> {
                     arm.runToPreset(Levels.INTERMEDIATE);
                     state = Levels.INTERMEDIATE;
