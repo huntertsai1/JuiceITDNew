@@ -15,7 +15,7 @@ public class MeepMeepTesting {
         MeepMeep meepMeep = new MeepMeep(800);
         Pose2d startPose = new Pose2d(6, -62, Math.toRadians(-90));
 
-        double HPDeposit = -48;
+        double HPDeposit = -51;
         double spikeBack = -12;
         double waits = 0.2;
 
@@ -32,14 +32,14 @@ public class MeepMeepTesting {
         myBot.runAction(myBot.getDrive().actionBuilder(startPose)
 
                 //PRELOAD
-                .lineToY(-33,
+                .lineToY(-30,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .waitSeconds(waits)
 
                 //ALL SPIKES
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(30, -42, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(18, -42, Math.toRadians(-90)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(40, -12, Math.toRadians(-90)), Math.toRadians(90))
                 .setTangent(Math.toRadians(0))
                 .lineToX(44)

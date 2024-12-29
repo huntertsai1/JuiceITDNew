@@ -32,7 +32,7 @@ public class SPECIMEN extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double HPDeposit = -48;
+        double HPDeposit = -51;
         double spikeBack = -12;
         double waits = 0.2;
         double intakeWait = 1;
@@ -42,48 +42,48 @@ public class SPECIMEN extends LinearOpMode {
         double accelLowerLim = -40.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
-                .lineToY(-33,
+                .lineToY(-30,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(30, -42, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(18, -42, Math.toRadians(-90)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(40, -12, Math.toRadians(-90)), Math.toRadians(90))
                 .setTangent(Math.toRadians(0))
-                .lineToX(44)
+                .lineToX(45)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
                 .lineToY(spikeBack)
                 .setTangent(Math.toRadians(0))
-                .lineToX(54)
+                .lineToX(53)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
                 .lineToY(spikeBack)
                 .setTangent(Math.toRadians(0))
-                .lineToX(63)
+                .lineToX(61.5)
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit);
         
         TrajectoryActionBuilder intakeSpec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(17, -46), Math.toRadians(-45));
+                .strafeToLinearHeading(new Vector2d(19, -48), Math.toRadians(-45));
 
         TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(3, -30, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         TrajectoryActionBuilder intakeSpec3 = depositSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         TrajectoryActionBuilder depositSpec3 = intakeSpec3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(0, -30, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -122,7 +122,7 @@ public class SPECIMEN extends LinearOpMode {
                                 ),
                             new SleepAction(0.2),
                                 robot.highRung(true),
-                            new SleepAction(0.2),
+                            new SleepAction(0.5),
 
                             depositSpec3.build(),
                             robot.autoSpecimen(true)
