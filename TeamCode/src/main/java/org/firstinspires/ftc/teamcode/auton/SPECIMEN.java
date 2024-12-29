@@ -111,12 +111,22 @@ public class SPECIMEN extends LinearOpMode {
                             new SleepAction(0.5),
                             robot.highRung(true),
                             new SleepAction(0.2),
+
                             depositSpec2.build(),
                             robot.autoSpecimen(true),
 
-                            intakeSpec3.build(),
+                            //SPEC3
+                                new ParallelAction(
+                                        intakeSpec3.build(),
+                                        robot.autoIntake(true)
+                                ),
+                            new SleepAction(0.2),
+                                robot.highRung(true),
+                            new SleepAction(0.2),
 
-                            depositSpec3.build()
+                            depositSpec3.build(),
+                            robot.autoSpecimen(true)
+
                         ),
                         new LoopAction(() -> {
                             robot.lift.update();
