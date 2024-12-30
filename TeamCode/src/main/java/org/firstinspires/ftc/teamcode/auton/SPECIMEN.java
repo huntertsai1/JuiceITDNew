@@ -87,6 +87,30 @@ public class SPECIMEN extends LinearOpMode {
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
+        TrajectoryActionBuilder intakeSpec4 = depositSpec3.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
+
+        TrajectoryActionBuilder depositSpec4 = intakeSpec4.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-3, -30, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
+
+        TrajectoryActionBuilder intakeSpec5 = depositSpec4.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
+
+        TrajectoryActionBuilder depositSpec5 = intakeSpec5.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-6, -30, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
+
         robot.initSubsystems();
 
         waitForStart();
@@ -125,6 +149,30 @@ public class SPECIMEN extends LinearOpMode {
                             new SleepAction(0.2),
 
                             depositSpec3.build(),
+                            robot.autoSpecimen(true),
+
+                            //SPEC4
+                                new ParallelAction(
+                                        intakeSpec4.build(),
+                                        robot.autoIntake(true)
+                                ),
+                            new SleepAction(0.2),
+                            robot.highRung(true),
+                            new SleepAction(0.2),
+
+                            depositSpec4.build(),
+                            robot.autoSpecimen(true),
+
+                            //SPEC5
+                                new ParallelAction(
+                                        intakeSpec5.build(),
+                                        robot.autoIntake(true)
+                                ),
+                            new SleepAction(0.2),
+                            robot.highRung(true),
+                            new SleepAction(0.2),
+
+                            depositSpec5.build(),
                             robot.autoSpecimen(true)
 
                         ),
