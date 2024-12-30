@@ -72,13 +72,13 @@ public class MeepMeepTesting {
 
                 //DEPOSITS
 
-                //2ND SPEC
-//                .setTangent(Math.toRadians(-90))
-//                .strafeToLinearHeading(new Vector2d(19, -48), Math.toRadians(-45))
-//                .setTangent(Math.toRadians(180))
-//                .splineToLinearHeading(new Pose2d(3, -30, Math.toRadians(-92)), Math.toRadians(90),
-//                        new TranslationalVelConstraint(veloLim),
-//                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+                // 2ND SPEC
+                .setTangent(Math.toRadians(-90))
+                .strafeToLinearHeading(new Vector2d(19, -48), Math.toRadians(-45))
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(3, -30, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
 
 //                //3RD SPEC
 //                .setTangent(Math.toRadians(-90))
