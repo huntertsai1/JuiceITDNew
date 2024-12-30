@@ -134,7 +134,7 @@ public class SPECIMEN extends LinearOpMode {
                             robot.autoIntake(true),
                             new SleepAction(0.5),
                             robot.highRung(true),
-                            new SleepAction(0.2),
+                            new SleepAction(waits),
 
                             depositSpec2.build(),
                             robot.autoSpecimen(true),
@@ -144,9 +144,9 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec3.build(),
                                         robot.autoIntake(true)
                                 ),
-                            new SleepAction(0.2),
+                            new SleepAction(waits),
                                 robot.highRung(true),
-                            new SleepAction(0.2),
+                            new SleepAction(waits),
 
                             depositSpec3.build(),
                             robot.autoSpecimen(true),
@@ -156,9 +156,9 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec4.build(),
                                         robot.autoIntake(true)
                                 ),
-                            new SleepAction(0.2),
+                            new SleepAction(waits),
                             robot.highRung(true),
-                            new SleepAction(0.2),
+                            new SleepAction(waits),
 
                             depositSpec4.build(),
                             robot.autoSpecimen(true),
@@ -168,9 +168,9 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec5.build(),
                                         robot.autoIntake(true)
                                 ),
-                            new SleepAction(0.2),
+                            new SleepAction(waits),
                             robot.highRung(true),
-                            new SleepAction(0.2),
+                            new SleepAction(waits),
 
                             depositSpec5.build(),
                             robot.autoSpecimen(true)
