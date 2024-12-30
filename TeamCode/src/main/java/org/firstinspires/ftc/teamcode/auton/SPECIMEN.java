@@ -48,23 +48,28 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-
                 .splineToLinearHeading(new Pose2d(18, -42, Math.toRadians(-90)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
 
                 .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(46, HPDeposit, Math.toRadians(-90)), Math.toRadians(-90))
 
-                .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit)
 
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(55, HPDeposit, Math.toRadians(-90)), Math.toRadians(-90))
 
-                .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit)
 
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(61.5, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(61.5, HPDeposit, Math.toRadians(-90)), Math.toRadians(-90));
-        
+
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit);
+
         TrajectoryActionBuilder intakeSpec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .strafeToLinearHeading(new Vector2d(19, -48), Math.toRadians(-45));
