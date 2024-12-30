@@ -15,7 +15,7 @@ public class MeepMeepTesting {
         MeepMeep meepMeep = new MeepMeep(800);
         Pose2d startPose = new Pose2d(6, -62, Math.toRadians(-90));
 
-        double HPDeposit = -51;
+        double HPDeposit = -52;
         double spikeBack = -12;
         double waits = 0.2;
 
@@ -35,50 +35,62 @@ public class MeepMeepTesting {
                 .lineToY(-30,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(waits)
 
                 //ALL SPIKES
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(18, -42, Math.toRadians(-90)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(36, -12, Math.toRadians(-90)), Math.toRadians(90))
-                .setTangent(Math.toRadians(0))
-                .lineToX(45)
-                .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit)
-                .lineToY(spikeBack)
-                .setTangent(Math.toRadians(0))
-                .lineToX(55)
-                .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit)
-                .lineToY(spikeBack)
-                .setTangent(Math.toRadians(0))
-                .lineToX(63)
-                .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit)
+                .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+
+                .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(46, HPDeposit, Math.toRadians(-90)), Math.toRadians(-90))
+
+                .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+
+                .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(55, HPDeposit, Math.toRadians(-90)), Math.toRadians(-90))
+
+                .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+
+                .splineToLinearHeading(new Pose2d(61.5, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(61.5, HPDeposit, Math.toRadians(-90)), Math.toRadians(-90))
+
+
+//                .setTangent(Math.toRadians(0))
+//                .lineToX(46)
+//                .setTangent(Math.toRadians(90))
+//                .lineToY(HPDeposit)
+//                .lineToY(spikeBack)
+//                .setTangent(Math.toRadians(0))
+//                .lineToX(55)
+//                .setTangent(Math.toRadians(90))
+//                .lineToY(HPDeposit)
+//                .lineToY(spikeBack)
+//                .setTangent(Math.toRadians(0))
+//                .lineToX(61.5)
+//                .setTangent(Math.toRadians(90))
+//                .lineToY(HPDeposit)
 
                 //DEPOSITS
 
                 //2ND SPEC
-                .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(17, -46), Math.toRadians(-45))
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
-                        new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(waits)
+//                .setTangent(Math.toRadians(-90))
+//                .strafeToLinearHeading(new Vector2d(19, -48), Math.toRadians(-45))
+//                .setTangent(Math.toRadians(180))
+//                .splineToLinearHeading(new Pose2d(3, -30, Math.toRadians(-92)), Math.toRadians(90),
+//                        new TranslationalVelConstraint(veloLim),
+//                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
 
-                //3RD SPEC
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
-                        new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
-                        new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .waitSeconds(waits)
+//                //3RD SPEC
+//                .setTangent(Math.toRadians(-90))
+//                .splineToLinearHeading(new Pose2d(17, -46, Math.toRadians(-45)), Math.toRadians(0),
+//                        new TranslationalVelConstraint(veloLim),
+//                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+//                .waitSeconds(1)
+//                .setTangent(Math.toRadians(180))
+//                .splineToLinearHeading(new Pose2d(6, -33, Math.toRadians(-92)), Math.toRadians(90),
+//                        new TranslationalVelConstraint(veloLim),
+//                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+//                .waitSeconds(waits)
 
 //                //4TH SPEC
 //
