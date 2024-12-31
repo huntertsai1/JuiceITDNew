@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 public class Lift {
     private PIDController controller1;
 
-    public double p = 0.02, i = 0.00, d = 0.0005;
+    public double p = 0.015, i = 0.00, d = 0.00052;
     public double f = 0.14;
     double voltageCompensation;
 

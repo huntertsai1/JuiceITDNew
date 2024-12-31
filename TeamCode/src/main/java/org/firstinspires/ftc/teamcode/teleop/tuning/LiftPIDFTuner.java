@@ -16,11 +16,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 @Config
 @TeleOp
-@Disabled
+//@Disabled
 public class LiftPIDFTuner extends OpMode {
     private PIDController controller1;
 
-    public static double p = 0.02, i = 0.00, d = 0.0005;
+    public static double p = 0.015, i = 0.00, d = 0.00052;
     public static double f = 0.14;
     public double voltageCompensation;
 
