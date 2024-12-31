@@ -35,7 +35,7 @@ public class SPECIMEN extends LinearOpMode {
         double HPDeposit = -52;
         double spikeBack = -12;
         double waits = 0.2;
-        double intakeWait = 1;
+        double intakeWait = 0.3;
 
         double veloLim = 60.0;
         double accelUpperLim = 60.0;
@@ -65,7 +65,7 @@ public class SPECIMEN extends LinearOpMode {
 
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(60.5, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(61, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit);
@@ -137,7 +137,7 @@ public class SPECIMEN extends LinearOpMode {
 
                             intakeSpec2.build(),
                             robot.autoIntake(true),
-                            new SleepAction(0.5),
+                            new SleepAction(intakeWait),
                             robot.highRung(true),
                             new SleepAction(waits),
 
@@ -149,7 +149,7 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec3.build(),
                                         robot.autoIntake(true)
                                 ),
-                            new SleepAction(waits),
+                            new SleepAction(intakeWait),
                                 robot.highRung(true),
                             new SleepAction(waits),
 
@@ -161,7 +161,7 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec4.build(),
                                         robot.autoIntake(true)
                                 ),
-                            new SleepAction(waits),
+                            new SleepAction(intakeWait),
                             robot.highRung(true),
                             new SleepAction(waits),
 
@@ -173,7 +173,7 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec5.build(),
                                         robot.autoIntake(true)
                                 ),
-                            new SleepAction(waits),
+                            new SleepAction(intakeWait),
                             robot.highRung(true),
                             new SleepAction(waits),
 
