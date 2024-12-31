@@ -20,8 +20,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 public class LiftPIDFTuner extends OpMode {
     private PIDController controller1;
 
-    public static double p = 0.02, i = 0.00, d = 0.00045;
-    public static double f = 0.125;
+    public static double p = 0.02, i = 0.00, d = 0.0005;
+    public static double f = 0.14;
     public double voltageCompensation;
 
     public static int target = 0;
