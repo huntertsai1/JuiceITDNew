@@ -32,7 +32,7 @@ public class SPECIMEN extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double HPDeposit = -52;
+        double HPDeposit = -53;
         double spikeBack = -12;
         double waits = 0.2;
         double intakeWait = 0.3;

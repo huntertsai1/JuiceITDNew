@@ -139,10 +139,10 @@ public class RED extends LinearOpMode {
             oldTrigger = gamepad1.left_trigger;
 
             if (gamepad1.dpad_up){
-                robot.climbWinch.setPower(1);
+                robot.climbWinch.setPower(-1);
             }
             else if (gamepad1.dpad_down){
-                robot.climbWinch.setPower(-1);
+                robot.climbWinch.setPower(1);
             }else{
                 robot.climbWinch.setPower(0);
             }
