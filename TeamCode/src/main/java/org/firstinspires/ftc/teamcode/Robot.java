@@ -163,7 +163,6 @@ public class Robot {
                 new SleepAction(0.3),
                 new InstantAction(() -> {
                     arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
-                    lift.slides1.resetEncoder();
                     state = Levels.INTAKE_INTERMEDIATE;
                 })
         );
@@ -176,6 +175,7 @@ public class Robot {
                         new InstantAction(() -> {
                             claw.startIntake();
                             arm.runToPreset(Levels.INTAKE);
+                            lift.slides1.resetEncoder();
                             intaking = true;
                             state = Levels.INTAKE;
                         }),
@@ -186,6 +186,7 @@ public class Robot {
                         new InstantAction(() -> {
                             claw.startIntake();
                             arm.runToPreset(Levels.INTAKE);
+                            lift.slides1.resetEncoder();
                             intaking = true;
                             state = Levels.INTAKE;
                         }),
