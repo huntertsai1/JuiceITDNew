@@ -160,7 +160,7 @@ public class Robot {
                     lift.runToPreset(Levels.INTAKE);
                     extension.runToPreset(Levels.INTAKE);
                 }),
-                new SleepAction(0.5),
+                new SleepAction(0.3),
                 new InstantAction(() -> {
                     arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
                     lift.slides1.resetEncoder();
