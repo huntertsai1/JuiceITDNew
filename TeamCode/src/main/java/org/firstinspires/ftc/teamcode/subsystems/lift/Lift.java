@@ -84,7 +84,7 @@ public class Lift {
         } else if (level == Levels.LOW_BASKET) {
             runToPosition(1300);
         } else if (level == Levels.HIGH_BASKET) {
-            runToPosition(2160);
+            runToPosition(2180);
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(0);
         } else if (level == Levels.HIGH_RUNG) {
