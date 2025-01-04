@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 
 @TeleOp(group = "competition")
 @Config
-//@Disabled
+@Disabled
 public class ExtensionCurrent extends LinearOpMode {
     public static double EXT_POS = 165;
 
