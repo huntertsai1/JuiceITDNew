@@ -284,6 +284,7 @@ public class Robot {
 
         return new SequentialAction(
                 claw.eject(true),
+                new SleepAction(0.1),
                 new InstantAction(
                         this::intermediatePreset)
         );
