@@ -35,7 +35,7 @@ public class SPECIMEN extends LinearOpMode {
         double HPDeposit = -53;
         double spikeBack = -12;
         double waits = 0.2;
-        double intakeWait = 0.3;
+        double intakeWait = 0.5;
 
         double veloLim = 60.0;
         double accelUpperLim = 60.0;
