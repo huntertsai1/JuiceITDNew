@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -24,6 +25,8 @@ import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
+
+import java.util.concurrent.TimeUnit;
 
 public class Robot {
 
@@ -77,8 +80,8 @@ public class Robot {
         };
 
         VoltageSensor voltageSensor = map.voltageSensor.iterator().next();
-        BrushlandColorSensor colorSensor = new BrushlandColorSensor(0, "color", map);
-
+//        BrushlandColorSensor colorSensor = new BrushlandColorSensor(0, "color", map);
+        RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
         // INIT SUBSYSTEMS
 
         this.lift = new Lift((Motor) components[4], (Motor) components[5], voltageSensor);
@@ -227,26 +230,35 @@ public class Robot {
     }
 
     private ElapsedTime colorTimeout = new ElapsedTime();
+    private ElapsedTime ejectTimeout = new ElapsedTime();
     boolean timerStarted = false;
+    boolean ejectStarted = false;
     public boolean autoStopIntakeUpdate(SampleColors... colors) {
         int r = claw.smartStopDetect(colors);
-        if (r == 0 && colorTimeout.time() > 0) {
-            timerStarted = false;
-            return true;
-        } else if (r == 1 && timerStarted && colorTimeout.time() > 0.000) {
-            while (colorTimeout.time() < 0.1){
-                if (claw.smartStopDetect() != 1){
-                    return true;
+        if (ejectStarted && ejectTimeout.time(TimeUnit.MILLISECONDS) >= 250) {
+            ejectStarted = false;
+            claw.setPower(1);
+        } else if (!ejectStarted) {
+            if (r == 0 && colorTimeout.time() > 0) {
+                timerStarted = false;
+                return true;
+            } else if (r == 1 && timerStarted && colorTimeout.time() > 0.000) {
+                while (colorTimeout.time() < 0.1) {
+                    if (claw.smartStopDetect() != 1) {
+                        return true;
+                    }
                 }
+                stopIntake();
+                return false;
+            } else if (r == -1 && timerStarted && colorTimeout.time() > 0.000) {
+                claw.setPower((float) -0.5);
+                ejectTimeout.reset();
+                ejectStarted = true;
+                return true;
+            } else if ((r == 1 || r == -1) && !timerStarted) {
+                timerStarted = true;
+                colorTimeout.reset();
             }
-            stopIntake();
-            return false;
-        } else if (r == -1 && timerStarted && colorTimeout.time() > 0.000) {
-            claw.ejectOps();
-            return true;
-        } else if ((r == 1 || r == -1) && !timerStarted) {
-            timerStarted = true;
-            colorTimeout.reset();
         }
 
         return true;

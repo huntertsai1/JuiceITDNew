@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.subsystems.climb;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
+
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 
 public class ClimbWinch {
     public ContinuousServo servo1, servo2;
-
     public float target;
 
     public ClimbWinch(ContinuousServo s1, ContinuousServo s2) {
@@ -18,6 +19,6 @@ public class ClimbWinch {
     }
 
     public float getPosition() {
-        return target;
+        return (float)((servo1.encoder.getVoltage()+servo2.encoder.getVoltage())/6.6 * 360);
     }
 }

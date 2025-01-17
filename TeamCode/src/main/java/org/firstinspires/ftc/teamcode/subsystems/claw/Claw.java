@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
@@ -15,12 +16,12 @@ import java.util.Arrays;
 public class Claw {
     ContinuousServo servo1;
     ContinuousServo servo2;
-    BrushlandColorSensor colorSensor;
+    RevColorSensorV3 colorSensor;
     float power = 0;
 
     ElapsedTime sensorTimeout;
 
-    public Claw(ContinuousServo s1, ContinuousServo s2, BrushlandColorSensor sensor) {
+    public Claw(ContinuousServo s1, ContinuousServo s2, RevColorSensorV3 sensor) {
         servo1 = s1;
         servo2 = s2;
         colorSensor = sensor;
@@ -173,11 +174,24 @@ public class Claw {
 //            return null;
 //        }
 
-        if (colorSensor.onlyPin0()) {
+//        if (colorSensor.onlyPin0()) {
+//            return SampleColors.BLUE;
+//        } else if (colorSensor.onlyPin1()) {
+//            return SampleColors.RED;
+//        } else if (colorSensor.getBoth()) {
+//            return SampleColors.YELLOW;
+//        } else {
+//            return null;
+//        }
+        float red = colorSensor.getNormalizedColors().red;
+        float blue = colorSensor.getNormalizedColors().blue;
+        float green = colorSensor.getNormalizedColors().green;
+        if (blue > 0) {
+            // Extreme blue output -> blue sample
             return SampleColors.BLUE;
-        } else if (colorSensor.onlyPin1()) {
+        } else if ((blue<=0 && blue>=0) && (red<=0 && red>=0) && (green<=0 && green>=0)) {
             return SampleColors.RED;
-        } else if (colorSensor.getBoth()) {
+        } else if ((blue<=0 && blue>=0) && (red<=0 && red>=0) && (green<=0 && green>=0)) {
             return SampleColors.YELLOW;
         } else {
             return null;
