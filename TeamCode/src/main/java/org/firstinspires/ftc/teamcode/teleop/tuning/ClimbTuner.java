@@ -18,7 +18,9 @@ public class ClimbTuner extends LinearOpMode {
         AnalogInput climb1Encoder = hardwareMap.get(AnalogInput.class, "climb1Encoder");
         AnalogInput climb2Encoder = hardwareMap.get(AnalogInput.class, "climb2Encoder");
         Robot robot = new Robot(hardwareMap, false);
-
+        double start1 = climb1Encoder.getVoltage()/ 3.3 * 360;
+        int wraps = 0;
+        double lastPosition = 0;
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         // Initialize your own robot class
@@ -30,6 +32,8 @@ public class ClimbTuner extends LinearOpMode {
 
             telemetry.addData("climb1", climb1);
             telemetry.addData("climb2", climb2);
+            telemetry.addData("climb1 with wraps", climb1 +  + (wraps*360));
+            telemetry.addData("minus start", climb1 +  + (wraps*360) - start1);
 
             if (gamepad1.dpad_up){
                 robot.climbWinch.setPower(1);
@@ -39,6 +43,15 @@ public class ClimbTuner extends LinearOpMode {
             }else{
                 robot.climbWinch.setPower(0);
             }
+
+            if (robot.climbWinch.getPosition() - lastPosition < -270) {
+                wraps -= 1;
+            }
+            else if (robot.climbWinch.getPosition() - lastPosition > 270) {
+                wraps += 1;
+            }
+
+            lastPosition = robot.climbWinch.getPosition();
 
             telemetry.update();
         }

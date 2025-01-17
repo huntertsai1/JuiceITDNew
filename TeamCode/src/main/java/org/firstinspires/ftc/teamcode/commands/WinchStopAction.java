@@ -10,9 +10,11 @@ import org.firstinspires.ftc.teamcode.subsystems.climb.ClimbWinch;
 public class WinchStopAction implements Action {
     ClimbWinch climbWinch;
     float ticks;
-    int wraps = 0;
+    static int wraps = 0;
     float lastPosition = 0;
     boolean firstRun = true;
+    boolean forward;
+    static double pos;
 
     public WinchStopAction(ClimbWinch cW, float ticks) {
         climbWinch = cW;
@@ -21,18 +23,22 @@ public class WinchStopAction implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        if (firstRun) {
-            climbWinch.setPower(1);
-            firstRun = false;
-        }
-
-        if (Math.abs((climbWinch.getPosition() + (wraps*360)) - ticks) < 1) {
+        pos = (climbWinch.getPosition() + (wraps*360));
+        if (Math.abs(pos - ticks) < 50) {
             climbWinch.setPower(0);
             return false;
+        }else if (pos < ticks){
+            climbWinch.setPower(1);
+        }
+        else if (pos > ticks){
+            climbWinch.setPower(-1);
         }
 
-        if (climbWinch.getPosition() < lastPosition) {
+        if (climbWinch.getPosition() - lastPosition < -270) {
             wraps += 1;
+        }
+        else if (climbWinch.getPosition() - lastPosition > 270) {
+            wraps -= 1;
         }
 
         lastPosition = climbWinch.getPosition();
