@@ -31,7 +31,7 @@ public class WinchStopAction implements Action {
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
         pos1 = climbWinch.servo1.getAngle() + (wraps1 *360);
-        pos2 = climbWinch.servo1.getAngle()+ (wraps2 *360);
+        pos2 = climbWinch.servo2.getAngle()+ (wraps2 *360);
         telemetry.addData("posW", pos1);
         telemetry.addData("wraps", wraps1);
 
