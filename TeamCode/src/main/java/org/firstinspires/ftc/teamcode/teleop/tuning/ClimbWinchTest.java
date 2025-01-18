@@ -29,6 +29,7 @@ public class ClimbWinchTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Robot robot = new Robot(hardwareMap, false);
+        robot.climbWinch.equalServosStart();
         List<Action> actionsQueue = new ArrayList<>();
 
         // Initialize your own robot class
@@ -52,8 +53,6 @@ public class ClimbWinchTest extends LinearOpMode {
                 }
             }
             actionsQueue = newActions;
-
-            telemetry.addData("pos", robot.climbWinch.getPosition());
             telemetry.addData("dpad", gamepad1.dpad_up);
             telemetry.update();
         }
