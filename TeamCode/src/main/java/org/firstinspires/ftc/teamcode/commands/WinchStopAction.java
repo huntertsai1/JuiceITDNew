@@ -19,26 +19,21 @@ public class WinchStopAction implements Action {
     static double lastPosition1;
     static double lastPosition2;
     Telemetry telemetry;
-    ContinuousServoEncoder c1;
-    ContinuousServoEncoder c2;
 
     public WinchStopAction(ClimbWinch cW, float ticks, Telemetry telemetry) {
         climbWinch = cW;
         this.ticks = ticks;
         this.telemetry = telemetry;
-        c1 = new ContinuousServoEncoder(cW.servo1.encoder, false);
-        c2 = new ContinuousServoEncoder(cW.servo2.encoder, true);
-        lastPosition1 = c1.getPosition();
-        lastPosition2 = c2.getPosition();
+        lastPosition1 = climbWinch.servo1.getAngle();
+        lastPosition2 = climbWinch.servo2.getAngle();
     }
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        pos1 = c1.getPosition() + (wraps1 *360);
-        pos2 = c2.getPosition() + (wraps2 *360);
+        pos1 = climbWinch.servo1.getAngle() + (wraps1 *360);
+        pos2 = climbWinch.servo1.getAngle()+ (wraps2 *360);
         telemetry.addData("posW", pos1);
         telemetry.addData("wraps", wraps1);
-        telemetry.addData("pos", climbWinch.getPosition());
 
         if (Math.abs(pos1 - ticks) < 50) {
             climbWinch.servo1.setSpeed(0);

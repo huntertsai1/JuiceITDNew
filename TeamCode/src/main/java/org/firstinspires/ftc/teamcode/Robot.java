@@ -75,8 +75,8 @@ public class Robot {
                 new ContinuousServo(1, "claw1", map),                     //10
                 new ContinuousServo(5, "claw2", map),                     //11
 
-                new ContinuousServo(0, "climb1", map, "climb1Encoder"),//12
-                new ContinuousServo(1, "climb2", map, "climb2Encoder") //13
+                new ContinuousServo(0, "climb1", map, "climb1Encoder", false),//12
+                new ContinuousServo(1, "climb2", map, "climb2Encoder", true) //13
         };
 
         VoltageSensor voltageSensor = map.voltageSensor.iterator().next();
