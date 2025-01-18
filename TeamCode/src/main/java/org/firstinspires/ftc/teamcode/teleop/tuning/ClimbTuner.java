@@ -29,7 +29,6 @@ public class ClimbTuner extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested()) {
             double climb1 = climb1Encoder.getVoltage() / 3.3 * 360;
             double climb2 = climb2Encoder.getVoltage() / 3.3 * 360;
-
             telemetry.addData("climb1", climb1);
             telemetry.addData("climb2", climb2);
             telemetry.addData("climb1 with wraps", climb1 +  + (wraps*360));

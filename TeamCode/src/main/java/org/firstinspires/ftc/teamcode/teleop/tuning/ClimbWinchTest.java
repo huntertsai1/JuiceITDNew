@@ -38,10 +38,10 @@ public class ClimbWinchTest extends LinearOpMode {
             TelemetryPacket packet = new TelemetryPacket();
 
             if (gamepad1.dpad_up) {
-                actionsQueue.add(new WinchStopAction(robot.climbWinch, 300));
+                actionsQueue.add(new WinchStopAction(robot.climbWinch, 900, telemetry));
             }
             if (gamepad1.dpad_down) {
-                actionsQueue.add(new WinchStopAction(robot.climbWinch, 100));
+                actionsQueue.add(new WinchStopAction(robot.climbWinch, 200, telemetry));
             }
 
             List<Action> newActions = new ArrayList<>();
