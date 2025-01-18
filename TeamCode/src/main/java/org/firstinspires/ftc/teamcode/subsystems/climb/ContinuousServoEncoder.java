@@ -14,9 +14,9 @@ public class ContinuousServoEncoder {
     }
     public double getPosition(){
         if (reversed){
-            return (1-position/3.3)*360 - offset;
+            return (1-encoder.getVoltage()/3.3)*360 - offset;
         }
-        return position/3.3 *360 - offset;
+        return encoder.getVoltage()/3.3 *360 - offset;
     }
     public void setPosition(double pos){
         offset = getPosition() - pos;
