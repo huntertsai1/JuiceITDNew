@@ -9,16 +9,17 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.subsystems.climb.ContinuousServoEncoder;
 
 @TeleOp(group = "competition")
 @Config
 public class ClimbTuner extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        AnalogInput climb1Encoder = hardwareMap.get(AnalogInput.class, "climb1Encoder");
-        AnalogInput climb2Encoder = hardwareMap.get(AnalogInput.class, "climb2Encoder");
+        ContinuousServoEncoder climb1Encoder = new ContinuousServoEncoder(hardwareMap.get(AnalogInput.class, "climb1Encoder"), true);
+        ContinuousServoEncoder climb2Encoder = new ContinuousServoEncoder(hardwareMap.get(AnalogInput.class, "climb2Encoder"), false);
         Robot robot = new Robot(hardwareMap, false);
-        double start1 = climb1Encoder.getVoltage()/ 3.3 * 360;
+        double start1 = climb1Encoder.getPosition();
         int wraps = 0;
         double lastPosition = 0;
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -27,8 +28,8 @@ public class ClimbTuner extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
-            double climb1 = climb1Encoder.getVoltage() / 3.3 * 360;
-            double climb2 = climb2Encoder.getVoltage() / 3.3 * 360;
+            double climb1 = climb1Encoder.getPosition();
+            double climb2 = climb2Encoder.getPosition();
             telemetry.addData("climb1", climb1);
             telemetry.addData("climb2", climb2);
             telemetry.addData("climb1 with wraps", climb1 +  + (wraps*360));
