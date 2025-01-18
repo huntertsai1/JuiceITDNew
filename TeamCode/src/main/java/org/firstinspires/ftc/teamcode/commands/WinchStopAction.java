@@ -32,8 +32,10 @@ public class WinchStopAction implements Action {
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
         pos1 = climbWinch.servo1.getAngle() + (wraps1 *360);
         pos2 = climbWinch.servo2.getAngle()+ (wraps2 *360);
-        telemetry.addData("posW", pos1);
-        telemetry.addData("wraps", wraps1);
+        telemetry.addData("pos1", pos1);
+        telemetry.addData("wraps1", wraps1);
+        telemetry.addData("pos2", pos2);
+        telemetry.addData("wraps", wraps2);
 
         if (Math.abs(pos1 - ticks) < 50) {
             climbWinch.servo1.setSpeed(0);

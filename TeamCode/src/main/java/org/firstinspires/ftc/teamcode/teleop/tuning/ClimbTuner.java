@@ -39,6 +39,12 @@ public class ClimbTuner extends LinearOpMode {
             }
             else if (gamepad1.dpad_down){
                 robot.climbWinch.setPower(-1);
+            }
+            else if (gamepad1.dpad_right) {
+                robot.climbWinch.servo1.setSpeed(-1);
+            }
+            else if (gamepad1.dpad_left) {
+                robot.climbWinch.servo2.setSpeed(-1);
             }else{
                 robot.climbWinch.setPower(0);
             }
