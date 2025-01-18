@@ -22,4 +22,8 @@ public class ClimbWinch {
     public void equalServosStart(){
         servo2.encoder.setPosition(servo1.getAngle());
     }
+    public float getPosition() {
+        //return (float)((servo1.encoder.getVoltage()+servo2.encoder.getVoltage())/6.6 * 360);
+        return (float)(servo1.getAngle()/3.3 * 360);
+    }
 }
