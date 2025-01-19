@@ -13,6 +13,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.WinchAlign;
+import org.firstinspires.ftc.teamcode.commands.WinchStopAction;
+import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.util.enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
@@ -41,6 +44,9 @@ public class RED extends LinearOpMode {
     boolean oldDpadDown = false;
     double oldTrigger = 0;
     double oldRtrigger = 0.0;
+    int autoWinches = 0;
+    float f = 0.1f;
+    WinchTimeAction curW;
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -138,16 +144,29 @@ public class RED extends LinearOpMode {
             }
             oldTrigger = gamepad1.left_trigger;
 
-            if (gamepad1.dpad_up){
-                robot.climbWinch.setPower(-1);
+            if (gamepad1.dpad_up && !oldDpadUp){
+                autoWinches = 1;
+                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 1.4, -1, telemetry), new InstantAction(()->{autoWinches = 0;})));
             }
-            else if (gamepad1.dpad_down){
-                robot.climbWinch.setPower(1);
-            }else{
-                robot.climbWinch.setPower(0);
+            else if (gamepad1.dpad_down && !oldDpadDown){
+                autoWinches = 1;
+                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 3.55, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
             }
-//            oldDpadUp = gamepad1.dpad_up;
-//            oldDpadDown = gamepad1.dpad_down;
+            if (autoWinches == 0 || autoWinches == 2) {
+                if (gamepad1.dpad_right) {
+                    robot.climbWinch.setPower(-1);
+                } else if (gamepad1.dpad_left) {
+                    robot.climbWinch.setPower(1);
+                }else {
+                    if (autoWinches == 0){
+                        robot.climbWinch.setPower(0);
+                    }else{
+                        robot.climbWinch.setPower(f);
+                    }
+                }
+            }
+            oldDpadUp = gamepad1.dpad_up;
+            oldDpadDown = gamepad1.dpad_down;
 
             List<Action> newActions = new ArrayList<>();
             for (Action action : actionsQueue) {
