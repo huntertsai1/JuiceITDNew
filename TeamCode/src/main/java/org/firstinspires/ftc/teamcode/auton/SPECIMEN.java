@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.LoopAction;
+import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
@@ -125,10 +126,11 @@ public class SPECIMEN extends LinearOpMode {
                 new ParallelAction(
                         new SequentialAction(
                                 //PRELOAD
-                                new ParallelAction(
-                                        preload.build(),
-                                        robot.highRung(true)
-                                ),
+
+                            new ParallelAction(
+                                    preload.build(),
+                                    robot.highRung(true)
+                            ),
                             robot.autoSpecimen(true),
 
                             allSpikes.build(),
@@ -183,7 +185,7 @@ public class SPECIMEN extends LinearOpMode {
                         ),
                         new LoopAction(() -> {
                             robot.lift.update();
-                        }, this::isStopRequested)
+                        }, this::isStopRequested),new WinchTimeAction(robot.climbWinch, 1.26, -1, telemetry)
                 )
         );
     }

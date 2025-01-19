@@ -24,6 +24,7 @@ import java.util.List;
 
 @TeleOp(group = "competition")
 @Config
+@Disabled
 public class ClimbWinchTest extends LinearOpMode {
 
 
@@ -47,7 +48,7 @@ public class ClimbWinchTest extends LinearOpMode {
                 actionsQueue.add(new WinchTimeAction(robot.climbWinch, 1, 1, telemetry));
             }
             if (gamepad1.circle){
-                actionsQueue.add(new WinchAlign(robot.climbWinch, telemetry));
+                actionsQueue.add(new WinchTimeAction(robot.climbWinch, 0.3, -1, telemetry));
             }
 
             List<Action> newActions = new ArrayList<>();
