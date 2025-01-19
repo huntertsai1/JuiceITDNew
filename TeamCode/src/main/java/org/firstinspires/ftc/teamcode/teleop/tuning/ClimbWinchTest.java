@@ -11,7 +11,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.WinchAlign;
 import org.firstinspires.ftc.teamcode.commands.WinchStopAction;
+import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.subsystems.lift.Lift;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 import org.firstinspires.ftc.teamcode.util.hardware.Motor;
@@ -39,10 +41,13 @@ public class ClimbWinchTest extends LinearOpMode {
             TelemetryPacket packet = new TelemetryPacket();
 
             if (gamepad1.dpad_up) {
-                actionsQueue.add(new WinchStopAction(robot.climbWinch, -500, telemetry));
+                actionsQueue.add(new WinchTimeAction(robot.climbWinch, 1, -1, telemetry));
             }
             if (gamepad1.dpad_down) {
-                actionsQueue.add(new WinchStopAction(robot.climbWinch, 100, telemetry));
+                actionsQueue.add(new WinchTimeAction(robot.climbWinch, 1, 1, telemetry));
+            }
+            if (gamepad1.circle){
+                actionsQueue.add(new WinchAlign(robot.climbWinch, telemetry));
             }
 
             List<Action> newActions = new ArrayList<>();
