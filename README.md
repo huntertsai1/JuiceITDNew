@@ -1,6 +1,6 @@
 # FTC Robot Controller
 
-This repository contains the FTC robot controller code for our team's competition robot. The code is structured using a subsystem-based architecture for better organization and maintainability.
+Juice won.
 
 ## Project Structure
 
