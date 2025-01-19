@@ -31,7 +31,7 @@ public class ClimbWinchTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Robot robot = new Robot(hardwareMap, false);
-        robot.climbWinch.equalServosStart();
+        //robot.climbWinch.equalServosStart();
         List<Action> actionsQueue = new ArrayList<>();
 
         // Initialize your own robot class

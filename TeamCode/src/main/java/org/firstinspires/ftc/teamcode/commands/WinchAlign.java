@@ -22,14 +22,19 @@ public class WinchAlign implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        double diff = climbWinch.servo1.encoder.getPosition() + climbWinch.servo2.encoder.getPosition();
-        if (Math.abs(diff) < 20 || (Math.abs(diff) > 330 && Math.abs(diff) < 380)){
+        telemetry.addData("1", climbWinch.servo1.encoder.getPosition());
+        telemetry.addData("2", climbWinch.servo2.encoder.getPosition());
+
+        double diff = climbWinch.servo1.encoder.getPosition() - climbWinch.servo2.encoder.getPosition();
+        telemetry.addData("diff", diff);
+        if (Math.abs(diff) < 30 || (Math.abs(diff) > 220 && Math.abs(diff) < 370)){
+            climbWinch.servo1.setSpeed(0);
             return false;
         }
         else if (diff < 0){
-            climbWinch.servo1.setSpeed(1);
+            climbWinch.servo1.setSpeed(0.5f);
         }else{
-            climbWinch.servo1.setSpeed(-1);
+            climbWinch.servo1.setSpeed(-0.5f);
         }
         return true;
     }

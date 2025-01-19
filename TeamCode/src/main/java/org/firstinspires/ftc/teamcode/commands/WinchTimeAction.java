@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.climb.ClimbWinch;
 
+import java.util.concurrent.TimeUnit;
+
 public class WinchTimeAction implements Action {
     ClimbWinch climbWinch;
     double time;
@@ -22,14 +24,17 @@ public class WinchTimeAction implements Action {
         this.telemetry = telemetry;
         t = new ElapsedTime();
         t.reset();
+        t.startTime();
     }
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        if (t.time() < time){
+        telemetry.addData("t", t);
+        if (t.seconds() < time){
             climbWinch.setPower(speed);
             return true;
         }
+        climbWinch.setPower(0);
         return false;
     }
 }
