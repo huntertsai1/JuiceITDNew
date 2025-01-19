@@ -297,8 +297,15 @@ public class Robot {
         return new SequentialAction(
                 claw.eject(true),
                 new SleepAction(0.1),
-                new InstantAction(
-                        this::intermediatePreset)
+                intermediateDepositPreset()
+        );
+    }
+    public Action intermediateDepositPreset(){
+        return new SequentialAction(
+            new InstantAction(() ->{arm.runToPreset(Levels.INTERMEDIATE); extension.runToPreset(Levels.INTERMEDIATE);}),
+            new SleepAction(0.1),
+            new InstantAction(()->{lift.runToPreset(Levels.INTERMEDIATE);
+                state = Levels.INTERMEDIATE;})
         );
     }
 
