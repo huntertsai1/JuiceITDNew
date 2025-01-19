@@ -24,7 +24,9 @@ public class Claw {
     public Claw(ContinuousServo s1, ContinuousServo s2, RevColorSensorV3 sensor) {
         servo1 = s1;
         servo2 = s2;
+
         colorSensor = sensor;
+        colorSensor.initialize();
 
         sensorTimeout = new ElapsedTime();
     }
@@ -186,12 +188,12 @@ public class Claw {
         float red = colorSensor.getNormalizedColors().red;
         float blue = colorSensor.getNormalizedColors().blue;
         float green = colorSensor.getNormalizedColors().green;
-        if (blue > 0) {
+        if (blue > 0.05) {
             // Extreme blue output -> blue sample
             return SampleColors.BLUE;
-        } else if ((blue<=0 && blue>=0) && (red<=0 && red>=0) && (green<=0 && green>=0)) {
+        } else if (red >= 0.03 && green <= 0.08) {
             return SampleColors.RED;
-        } else if ((blue<=0 && blue>=0) && (red<=0 && red>=0) && (green<=0 && green>=0)) {
+        } else if (red >= 0.05 && green > 0.08) {
             return SampleColors.YELLOW;
         } else {
             return null;

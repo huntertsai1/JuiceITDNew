@@ -235,7 +235,7 @@ public class Robot {
     boolean ejectStarted = false;
     public boolean autoStopIntakeUpdate(SampleColors... colors) {
         int r = claw.smartStopDetect(colors);
-        if (ejectStarted && ejectTimeout.time(TimeUnit.MILLISECONDS) >= 250) {
+        if (ejectStarted && ejectTimeout.time(TimeUnit.MILLISECONDS) >= 150) {
             ejectStarted = false;
             claw.setPower(1);
         } else if (!ejectStarted) {
@@ -250,7 +250,7 @@ public class Robot {
                 }
                 stopIntake();
                 return false;
-            } else if (r == -1 && timerStarted && colorTimeout.time() > 0.000) {
+            } else if (r == -1 && timerStarted && colorTimeout.time() > 0.050) {
                 claw.setPower((float) -0.5);
                 ejectTimeout.reset();
                 ejectStarted = true;
