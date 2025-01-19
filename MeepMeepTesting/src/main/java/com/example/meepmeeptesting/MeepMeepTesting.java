@@ -15,7 +15,7 @@ public class MeepMeepTesting {
         MeepMeep meepMeep = new MeepMeep(800);
         Pose2d startPose = new Pose2d(6, -62, Math.toRadians(-90));
 
-        double HPDeposit = -52;
+        double HPDeposit = -53;
         double spikeBack = -12;
         double waits = 0.2;
 
@@ -38,7 +38,7 @@ public class MeepMeepTesting {
 
                 //ALL SPIKES
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(18, -42, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(22, -42, Math.toRadians(-90)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
 
                 .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
@@ -55,7 +55,7 @@ public class MeepMeepTesting {
 
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(61.5, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(61, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit)
