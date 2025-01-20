@@ -40,7 +40,7 @@ public class Arm {
             runToPosition(336);
             setWristAngle(110);
         } else if (level == Levels.HIGH_BASKET) {
-            runToPosition(333);
+            runToPosition(320);
             setWristAngle(110);
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(100);
