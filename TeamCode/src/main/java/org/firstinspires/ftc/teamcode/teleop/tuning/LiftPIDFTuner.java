@@ -11,8 +11,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.util.control.MotionProfile;
+import org.firstinspires.ftc.teamcode.util.control.MotionProfileGenerator;
 
 @Config
 @TeleOp
@@ -22,9 +25,16 @@ public class LiftPIDFTuner extends OpMode {
 
     public static double p = 0.015, i = 0.00, d = 0.00052;
     public static double f = 0.14;
+
+    public static double MAX_ACCEL = 1000, MAX_VEL = 1000;
+    public static boolean ACTIVATE_MP = false;
     public double voltageCompensation;
 
     public static int target = 0;
+    private int oldTarget = 0;
+
+    public ElapsedTime profileTimer = new ElapsedTime();
+    public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0, target, MAX_VEL, MAX_ACCEL);
 
     private DcMotorEx slides1;
     private DcMotorEx slides2;
@@ -40,6 +50,8 @@ public class LiftPIDFTuner extends OpMode {
         slides2 = hardwareMap.get(DcMotorEx.class, "lift2");
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
+        profileTimer.reset();
+
         slides1.setDirection(DcMotorSimple.Direction.REVERSE);
         slides1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slides1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -50,7 +62,21 @@ public class LiftPIDFTuner extends OpMode {
         controller1.setPID(p, i, d);
         int slides1Pos = slides1.getCurrentPosition();
         telemetry.addData("pos ", slides1Pos);
-        double pid1 = controller1.calculate(slides1Pos, target);
+
+        double pid1;
+        double effectiveTarget = target;
+        if (ACTIVATE_MP) {
+            if (oldTarget != target) {
+                profile = MotionProfileGenerator.generateSimpleMotionProfile(slides1Pos, target, MAX_VEL, MAX_ACCEL);
+            }
+            effectiveTarget = profile.get(profileTimer.time());
+            pid1 = controller1.calculate(slides1Pos, effectiveTarget);
+
+        } else {
+            pid1 = controller1.calculate(slides1Pos, target);
+        }
+
+
         double ff = f;
 
         voltageCompensation = 13.2 / voltageSensor.getVoltage();
@@ -62,8 +88,10 @@ public class LiftPIDFTuner extends OpMode {
         slides1.setPower(-power1);
         slides2.setPower(-power1);
 
+        oldTarget = target;
+
         telemetry.addData("POSITION ", slides1Pos);
-        telemetry.addData("TARGET ", target);
+        telemetry.addData("TARGET ", effectiveTarget);
         telemetry.addData("Motor 1 current", slides1.getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Motor 2 current", slides2.getCurrent(CurrentUnit.AMPS));
         telemetry.update();
