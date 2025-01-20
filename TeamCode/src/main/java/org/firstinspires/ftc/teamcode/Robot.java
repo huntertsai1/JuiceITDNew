@@ -149,7 +149,7 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(1),
                 new InstantAction(() -> {
-                    extension.runToPosition(230);
+                    extension.runToPosition(225);
                 })
         );
     }

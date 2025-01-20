@@ -34,9 +34,9 @@ public class SPECIMEN extends LinearOpMode {
         drive = new PinpointDrive(hardwareMap, startPose);
 
         double HPDeposit = -53;
-        double spikeBack = -16;
+        double spikeBack = -15;
         double waits = 0.2;
-        double intakeWait = 0.5;
+        double intakeWait = 0.3;
 
         double veloLim = 60.0;
         double accelUpperLim = 60.0;
@@ -70,7 +70,7 @@ public class SPECIMEN extends LinearOpMode {
 
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(61, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(61.5, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
