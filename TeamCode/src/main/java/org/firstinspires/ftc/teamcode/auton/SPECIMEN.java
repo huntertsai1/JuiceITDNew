@@ -34,7 +34,7 @@ public class SPECIMEN extends LinearOpMode {
         drive = new PinpointDrive(hardwareMap, startPose);
 
         double HPDeposit = -53;
-        double spikeBack = -12;
+        double spikeBack = -16;
         double waits = 0.2;
         double intakeWait = 0.5;
 
