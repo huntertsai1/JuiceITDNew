@@ -17,6 +17,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.util.control.MotionProfile;
 import org.firstinspires.ftc.teamcode.util.control.MotionProfileGenerator;
 
+import java.util.concurrent.TimeUnit;
+
 @Config
 @TeleOp
 //@Disabled
@@ -34,7 +36,7 @@ public class LiftPIDFTuner extends OpMode {
     private int oldTarget = 0;
 
     public ElapsedTime profileTimer = new ElapsedTime();
-    public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0, target, MAX_VEL, MAX_ACCEL);
+    public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0, 1, MAX_VEL, MAX_ACCEL);
 
     private DcMotorEx slides1;
     private DcMotorEx slides2;
@@ -63,18 +65,17 @@ public class LiftPIDFTuner extends OpMode {
         int slides1Pos = slides1.getCurrentPosition();
         telemetry.addData("pos ", slides1Pos);
 
+        if (oldTarget != target) {
+            profile = MotionProfileGenerator.generateSimpleMotionProfile(slides1Pos, target, MAX_VEL, MAX_ACCEL);
+            profileTimer.reset();
+        }
+
         double pid1;
         double effectiveTarget = target;
         if (ACTIVATE_MP) {
-            if (oldTarget != target) {
-                profile = MotionProfileGenerator.generateSimpleMotionProfile(slides1Pos, target, MAX_VEL, MAX_ACCEL);
-            }
-            effectiveTarget = profile.get(profileTimer.time());
-            pid1 = controller1.calculate(slides1Pos, effectiveTarget);
-
-        } else {
-            pid1 = controller1.calculate(slides1Pos, target);
+            effectiveTarget = profile.get(profileTimer.time(TimeUnit.MILLISECONDS)/1000F);
         }
+        pid1 = controller1.calculate(slides1Pos, effectiveTarget);
 
 
         double ff = f;
