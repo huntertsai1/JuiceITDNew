@@ -123,6 +123,10 @@ public class SPECIMEN extends LinearOpMode {
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
+        TrajectoryActionBuilder park = depositSpec5.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(40, -53, Math.toRadians(-45)), Math.toRadians(0));
+
         robot.initSubsystems();
 
         waitForStart();
@@ -186,7 +190,10 @@ public class SPECIMEN extends LinearOpMode {
                             new SleepAction(waits),
 
                             depositSpec5.build(),
-                            robot.autoSpecimen(true)
+                            robot.autoSpecimen(true),
+
+                            //PARK
+                            park.build()
 
                         ),
                         new LoopAction(() -> {
