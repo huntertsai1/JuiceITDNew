@@ -138,7 +138,7 @@ public class Robot {
         return new SequentialAction(
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(200);
+                    extension.runToPosition(190);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
@@ -147,7 +147,7 @@ public class Robot {
                     claw.startIntake();
                     intaking = true;
                     state = Levels.INTAKE;}),
-                new SleepAction(1.1),
+                new SleepAction(1),
                 new InstantAction(() -> {
                     extension.runToPosition(230);
                 })
