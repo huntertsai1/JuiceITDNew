@@ -55,21 +55,27 @@ public class SPECIMEN extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit)
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit)
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(61, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit);
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0));
 
         TrajectoryActionBuilder intakeSpec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
