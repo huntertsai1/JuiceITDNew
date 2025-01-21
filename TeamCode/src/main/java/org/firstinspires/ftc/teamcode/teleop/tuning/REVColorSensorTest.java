@@ -45,23 +45,23 @@ public class REVColorSensorTest extends LinearOpMode {
             NormalizedRGBA color = sensor.getNormalizedColors();
 
             float red = color.red;
-            float blue = color.blue;
             float green = color.green;
+            float blue = color.blue;
             SampleColors detected = null;
-            if (blue > 0.05) {
+            if (blue > 0.012) {
                 // Extreme blue output -> blue sample
                 detected = SampleColors.BLUE;
-            } else if (red >= 0.03 && green <= 0.08) {
+            } else if (red >= 0.01 && green <= 0.01) {
                 detected = SampleColors.RED;
-            } else if (red >= 0.05 && green > 0.08) {
+            } else if (red >= 0.02 && green > 0.02) {
                 detected = SampleColors.YELLOW;
             }
 
 
             telemetry.addData("detected", detected);
-            telemetry.addData("r", color.red);
-            telemetry.addData("g", color.green);
-            telemetry.addData("b", color.blue);
+            telemetry.addData("r", red);
+            telemetry.addData("g", green);
+            telemetry.addData("b", blue);
             telemetry.addData("distance", sensor.getDistance(DistanceUnit.MM));
             telemetry.update();
         }
