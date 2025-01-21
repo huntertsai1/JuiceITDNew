@@ -42,6 +42,7 @@ public class RED extends LinearOpMode {
     boolean oldCircle = false;
     boolean oldDpadUp = false;
     boolean oldDpadDown = false;
+    boolean oldCircle2 = false;
     double oldTrigger = 0;
     double oldRtrigger = 0.0;
     int autoWinches = 0;
@@ -156,6 +157,19 @@ public class RED extends LinearOpMode {
             }
             oldDpadUp = gamepad1.dpad_up;
             oldDpadDown = gamepad1.dpad_down;
+
+            //lift resetting stuff
+            if (gamepad2.dpad_down) {
+                robot.lift.setPower(-1);
+            }else if (gamepad2.dpad_up){
+                robot.lift.setPower(1);
+            }else{
+                robot.lift.setPower(0);
+            }
+            if (gamepad2.circle && !oldCircle2){
+                robot.lift.slides1.resetEncoder();
+            }
+            oldCircle2 = gamepad2.circle;
 
             List<Action> newActions = new ArrayList<>();
             for (Action action : actionsQueue) {
