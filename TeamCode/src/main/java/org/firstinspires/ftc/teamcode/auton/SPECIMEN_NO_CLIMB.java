@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 
 
-@Autonomous(name = "SPECIMEN", group = "Autonomous")
+@Autonomous(name = "SPECIMEN_NO_CLIMB", group = "Autonomous")
 public class SPECIMEN_NO_CLIMB extends LinearOpMode {
     Robot robot;
     PinpointDrive drive;
