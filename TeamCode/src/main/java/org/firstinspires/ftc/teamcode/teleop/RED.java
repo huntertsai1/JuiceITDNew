@@ -145,9 +145,9 @@ public class RED extends LinearOpMode {
                 actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 3.55, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
             }
             if (autoWinches == 0 || autoWinches == 2) {
-                if (gamepad1.dpad_right) {
+                if (gamepad1.dpad_right || gamepad2.dpad_down) {
                     robot.climbWinch.setPower(-1);
-                } else if (gamepad1.dpad_left) {
+                } else if (gamepad1.dpad_left || gamepad2.dpad_up) {
                     robot.climbWinch.setPower(1);
                 }else {
                     if (autoWinches == 0){
@@ -155,6 +155,11 @@ public class RED extends LinearOpMode {
                     }else{
                         robot.climbWinch.setPower(f);
                     }
+                }
+                if (gamepad2.dpad_right){
+                    robot.climbWinch.servo1.setSpeed(-1);
+                }else if (gamepad2.dpad_left){
+                    robot.climbWinch.servo2.setSpeed(-1);
                 }
             }
             oldDpadUp = gamepad1.dpad_up;
@@ -166,15 +171,14 @@ public class RED extends LinearOpMode {
             }
             oldCross2 = gamepad2.cross;
             if (liftReset) {
-                if (gamepad2.dpad_down) {
-                    robot.lift.setPower(-1);
-                } else if (gamepad2.dpad_up) {
-                    robot.lift.setPower(1);
-                } else {
-                    robot.lift.setPower(0);
+                if (gamepad2.left_trigger > 0.4) {
+                    robot.lift.runToPosition(-50);
+                } else if (gamepad2.right_trigger > 0.4) {
+                    robot.lift.runToPosition(50);
                 }
                 if (gamepad2.circle && !oldCircle2) {
                     robot.lift.slides1.resetEncoder();
+                    robot.lift.runToPosition(0);
                 }
                 oldCircle2 = gamepad2.circle;
             }
@@ -206,12 +210,12 @@ public class RED extends LinearOpMode {
 
             telemetry.addData("MODE", robot.mode.toString());
             telemetry.addData("COLOR", robot.targetColor.toString());
-            telemetry.addData("CLIMB", robot.climbMode.toString());
-            telemetry.addData("LIFT ", robot.lift.getPos());
-            telemetry.addData("LIFT Target", robot.lift.target);
+            //telemetry.addData("CLIMB", robot.climbMode.toString());
+            //telemetry.addData("LIFT ", robot.lift.getPos());
+            //telemetry.addData("LIFT Target", robot.lift.target);
             telemetry.addData("LOOPTIME: ", frequency);
             telemetry.addData("state: ", robot.state);
-            telemetry.addData("rbumper " ,gamepad1.right_bumper);
+            //telemetry.addData("rbumper " ,gamepad1.right_bumper);
             telemetry.addData("COLOR ENABLED", robot.activateSensor);
             telemetry.update();
         }
