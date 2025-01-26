@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 @TeleOp
 @Config
-//@Disabled
+@Disabled
 public class ColorSensorConfiguration extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
