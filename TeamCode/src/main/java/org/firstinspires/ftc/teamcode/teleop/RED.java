@@ -217,7 +217,7 @@ public class RED extends LinearOpMode {
             robot.lift.update();
 //            PoseKeeper.set(robot.drive.pose);
 
-            telemetry.addData("rbumpero " ,oldRBumper);
+//            telemetry.addData("rbumpero " ,oldRBumper);
             oldGamepad.copy(gamepad1);
 
             double newTime = getRuntime();
@@ -226,12 +226,12 @@ public class RED extends LinearOpMode {
             oldTime = newTime;
 
             telemetry.addData("MODE", robot.mode.toString());
-            telemetry.addData("COLOR", robot.targetColor.toString());
+//            telemetry.addData("COLOR", robot.targetColor.toString());
             //telemetry.addData("CLIMB", robot.climbMode.toString());
             telemetry.addData("LIFT ", robot.lift.getPos());
             //telemetry.addData("LIFT Target", robot.lift.target);
-            telemetry.addData("LOOPTIME: ", frequency);
-            telemetry.addData("state: ", robot.state);
+//            telemetry.addData("LOOPTIME: ", frequency);
+            telemetry.addData("STATE: ", robot.state);
             //telemetry.addData("rbumper " ,gamepad1.right_bumper);
             telemetry.addData("COLOR ENABLED", robot.activateSensor);
             telemetry.update();
