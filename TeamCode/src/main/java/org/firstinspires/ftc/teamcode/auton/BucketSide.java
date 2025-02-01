@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.auton;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -19,60 +20,52 @@ public class BucketSide extends LinearOpMode {
         robot = new Robot(hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        Action preload = drive.actionBuilder(drive.pose)
+        TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 //preload
                 .setTangent(Math.toRadians(165))
                 .splineToLinearHeading(new Pose2d(-53, -53, Math.toRadians(45)), Math.toRadians(200))
-                .waitSeconds(3)
+                .waitSeconds(3);
 
-                .build();
-        Action spike1 = drive.actionBuilder(new Pose2d(-56, -56, Math.toRadians(45)))
+        TrajectoryActionBuilder spike1 = preload.endTrajectory().fresh()
                 //spike1
                 .setTangent(Math.toRadians(45))
                 .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), Math.toRadians(45))
-                .waitSeconds(1)
+                .waitSeconds(1);
 
-                .build();
-        Action depo1 = drive.actionBuilder(new Pose2d(-48, -48, Math.toRadians(90)))
+        TrajectoryActionBuilder depo1 = spike1.endTrajectory().fresh()
                 //depo1
                 .setTangent(Math.toRadians(225))
                 .splineToLinearHeading(new Pose2d(-53, -53, Math.toRadians(45)), Math.toRadians(225))
-                .waitSeconds(3)
+                .waitSeconds(3);
 
-                .build();
-        Action spike2 = drive.actionBuilder(new Pose2d(-53, -53, Math.toRadians(45)))
+        TrajectoryActionBuilder spike2 = depo1.endTrajectory().fresh()
                 //spike2
                 .setTangent(Math.toRadians(92))
                 .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), Math.toRadians(100))
-                .waitSeconds(1)
+                .waitSeconds(1);
 
-                .build();
-        Action depo2 = drive.actionBuilder(new Pose2d(-58, -48, Math.toRadians(90)))
+        TrajectoryActionBuilder depo2 = spike2.endTrajectory().fresh()
                 //depo2
                 .setTangent(Math.toRadians(272))
                 .splineToLinearHeading(new Pose2d(-53, -53, Math.toRadians(45)), Math.toRadians(272))
-                .waitSeconds(3)
+                .waitSeconds(3);
 
-                .build();
-        Action spike3 = drive.actionBuilder(new Pose2d(-53, -53, Math.toRadians(45)))
+        TrajectoryActionBuilder spike3 = depo2.endTrajectory().fresh()
                 //spike3
                 .setTangent(Math.toRadians(88))
-                .splineToLinearHeading(new Pose2d(-54, -45, Math.toRadians(120)), Math.toRadians(92))
-                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(-53, -44.5, Math.toRadians(127)), Math.toRadians(95))
+                .waitSeconds(1);
 
-                .build();
-        Action depo3 = drive.actionBuilder(new Pose2d(-54, -45, Math.toRadians(120)))
+        TrajectoryActionBuilder depo3 = spike3.endTrajectory().fresh()
                 //depo3
                 .setTangent(Math.toRadians(268))
                 .splineToLinearHeading(new Pose2d(-53, -53, Math.toRadians(45)), Math.toRadians(268))
-                .waitSeconds(3)
+                .waitSeconds(3);
 
-                .build();
-        Action park = drive.actionBuilder(new Pose2d(-53, -53, Math.toRadians(45)))
+        TrajectoryActionBuilder park = depo3.endTrajectory().fresh()
                 //ascent zone park
-                .splineToLinearHeading(new Pose2d(-25, -10, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-25, -10, Math.toRadians(0)), Math.toRadians(0));
 
-                .build();
         telemetry.addData("is","starting");
         telemetry.update();
         waitForStart();
@@ -81,13 +74,13 @@ public class BucketSide extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        preload,
-                        spike1,
-                        depo1,
-                        spike2,
-                        depo2,
-                        spike3,
-                        depo3
+                        preload.build(),
+                        spike1.build(),
+                        depo1.build(),
+                        spike2.build(),
+                        depo2.build(),
+                        spike3.build(),
+                        depo3.build()
 //                        park
                 ));
     }
