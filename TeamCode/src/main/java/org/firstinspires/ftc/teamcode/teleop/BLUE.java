@@ -23,11 +23,11 @@ import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name="RED")
+@TeleOp(name="BLUE")
 @Config
-public class RED extends LinearOpMode {
+public class BLUE extends LinearOpMode {
     double oldTime = 0;
-    AllianceColor allianceColor = AllianceColor.RED;
+    AllianceColor allianceColor = AllianceColor.BLUE;
 
     // STATES
     boolean manualExtension = false;
@@ -74,7 +74,7 @@ public class RED extends LinearOpMode {
                     );
                 } else {
                     actionsQueue.add(
-                            robot.intakeDrop(SampleColors.RED)
+                            robot.intakeDrop(SampleColors.BLUE)
                     );
                 }
             }
