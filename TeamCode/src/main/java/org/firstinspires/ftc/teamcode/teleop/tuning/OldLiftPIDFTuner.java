@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 @Config
 @TeleOp
-//@Disabled
+@Disabled
 public class OldLiftPIDFTuner extends OpMode {
     private PIDController controller1;
 

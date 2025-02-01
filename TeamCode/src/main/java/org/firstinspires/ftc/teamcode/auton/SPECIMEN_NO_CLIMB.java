@@ -24,12 +24,12 @@ import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 
 
-@Autonomous(name = "SPECIMEN", group = "Autonomous")
+@Autonomous(name = "SPECIMEN_NO_CLIMB", group = "Autonomous")
 public class SPECIMEN_NO_CLIMB extends LinearOpMode {
     Robot robot;
     PinpointDrive drive;
     public void runOpMode() {
-        Pose2d startPose = new Pose2d(6, -62, Math.toRadians(-90));
+        Pose2d startPose = new Pose2d(6, -61.8, Math.toRadians(-90));
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
