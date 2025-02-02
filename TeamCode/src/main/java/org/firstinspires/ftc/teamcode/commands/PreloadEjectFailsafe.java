@@ -32,6 +32,10 @@ public class PreloadEjectFailsafe implements Action {
             return false;
         }
 
-        return timer.time(TimeUnit.MILLISECONDS) <= 500;
+        if (timer.time(TimeUnit.MILLISECONDS) >= 500) {
+            robot.claw.setPower(0F);
+            return false;
+        }
+        return true;
     }
 }
