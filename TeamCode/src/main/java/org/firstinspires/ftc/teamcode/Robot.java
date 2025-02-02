@@ -281,6 +281,20 @@ public class Robot {
             state = Levels.HIGH_BASKET;
         });
     }
+    public Action autoHighBasketAction() {
+        return new SequentialAction(
+                new InstantAction(() -> {
+                    extension.runToPreset(Levels.HIGH_BASKET);
+                    lift.runToPreset(Levels.HIGH_BASKET);
+                    arm.runToPreset(Levels.INTERMEDIATE);
+                }),
+                new SleepAction(1.5),
+                new InstantAction(() -> {
+                    arm.runToPreset(Levels.HIGH_BASKET);
+                    state = Levels.HIGH_BASKET;
+                })
+        );
+    }
     public Action highRung(boolean action) {
         return new InstantAction( () ->
         {arm.runToPreset(Levels.HIGH_RUNG);
