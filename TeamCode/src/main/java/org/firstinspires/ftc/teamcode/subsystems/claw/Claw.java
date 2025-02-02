@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import java.util.Arrays;
 
 public class Claw {
-    ContinuousServo servo1;
-    ContinuousServo servo2;
+    public ContinuousServo servo1;
+    public ContinuousServo servo2;
     RevColorSensorV3 colorSensor;
     float power = 0;
 
