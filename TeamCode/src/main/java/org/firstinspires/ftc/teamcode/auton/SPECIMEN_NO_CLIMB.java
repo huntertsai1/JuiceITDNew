@@ -24,8 +24,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 
 
-@Autonomous(name = "SPECIMEN", group = "Autonomous")
-public class SPECIMEN extends LinearOpMode {
+@Autonomous(name = "SPECIMEN_NO_CLIMB", group = "Autonomous")
+public class SPECIMEN_NO_CLIMB extends LinearOpMode {
     Robot robot;
     PinpointDrive drive;
     public void runOpMode() {
@@ -137,69 +137,69 @@ public class SPECIMEN extends LinearOpMode {
                         new SequentialAction(
                                 //PRELOAD
 
-                            new ParallelAction(
-                                    preload.build(),
-                                    robot.highRung(true)
-                            ),
-                            robot.autoSpecimen(true),
+                                new ParallelAction(
+                                        preload.build(),
+                                        robot.highRung(true)
+                                ),
+                                robot.autoSpecimen(true),
 
-                            allSpikes.build(),
+                                allSpikes.build(),
 
-                            //SPEC2
+                                //SPEC2
 
-                            intakeSpec2.build(),
-                            robot.autoIntake(true),
-                            new SleepAction(intakeWait),
-                            robot.highRung(true),
-                            new SleepAction(waits),
+                                intakeSpec2.build(),
+                                robot.autoIntake(true),
+                                new SleepAction(intakeWait),
+                                robot.highRung(true),
+                                new SleepAction(waits),
 
-                            depositSpec2.build(),
-                            robot.autoSpecimen(true),
+                                depositSpec2.build(),
+                                robot.autoSpecimen(true),
 
-                            //SPEC3
+                                //SPEC3
                                 new ParallelAction(
                                         intakeSpec3.build(),
                                         robot.autoIntake(true)
                                 ),
-                            new SleepAction(intakeWait),
+                                new SleepAction(intakeWait),
                                 robot.highRung(true),
-                            new SleepAction(waits),
+                                new SleepAction(waits),
 
-                            depositSpec3.build(),
-                            robot.autoSpecimen(true),
+                                depositSpec3.build(),
+                                robot.autoSpecimen(true),
 
-                            //SPEC4
+                                //SPEC4
                                 new ParallelAction(
                                         intakeSpec4.build(),
                                         robot.autoIntake(true)
                                 ),
-                            new SleepAction(intakeWait),
-                            robot.highRung(true),
-                            new SleepAction(waits),
+                                new SleepAction(intakeWait),
+                                robot.highRung(true),
+                                new SleepAction(waits),
 
-                            depositSpec4.build(),
-                            robot.autoSpecimen(true),
+                                depositSpec4.build(),
+                                robot.autoSpecimen(true),
 
-                            //SPEC5
+                                //SPEC5
                                 new ParallelAction(
                                         intakeSpec5.build(),
                                         robot.autoIntake(true)
                                 ),
-                            new SleepAction(intakeWait),
-                            robot.highRung(true),
-                            new SleepAction(waits),
+                                new SleepAction(intakeWait),
+                                robot.highRung(true),
+                                new SleepAction(waits),
 
-                            depositSpec5.build(),
-                            robot.autoSpecimen(true),
+                                depositSpec5.build(),
+                                robot.autoSpecimen(true),
 
-                            //PARK
-                            park.build()
+                                //PARK
+                                park.build()
 
                         ),
                         new LoopAction(() -> {
                             robot.lift.update();
                         }, this::isStopRequested)
-                        , new WinchTimeAction(robot.climbWinch, 1.24, -1, telemetry)
+//                        , new WinchTimeAction(robot.climbWinch, 1.24, -1, telemetry)
                 )
         );
     }

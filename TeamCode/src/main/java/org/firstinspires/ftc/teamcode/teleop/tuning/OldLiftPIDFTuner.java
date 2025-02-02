@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Config
 @TeleOp
 @Disabled
-public class LiftPIDFTuner extends OpMode {
+public class OldLiftPIDFTuner extends OpMode {
     private PIDController controller1;
 
     public static double p = 0.015, i = 0.00, d = 0.00052;
@@ -48,15 +48,17 @@ public class LiftPIDFTuner extends OpMode {
         controller1 = new PIDController(p, i , d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        slides1 = hardwareMap.get(DcMotorEx.class, "lift1");
-        slides2 = hardwareMap.get(DcMotorEx.class, "lift2");
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         profileTimer.reset();
 
+        slides1 = hardwareMap.get(DcMotorEx.class, "slides1");
+        slides2 = hardwareMap.get(DcMotorEx.class, "slides2");
         slides1.setDirection(DcMotorSimple.Direction.REVERSE);
         slides1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slides1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slides2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slides1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slides2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
@@ -73,7 +75,7 @@ public class LiftPIDFTuner extends OpMode {
         double pid1;
         double effectiveTarget = target;
         if (ACTIVATE_MP) {
-            effectiveTarget = profile.get(profileTimer.time(TimeUnit.MICROSECONDS)/1e6);
+            effectiveTarget = profile.get(profileTimer.time(TimeUnit.MILLISECONDS)/1000F);
         }
         pid1 = controller1.calculate(slides1Pos, effectiveTarget);
 
@@ -86,8 +88,8 @@ public class LiftPIDFTuner extends OpMode {
         telemetry.addData("POWER ", power1);
         telemetry.addData("Voltage Compensation ", voltageCompensation);
 
-        slides1.setPower(-power1);
-        slides2.setPower(-power1);
+        slides1.setPower(power1);
+        slides2.setPower(power1);
 
         oldTarget = target;
 
