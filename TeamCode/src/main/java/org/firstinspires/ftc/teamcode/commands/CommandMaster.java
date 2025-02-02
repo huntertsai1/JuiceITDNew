@@ -17,4 +17,8 @@ public class CommandMaster {
         return new StopIntake(robot, colors);
     }
 
+    public Action preloadEjectFailSafe() {
+        return new PreloadEjectFailsafe(robot);
+    }
+
 }
