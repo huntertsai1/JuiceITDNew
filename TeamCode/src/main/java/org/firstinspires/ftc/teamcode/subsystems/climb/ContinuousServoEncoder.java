@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems.climb;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 
 public class ContinuousServoEncoder {
-    AnalogInput encoder;
+    public AnalogInput encoder;
     boolean reversed;
     double position;
     double offset = 0;
@@ -14,7 +14,7 @@ public class ContinuousServoEncoder {
     }
     public double getPosition(){
         if (reversed){
-            return (1-encoder.getVoltage()/3.3)*360 - offset;
+            return (1-(encoder.getVoltage()/3.3))*360 - offset;
         }
         return encoder.getVoltage()/3.3 *360 - offset;
     }

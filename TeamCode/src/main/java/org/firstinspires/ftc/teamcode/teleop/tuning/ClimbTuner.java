@@ -25,10 +25,7 @@ public class ClimbTuner extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         TelemetryPacket packet = new TelemetryPacket();
-        ContinuousServoEncoder climb1Encoder = new ContinuousServoEncoder(hardwareMap.get(AnalogInput.class, "climb1Encoder"), true);
-        ContinuousServoEncoder climb2Encoder = new ContinuousServoEncoder(hardwareMap.get(AnalogInput.class, "climb2Encoder"), false);
         Robot robot = new Robot(hardwareMap, false);
-        double start1 = climb1Encoder.getPosition();
         int wraps = 0;
         double lastPosition = 0;
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -39,12 +36,19 @@ public class ClimbTuner extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
-            double climb1 = climb1Encoder.getPosition();
-            double climb2 = climb2Encoder.getPosition();
-            telemetry.addData("climb1", climb1);
-            telemetry.addData("climb2", climb2);
-            telemetry.addData("climb1 with wraps", climb1 +  + (wraps*360));
-            telemetry.addData("minus start", climb1 +  + (wraps*360) - start1);
+            double climb1 = robot.climbWinch.servo1.getAngle();
+            double climb2 = robot.climbWinch.servo2.getAngle();;
+            telemetry.addData("climb1", climb1 + wraps*360);
+            telemetry.addData("climb2", climb2+wraps*360);
+            telemetry.addData("climb1raw", climb1);
+            telemetry.addData("climb2raw", climb2);
+
+            double climb1W = robot.climbWinch.getPosition1();
+            double climb2W = robot.climbWinch.getPosition2();
+            telemetry.addData("climb1W", climb1W);
+            telemetry.addData("climb2W", climb2W);
+            telemetry.addData("climb1W wraps", robot.climbWinch.wraps1);
+            telemetry.addData("climb2W wraps", robot.climbWinch.wraps2);
             if (!climbing.get()) {
                 if (gamepad1.dpad_up) {
                     robot.climbWinch.setPower(1);
@@ -64,11 +68,11 @@ public class ClimbTuner extends LinearOpMode {
                     climbing.set(false);})));
             }
 
-            if (robot.climbWinch.getPosition() - lastPosition < -270) {
-                wraps -= 1;
-            }
-            else if (robot.climbWinch.getPosition() - lastPosition > 270) {
+            if ((robot.climbWinch.servo1.getAngle() - lastPosition) < -220) {
                 wraps += 1;
+            }
+            else if ((robot.climbWinch.servo1.getAngle() - lastPosition) > 220) {
+                wraps -= 1;
             }
             List<Action> newActions = new ArrayList<>();
             for (Action action : actionsQueue) {
@@ -78,8 +82,8 @@ public class ClimbTuner extends LinearOpMode {
                 }
             }
             actionsQueue = newActions;
-            lastPosition = robot.climbWinch.getPosition();
-
+            lastPosition =robot.climbWinch.servo1.getAngle();
+            robot.climbWinch.update();
             telemetry.update();
         }
     }

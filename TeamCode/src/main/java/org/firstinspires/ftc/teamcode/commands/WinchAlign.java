@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 
@@ -23,16 +25,15 @@ public class WinchAlign implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        telemetry.addData("1", climbWinch.servo1.encoder.getPosition());
-        telemetry.addData("2", climbWinch.servo2.encoder.getPosition());
+        telemetry.addData("1", climbWinch.getPosition1());
+        telemetry.addData("2", climbWinch.getPosition2());
 
-        double diff = climbWinch.servo1.encoder.getPosition() - climbWinch.servo2.encoder.getPosition();
+        double diff = climbWinch.getPosition1() - climbWinch.getPosition2();
         telemetry.addData("diff", diff);
         if (Math.abs(diff) < e || (Math.abs(diff) > 220 && Math.abs(diff-360) < e)){
             climbWinch.servo1.setSpeed(0);
             return false;
-        }
-        else if ((diff < 0 && !(diff < -180)) || diff>180){
+        }else if ((diff < 0 && !(diff < -180)) || diff>180){
             climbWinch.servo1.setSpeed(0.5f);
         }else if (diff >0 || diff < -180){
             climbWinch.servo1.setSpeed(-0.5f);
