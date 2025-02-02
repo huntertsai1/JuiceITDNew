@@ -73,7 +73,7 @@ public class LiftPIDFTuner extends OpMode {
         double pid1;
         double effectiveTarget = target;
         if (ACTIVATE_MP) {
-            effectiveTarget = profile.get(profileTimer.time(TimeUnit.MILLISECONDS)/1000F);
+            effectiveTarget = profile.get(profileTimer.time(TimeUnit.MICROSECONDS)/1e6);
         }
         pid1 = controller1.calculate(slides1Pos, effectiveTarget);
 

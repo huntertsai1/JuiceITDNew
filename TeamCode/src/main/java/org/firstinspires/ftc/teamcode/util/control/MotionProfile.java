@@ -88,18 +88,18 @@ public class MotionProfile {
 
         // check if we're still in the motion profile
         double entire_dt = acceleration_dt + cruise_dt + deceleration_dt;
-        if (time > entire_dt) {
+        if (time >= entire_dt) {
             return start + distance;
         }
 
         // if we're accelerating
-        if (time < acceleration_dt) {
+        if (time <= acceleration_dt) {
             // use the kinematic equation for acceleration
             return start + (0.5 * maxaccel * Math.pow(time, 2));
         }
 
         // if we're cruising
-        else if (time < deceleration_time) {
+        else if (time <= deceleration_time) {
             acceleration_distance = 0.5 * maxaccel * Math.pow(acceleration_dt, 2);
             cruise_current_dt = time - acceleration_dt;
 
