@@ -5,8 +5,7 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 public class ContinuousServoEncoder {
     public AnalogInput encoder;
     boolean reversed;
-    double position;
-    double offset = 0;
+    public double offset = 0;
 
     public ContinuousServoEncoder(AnalogInput e, boolean reversed){
         encoder = e;
@@ -14,11 +13,11 @@ public class ContinuousServoEncoder {
     }
     public double getPosition(){
         if (reversed){
-            return (1-(encoder.getVoltage()/3.3))*360 - offset;
+            return (1-(encoder.getVoltage()/3.3))*360;
         }
-        return encoder.getVoltage()/3.3 *360 - offset;
+        return encoder.getVoltage()/3.3*360;
     }
     public void setPosition(double pos){
-        offset = getPosition() - pos;
+        offset = pos - this.getPosition();
     }
 }

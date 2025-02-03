@@ -15,7 +15,7 @@ public class WinchAlign implements Action {
     ClimbWinch climbWinch;
     float ticks;
     Telemetry telemetry;
-    static final double e = 30;
+    static final double e = 100;
 
     public WinchAlign(ClimbWinch cW, Telemetry telemetry) {
         climbWinch = cW;
@@ -30,12 +30,12 @@ public class WinchAlign implements Action {
 
         double diff = climbWinch.getPosition1() - climbWinch.getPosition2();
         telemetry.addData("diff", diff);
-        if (Math.abs(diff) < e || (Math.abs(diff) > 220 && Math.abs(diff-360) < e)){
+        if (Math.abs(diff) < e){
             climbWinch.servo1.setSpeed(0);
             return false;
-        }else if ((diff < 0 && !(diff < -180)) || diff>180){
+        }else if (diff < 0){
             climbWinch.servo1.setSpeed(0.5f);
-        }else if (diff >0 || diff < -180){
+        }else if (diff >0){
             climbWinch.servo1.setSpeed(-0.5f);
         }
         return true;

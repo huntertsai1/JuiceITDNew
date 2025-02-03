@@ -30,7 +30,7 @@ public class ContinuousServo extends Component {
     }
 
     public float getSpeed(){
-        return (float) servo.getPower();
+        return speed;
     }
 
     public float getAngle() {
