@@ -22,9 +22,9 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(group = "competition")
+@TeleOp(group = "tuning")
 @Config
-@Disabled
+//@Disabled
 public class ClimbWinchTest extends LinearOpMode {
 
 
@@ -32,7 +32,7 @@ public class ClimbWinchTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Robot robot = new Robot(hardwareMap, false);
-        //robot.climbWinch.equalServosStart();
+        robot.climbWinch.equalServosStart();
         List<Action> actionsQueue = new ArrayList<>();
 
         // Initialize your own robot class
@@ -42,13 +42,13 @@ public class ClimbWinchTest extends LinearOpMode {
             TelemetryPacket packet = new TelemetryPacket();
 
             if (gamepad1.dpad_up) {
-                actionsQueue.add(new WinchTimeAction(robot.climbWinch, 1, -1, telemetry));
+                actionsQueue.add(new WinchStopAction(robot.climbWinch, 10000, telemetry));
             }
             if (gamepad1.dpad_down) {
-                actionsQueue.add(new WinchTimeAction(robot.climbWinch, 1, 1, telemetry));
+                actionsQueue.add(new WinchStopAction(robot.climbWinch, 500, telemetry));
             }
             if (gamepad1.circle){
-                actionsQueue.add(new WinchTimeAction(robot.climbWinch, 0.3, -1, telemetry));
+                actionsQueue.add(new WinchAlign(robot.climbWinch, telemetry));
             }
 
             List<Action> newActions = new ArrayList<>();
@@ -61,6 +61,7 @@ public class ClimbWinchTest extends LinearOpMode {
             actionsQueue = newActions;
             telemetry.addData("dpad", gamepad1.dpad_up);
             telemetry.update();
+            robot.climbWinch.update();
         }
     }
 }

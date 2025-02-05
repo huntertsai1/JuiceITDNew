@@ -76,7 +76,7 @@ public class Robot {
                 new ContinuousServo(5, "claw2", map),                     //11
 
                 new ContinuousServo(0, "climb1", map, "climb1Encoder", false),//12
-                new ContinuousServo(1, "climb2", map, "climb2Encoder", false) //13
+                new ContinuousServo(1, "climb2", map, "climb2Encoder", true) //13
         };
 
         VoltageSensor voltageSensor = map.voltageSensor.iterator().next();
@@ -302,6 +302,20 @@ public class Robot {
             lift.runToPreset(Levels.HIGH_BASKET);
             state = Levels.HIGH_BASKET;
         });
+    }
+    public Action autoHighBasketAction() {
+        return new SequentialAction(
+                new InstantAction(() -> {
+                    extension.runToPreset(Levels.HIGH_BASKET);
+                    lift.runToPreset(Levels.HIGH_BASKET);
+                    arm.runToPreset(Levels.INTERMEDIATE);
+                }),
+                new SleepAction(1.5),
+                new InstantAction(() -> {
+                    arm.runToPreset(Levels.HIGH_BASKET);
+                    state = Levels.HIGH_BASKET;
+                })
+        );
     }
     public Action highRung(boolean action) {
         return new InstantAction( () ->
