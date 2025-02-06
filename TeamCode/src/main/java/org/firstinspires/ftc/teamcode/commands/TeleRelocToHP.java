@@ -28,7 +28,7 @@ public class TeleRelocToHP extends CancellableAction {
     Robot robot;
     Action path;
     Action fullPath;
-    Pose2d relocPos = new Pose2d(0,0,0);
+    Pose2d relocPos = new Pose2d(6.375,-31.375, Math.toRadians(-92));
     public TeleRelocToHP(PinpointDrive drive, Robot robot) {
         this.drive = drive;
         this.robot = robot;
@@ -49,6 +49,8 @@ public class TeleRelocToHP extends CancellableAction {
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
         if (!started) {
             drive.pose = relocPos;
+            drive.updatePoseEstimate();
+            started = true;
         }
 
         if (cancelled) {

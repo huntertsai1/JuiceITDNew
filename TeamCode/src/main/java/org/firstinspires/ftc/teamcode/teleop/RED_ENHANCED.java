@@ -113,10 +113,10 @@ public class RED_ENHANCED extends LinearOpMode {
             }
             oldTriangle = gamepad1.triangle;
 
-            if (gamepad1.circle && !oldCircle){
-                robot.toggleColorSensor();
-            }
-            oldCircle = gamepad1.circle;
+//            if (gamepad1.circle && !oldCircle){
+//                robot.toggleColorSensor();
+//            }
+//            oldCircle = gamepad1.circle;
 
             if (gamepad1.circle && !oldCircle) {
                 currentAutomation = new TeleRelocToHP(drive, robot);
@@ -146,10 +146,10 @@ public class RED_ENHANCED extends LinearOpMode {
                 );
             }
 
-            if (gamepad1.square && !oldSquare){
-                actionsQueue.add(robot.claw.ejectOps(true));
-            }
-            oldSquare = gamepad1.square;
+//            if (gamepad1.square && !oldSquare){
+//                actionsQueue.add(robot.claw.ejectOps(true));
+//            }
+//            oldSquare = gamepad1.square;
 
             if (gamepad1.left_trigger >= 0.5 && oldTrigger <= 0.5) {
                 if (robot.mode == Robot.Gamepiece.SPECIMEN) {
@@ -249,14 +249,15 @@ public class RED_ENHANCED extends LinearOpMode {
                 double rx = gamepad1.right_stick_x;
                 robot.setDrivePower(-x, y, rx);
             } else if (driverMode == DRIVER_MODE.AUTO) {
-                drive.updatePoseEstimate();
-                if (Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) + Math.abs(gamepad1.right_stick_x) <= 0.05 ) {
-                    if (currentAutomation != null) {
-                        currentAutomation.abort();
-                    }
-                    driverMode = DRIVER_MODE.HUMAN;
-                }
+//                drive.updatePoseEstimate();
+//                if (Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) + Math.abs(gamepad1.right_stick_x) <= 0.05 ) {
+//                    if (currentAutomation != null) {
+//                        currentAutomation.abort();
+//                    }
+//                    driverMode = DRIVER_MODE.HUMAN;
+//                }
             }
+//            drive.updatePoseEstimate();
 
             robot.lift.update();
 //            PoseKeeper.set(robot.drive.pose);
@@ -269,6 +270,7 @@ public class RED_ENHANCED extends LinearOpMode {
             double frequency = 1/loopTime;
             oldTime = newTime;
 
+            telemetry.addData("POSE", drive.pose.toString());
             telemetry.addData("MODE", robot.mode.toString());
 //            telemetry.addData("COLOR", robot.targetColor.toString());
             //telemetry.addData("CLIMB", robot.climbMode.toString());
