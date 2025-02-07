@@ -15,10 +15,12 @@ import com.acmerobotics.roadrunner.TimeTrajectory;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.util.CancellableAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
+import org.firstinspires.ftc.teamcode.util.StateKeeper;
 
 public class TeleAutoCycle extends CancellableAction {
     boolean started = false;
@@ -36,40 +38,56 @@ public class TeleAutoCycle extends CancellableAction {
     Action intakePath;
     Action fullPath;
     Pose2d relocPos = new Pose2d(19, -48, Math.toRadians(-45));
-    public TeleAutoCycle(PinpointDrive drive, Robot robot) {
+    public TeleAutoCycle(PinpointDrive drive, Robot robot, Gamepad gamepad) {
         this.drive = drive;
         this.robot = robot;
-        depoPath = drive.actionBuilder(relocPos)
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(0, -30, Math.toRadians(-92)), Math.toRadians(90),
-                        new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .build();
-        intakePath = drive.actionBuilder(new Pose2d(0, -30, Math.toRadians(-92)))
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
-                        new TranslationalVelConstraint(veloLim),
-                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
-                .build();
-        fullPath = new SequentialAction(
-                robot.teleAutoIntake(),
-                new SleepAction(intakeWait),
-                new InstantAction(() -> {
-                   if (robot.claw.detectSample() == null) {
-                       failsafeAbort();
-                   }
-                }),
-                robot.highRung(true),
-                new SleepAction(waits),
+        double depoTargetX = StateKeeper.findOpenHighRung();
 
-                depoPath,
-                robot.autoSpecimen(true),
+        if (depoTargetX == -16236) {
+            cancelled = true;
+            gamepad.runRumbleEffect(new Gamepad.RumbleEffect.Builder()
+                    .addStep(0, 1, 150)
+                    .addStep(1, 0, 150)
+                    .addStep(0, 1, 150)
+                    .addStep(1, 0, 150)
+                    .addStep(0, 1, 150)
+                    .addStep(1, 0, 150)
+                    .build());
+        } else {
 
-                new ParallelAction(
-                        intakePath,
-                        robot.teleAutoIntakePrime(true)
-                )
-        );
+            depoPath = drive.actionBuilder(relocPos)
+                    .setTangent(Math.toRadians(180))
+                    .splineToLinearHeading(new Pose2d(depoTargetX, -30, Math.toRadians(-92)), Math.toRadians(90),
+                            new TranslationalVelConstraint(veloLim),
+                            new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+                    .build();
+            intakePath = drive.actionBuilder(new Pose2d(0, -30, Math.toRadians(-92)))
+                    .setTangent(Math.toRadians(-90))
+                    .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
+                            new TranslationalVelConstraint(veloLim),
+                            new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+                    .build();
+            fullPath = new SequentialAction(
+                    robot.teleAutoIntake(),
+                    new SleepAction(intakeWait),
+                    new InstantAction(() -> {
+                        if (robot.claw.detectSample() == null) {
+                            failsafeAbort();
+                        }
+                    }),
+                    robot.highRung(true),
+                    new SleepAction(waits),
+
+                    depoPath,
+                    robot.autoSpecimen(true),
+                    new InstantAction(() -> StateKeeper.putSpecimenHighRung(depoTargetX)),
+
+                    new ParallelAction(
+                            intakePath,
+                            robot.teleAutoIntakePrime(true)
+                    )
+            );
+        }
     }
 
 
