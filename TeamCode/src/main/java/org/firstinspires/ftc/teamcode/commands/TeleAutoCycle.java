@@ -80,9 +80,17 @@ public class TeleAutoCycle extends CancellableAction {
 
                     depoPath,
                     robot.autoSpecimen(true),
-                    new InstantAction(() -> StateKeeper.putSpecimenHighRung(depoTargetX)),
 
                     new ParallelAction(
+                            new SequentialAction(
+                                 new SleepAction(1),
+                                    new InstantAction(() -> {
+                                        if (robot.claw.detectSample() != null) {
+                                            // Depo succeeded
+                                            StateKeeper.putSpecimenHighRung(depoTargetX);
+                                        }
+                                    })
+                            ),
                             intakePath,
                             robot.teleAutoIntakePrime(true)
                     )
