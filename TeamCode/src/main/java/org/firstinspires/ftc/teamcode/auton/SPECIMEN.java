@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.LoopAction;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
+import org.firstinspires.ftc.teamcode.util.StateKeeper;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
@@ -32,6 +33,8 @@ public class SPECIMEN extends LinearOpMode {
         Pose2d startPose = new Pose2d(6, -61.8, Math.toRadians(-90));
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
+
+        StateKeeper.specimenCounter = 5;
 
         double HPDeposit = -50;
         double spikeBack = -15;
@@ -143,7 +146,13 @@ public class SPECIMEN extends LinearOpMode {
                             ),
                             robot.autoSpecimen(true),
 
-                            allSpikes.build(),
+                                new ParallelAction(
+                                        allSpikes.build(),
+                                        new SequentialAction(
+                                                new SleepAction(0.2),
+                                                robot.commands.preloadEjectFailSafe()
+                                        )
+                                ),
 
                             //SPEC2
 

@@ -24,13 +24,15 @@ public class PreloadEjectFailsafe implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        if (robot.claw.detectSample() != null && !started) {
+//        if (robot.claw.detectSample() != null && !started) {
+        if (!started) {
             robot.claw.setPower(-0.5F);
             timer.reset();
             started = true;
-        } else if (!started) {
-            return false;
         }
+//        } else if (!started) {
+//            return false;
+//        }
 
         if (timer.time(TimeUnit.MILLISECONDS) >= 500) {
             robot.claw.setPower(0F);

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
@@ -53,6 +54,11 @@ public class TeleAutoCycle extends CancellableAction {
         fullPath = new SequentialAction(
                 robot.teleAutoIntake(),
                 new SleepAction(intakeWait),
+                new InstantAction(() -> {
+                   if (robot.claw.detectSample() == null) {
+                       failsafeAbort();
+                   }
+                }),
                 robot.highRung(true),
                 new SleepAction(waits),
 
@@ -79,5 +85,9 @@ public class TeleAutoCycle extends CancellableAction {
 
     public void abort() {
         cancelled = true;
+    }
+    public void failsafeAbort() {
+        cancelled = true;
+        robot.teleAutoIntakePrime(true);
     }
 }

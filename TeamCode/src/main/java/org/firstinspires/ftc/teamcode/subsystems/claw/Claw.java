@@ -5,8 +5,10 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
@@ -195,6 +197,8 @@ public class Claw {
             return SampleColors.RED;
         } else if (red >= 0.05 && green > 0.08) {
             return SampleColors.YELLOW;
+        } else if (((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) <= 30) {
+            return SampleColors.UNIDENTIFIABLE;
         } else {
             return null;
         }
