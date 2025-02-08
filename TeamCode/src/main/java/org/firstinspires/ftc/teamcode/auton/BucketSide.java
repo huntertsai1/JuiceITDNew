@@ -29,8 +29,8 @@ public class BucketSide extends LinearOpMode {
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 //preload
-                .setTangent(Math.toRadians(165))
-                .splineToLinearHeading(new Pose2d(-53.5, -53.5, Math.toRadians(45)), Math.toRadians(200))
+                .setTangent(Math.toRadians(160))
+                .splineToLinearHeading(new Pose2d(-53.5, -53.5, Math.toRadians(45)), Math.toRadians(160))
                 .waitSeconds(1.2);
 
         TrajectoryActionBuilder spike1 = preload.endTrajectory().fresh()
