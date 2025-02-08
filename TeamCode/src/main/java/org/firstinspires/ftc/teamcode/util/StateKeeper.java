@@ -7,25 +7,25 @@ import java.util.Map;
 
 public class StateKeeper {
     public static HashMap<Double, Boolean> specimenHighRungMap = (HashMap<Double, Boolean>) Map.ofEntries(
-            entry(0.0, false),
-            entry(3.0, false),
-            entry(6.0, false),
             entry(9.0, false),
+            entry(8.0, false),
+            entry(7.0, false),
+            entry(6.0, false),
+            entry(5.0, false),
+            entry(4.0, false),
+            entry(3.0, false),
+            entry(2.0, false),
+            entry(1.0, false),
+            entry(0.0, false),
+            entry(-1.0, false),
+            entry(-2.0, false),
             entry(-3.0, false),
+            entry(-4.0, false),
+            entry(-5.0, false),
             entry(-6.0, false),
-            entry(-9.0, false),
-            entry(1.5, false),
-            entry(4.5, false),
-            entry(7.5, false),
-            entry(-1.5, false),
-            entry(-4.5, false),
-            entry(-7.5, false),
-            entry(0.75, false),
-            entry(2.25, false),
-            entry(8.25, false),
-            entry(-0.75, false),
-            entry(-2.25, false),
-            entry(-8.25, false)
+            entry(-7.0, false),
+            entry(-8.0, false),
+            entry(-9.0, false)
     );;
 
     /**
