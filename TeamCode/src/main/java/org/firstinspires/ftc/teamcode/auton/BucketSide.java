@@ -98,7 +98,7 @@ public class BucketSide extends LinearOpMode {
                         robot.outtakeSample(true),
 
                         spike1.build(),
-                        robot.autoIntake(true),
+                        robot.autoBucketIntake(true),
                         new SleepAction(0.5),
 
                         new InstantAction(() -> robot.claw.setPower(0)),
@@ -110,7 +110,7 @@ public class BucketSide extends LinearOpMode {
                         robot.outtakeSample(true),
 
                         spike2.build(),
-                        robot.autoIntake(true),
+                        robot.autoBucketIntake(true),
                         new SleepAction(0.5),
 
                         new InstantAction(() -> robot.claw.setPower(0)),
@@ -122,7 +122,7 @@ public class BucketSide extends LinearOpMode {
                         robot.outtakeSample(true),
 
                         spike3.build(),
-                        robot.autoIntake(true),
+                        robot.autoBucketIntake(true),
                         new SleepAction(0.5),
 
                         new InstantAction(() -> robot.claw.setPower(0)),
@@ -134,7 +134,7 @@ public class BucketSide extends LinearOpMode {
                         robot.outtakeSample(true),
 
                         subDrive.build(),
-                        robot.autoIntake(true),
+                        robot.autoBucketIntake(true),
                         new SleepAction(0.5),
                         robot.stopIntakeAction(),
 
