@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode.auton;
 
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -19,10 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.LoopAction;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
-import org.firstinspires.ftc.teamcode.util.StateKeeper;
-import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
-import org.firstinspires.ftc.teamcode.util.enums.Levels;
 
 
 @Autonomous(name = "SPECIMEN", group = "Autonomous")
@@ -157,7 +151,7 @@ public class SPECIMEN extends LinearOpMode {
                             //SPEC2
 
                             intakeSpec2.build(),
-                            robot.autoIntake(true),
+                            robot.autoSpecIntake(true),
                             new SleepAction(intakeWait),
                             robot.highRung(true),
                             new SleepAction(waits),
@@ -168,7 +162,7 @@ public class SPECIMEN extends LinearOpMode {
                             //SPEC3
                                 new ParallelAction(
                                         intakeSpec3.build(),
-                                        robot.autoIntake(true)
+                                        robot.autoSpecIntake(true)
                                 ),
                             new SleepAction(intakeWait),
                                 robot.highRung(true),
@@ -180,7 +174,7 @@ public class SPECIMEN extends LinearOpMode {
                             //SPEC4
                                 new ParallelAction(
                                         intakeSpec4.build(),
-                                        robot.autoIntake(true)
+                                        robot.autoSpecIntake(true)
                                 ),
                             new SleepAction(intakeWait),
                             robot.highRung(true),
@@ -192,7 +186,7 @@ public class SPECIMEN extends LinearOpMode {
                             //SPEC5
                                 new ParallelAction(
                                         intakeSpec5.build(),
-                                        robot.autoIntake(true)
+                                        robot.autoSpecIntake(true)
                                 ),
                             new SleepAction(intakeWait),
                             robot.highRung(true),

@@ -18,7 +18,6 @@ import org.firstinspires.ftc.teamcode.subsystems.extension.Extension;
 import org.firstinspires.ftc.teamcode.subsystems.lift.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.arm.Arm;
 import org.firstinspires.ftc.teamcode.util.enums.ClimbType;
-import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 import org.firstinspires.ftc.teamcode.util.hardware.Component;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
@@ -134,7 +133,7 @@ public class Robot {
         );
     }
 
-    public Action autoIntake (boolean action) {
+    public Action autoSpecIntake(boolean action) {
         return new SequentialAction(
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
@@ -148,6 +147,26 @@ public class Robot {
                     intaking = true;
                     state = Levels.INTAKE;}),
                 new SleepAction(1),
+                new InstantAction(() -> {
+                    extension.runToPosition(230);
+                })
+        );
+    }
+
+    public Action autoBucketIntake (boolean action) {
+        return new SequentialAction(
+                new InstantAction(() -> {
+                    lift.runToPreset(Levels.INTAKE);
+                    extension.runToPosition(190);
+                }),
+                new SleepAction(0.3),
+                new InstantAction(()->{
+                    arm.runToPreset(Levels.INTAKE);
+                    lift.slides1.resetEncoder();
+                    claw.startIntake();
+                    intaking = true;
+                    state = Levels.INTAKE;}),
+                new SleepAction(0.3), // DELAY BETWEEN ARM DROPPING AND EXTENSION FULLY EXTENDING, EDIT IF NEEDED
                 new InstantAction(() -> {
                     extension.runToPosition(230);
                 })
