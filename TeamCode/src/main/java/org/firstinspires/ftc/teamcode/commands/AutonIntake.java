@@ -25,14 +25,7 @@ import org.firstinspires.ftc.teamcode.util.StateKeeper;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 
 public class AutonIntake extends CancellableAction {
-    boolean started = false;
     boolean cancelled = false;
-
-    double veloLim = 60.0;
-    double accelUpperLim = 60.0;
-    double accelLowerLim = -40.0;
-    double waits = 0.2;
-    double intakeWait = 0.3;
 
     PinpointDrive drive;
     Robot robot;
