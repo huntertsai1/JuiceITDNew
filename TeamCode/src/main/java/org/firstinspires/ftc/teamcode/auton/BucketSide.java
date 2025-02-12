@@ -12,8 +12,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.AutonIntake;
 import org.firstinspires.ftc.teamcode.commands.LoopAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
+import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 
 @Disabled
 @Autonomous(name = "BucketSide", group = "Autonomous")
@@ -26,6 +28,10 @@ public class BucketSide extends LinearOpMode {
         drive = new PinpointDrive(hardwareMap, startPose);
 
         double intakeWait = 0.3;
+
+        double xTarget = -12;
+        double headingAdjustment = 0;
+        boolean adventureUpdated = false;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 //preload
@@ -69,23 +75,77 @@ public class BucketSide extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-53, -53, Math.toRadians(45)), Math.toRadians(268))
                 .waitSeconds(1.2);
 
-        TrajectoryActionBuilder subDrive = depo3.endTrajectory().fresh()
-                //ascent zone park
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-31, -7, Math.toRadians(0)), Math.toRadians(0));
+//        TrajectoryActionBuilder subDrive = depo3.endTrajectory().fresh()
+//                //ascent zone park
+//                .setTangent(Math.toRadians(90))
+//                .splineToLinearHeading(new Pose2d(-31, -7, Math.toRadians(0)), Math.toRadians(0));
+        AutonIntake subDrive = new AutonIntake(drive, robot, xTarget, headingAdjustment, depo3, SampleColors.RED);;
 
         TrajectoryActionBuilder depo4 = subDrive.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
-                .waitSeconds(1.2);
+                .waitSeconds(1.2);;
 
         telemetry.addData("is","starting");
         telemetry.update();
 
         robot.initSubsystems();
+
+        while (!isStarted() && !isStopRequested()) {
+            // CHOOSE YOUR ADVENTURE!
+            if (gamepad1.dpad_up) {
+                xTarget = -10;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_down) {
+                xTarget = -11;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_left) {
+                xTarget = -12;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_right) {
+                xTarget = -13;
+                adventureUpdated = false;
+            }
+
+            if (gamepad1.right_trigger > 0.2) {
+                headingAdjustment += gamepad1.right_trigger;
+                adventureUpdated = false;
+            } else if (gamepad1.left_trigger > 0.2) {
+                headingAdjustment -= gamepad1.left_trigger;
+                adventureUpdated = false;
+            }
+
+            if (gamepad1.right_bumper) {
+                subDrive = new AutonIntake(drive, robot, xTarget, headingAdjustment, depo3, SampleColors.RED);
+                depo4 = subDrive.endTrajectory().fresh()
+                        .setTangent(Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
+                        .waitSeconds(1.2);
+                adventureUpdated = true;
+            }
+
+            telemetry.addData("X TARGET", xTarget);
+            telemetry.addData("HEADING BIAS", headingAdjustment);
+            telemetry.addData("SAVED", adventureUpdated);
+            telemetry.update();
+
+        }
+
         waitForStart();
 
         if (isStopRequested()) return;
+
+        if (!adventureUpdated) {
+            subDrive = new AutonIntake(drive, robot, xTarget, headingAdjustment, depo3, SampleColors.RED);
+            depo4 = subDrive.endTrajectory().fresh()
+                    .setTangent(Math.toRadians(180))
+                    .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
+                    .waitSeconds(1.2);
+        }
+
         Actions.runBlocking(
                 new ParallelAction(
                     new InstantAction(() -> robot.claw.setPower(0)),
@@ -133,10 +193,7 @@ public class BucketSide extends LinearOpMode {
 
                         robot.outtakeSample(true),
 
-                        subDrive.build(),
-                        robot.autoBucketIntake(true),
-                        new SleepAction(0.5),
-                        robot.stopIntakeAction(),
+                        subDrive,
 
                         new InstantAction(() -> robot.claw.setPower(0)),
                         new ParallelAction(

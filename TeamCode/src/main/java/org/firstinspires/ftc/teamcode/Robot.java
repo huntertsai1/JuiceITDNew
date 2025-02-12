@@ -64,18 +64,19 @@ public class Robot {
 
                 new Motor(0, "lift1", map, false),                  //4
                 new Motor(1, "lift2", map, false),                  //5
+                new Motor(2, "lift3", map, true),                  // 6
 
-                new StepperServo(2, "ext1", map),    //6
-                new StepperServo(3, "ext2", map),    //7
+                new StepperServo(2, "ext1", map),    //7
+                new StepperServo(3, "ext2", map),    //8
 
-                new StepperServo(4, "arm", map),      //8
+                new StepperServo(4, "arm", map),      //9
 
-                new StepperServo(5, "elbow", map),  //9
-                new ContinuousServo(1, "claw1", map),                     //10
-                new ContinuousServo(5, "claw2", map),                     //11
+                new StepperServo(5, "elbow", map),  //10
+                new ContinuousServo(1, "claw1", map),                     //11
+                new ContinuousServo(5, "claw2", map),                     //12
 
-                new ContinuousServo(0, "climb1", map, "climb1Encoder", false),//12
-                new ContinuousServo(1, "climb2", map, "climb2Encoder", true) //13
+                new ContinuousServo(0, "climb1", map, "climb1Encoder", false),//13
+                new ContinuousServo(1, "climb2", map, "climb2Encoder", true) //14
         };
 
         VoltageSensor voltageSensor = map.voltageSensor.iterator().next();
@@ -83,11 +84,11 @@ public class Robot {
         RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
         // INIT SUBSYSTEMS
 
-        this.lift = new Lift((Motor) components[4], (Motor) components[5], voltageSensor);
-        this.extension = new Extension((StepperServo) components[6], (StepperServo) components[7]);
-        this.arm = new Arm((StepperServo) components[8], (StepperServo) components[9]);
-        this.claw = new Claw((ContinuousServo) components[10], (ContinuousServo) components[11], colorSensor);
-        this.climbWinch = new ClimbWinch((ContinuousServo) components[12], (ContinuousServo) components[13]);
+        this.lift = new Lift((Motor) components[4], (Motor) components[5], (Motor) components[6], voltageSensor);
+        this.extension = new Extension((StepperServo) components[7], (StepperServo) components[8]);
+        this.arm = new Arm((StepperServo) components[9], (StepperServo) components[10]);
+        this.claw = new Claw((ContinuousServo) components[11], (ContinuousServo) components[12], colorSensor);
+        this.climbWinch = new ClimbWinch((ContinuousServo) components[13], (ContinuousServo) components[14]);
 
         this.commands = new CommandMaster(this);
         this.hardwareMap = map;

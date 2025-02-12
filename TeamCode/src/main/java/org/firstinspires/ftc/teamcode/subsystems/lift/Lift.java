@@ -25,20 +25,25 @@ public class Lift {
 
     public Motor slides1;
     public Motor slides2;
+    public Motor slides3;
     public VoltageSensor voltageSensor;
 
     private boolean threadState = false;
 
 
-    public Lift(Motor l1, Motor l2, VoltageSensor voltageSensor) {
+    public Lift(Motor l1, Motor l2, Motor l3, VoltageSensor voltageSensor) {
         this.slides1 = l1;
         this.slides2 = l2;
+        this.slides3 = l3;
         this.voltageSensor = voltageSensor;
 
         controller1 = new PIDController(p, i , d);
         slides1.motor.setDirection(DcMotorSimple.Direction.REVERSE);
         slides1.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slides1.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slides3.motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        slides3.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slides3.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
@@ -59,10 +64,12 @@ public class Lift {
         if (target == 0){
             slides1.motor.setPower(-power1);
             slides2.motor.setPower(-power1); //was at *0.3 pre push
+            slides3.motor.setPower(-power1);
         }
         else {
             slides1.motor.setPower(-power1);
             slides2.motor.setPower(-power1);
+            slides3.motor.setPower(-power1);
         }
     }
 
@@ -99,11 +106,13 @@ public class Lift {
     public void setPower(float power) {
         slides1.motor.setPower(power);
         slides2.motor.setPower(power);
+        slides3.motor.setPower(power);
     }
 
-    public void setPower(float power1, float power2) {
+    public void setPower(float power1, float power2, float power3) {
         slides1.motor.setPower(power1);
         slides2.motor.setPower(power2);
+        slides3.motor.setPower(power3);
     }
 
     public void launchAsThread(Telemetry telemetry) {

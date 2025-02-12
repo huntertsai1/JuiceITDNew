@@ -46,7 +46,7 @@ public class PresetsTuner extends LinearOpMode {
         intake2 = new ContinuousServo(0, "claw2", hardwareMap);
         climb1 = new ContinuousServo(0, "climb1", hardwareMap);
         climb2 = new ContinuousServo(0, "climb2", hardwareMap);
-        lift = new Lift(new Motor(0, "lift1", hardwareMap, false), new Motor(0, "lift2", hardwareMap, false), hardwareMap.voltageSensor.iterator().next());
+        lift = new Lift(new Motor(0, "lift1", hardwareMap, false), new Motor(0, "lift2", hardwareMap, false), new Motor(0, "lift3", hardwareMap, false), hardwareMap.voltageSensor.iterator().next());
 
         intake2.servo.setDirection(DcMotorSimple.Direction.REVERSE);
         int prevLiftTarget = LIFT_POS;
