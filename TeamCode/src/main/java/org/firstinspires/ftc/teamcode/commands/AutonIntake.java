@@ -72,17 +72,17 @@ public class AutonIntake extends CancellableAction {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        if (cancelled) {
-            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
-            return false;
-        }
-
         int sensor = robot.claw.smartStopDetect(SampleColors.YELLOW, target);
         if (sensor == 1) {
             failsafeAbort();
         } else if (sensor == -1) {
             ejecting = true;
             ejectTimer.reset();
+        }
+
+        if (cancelled) {
+            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+            return false;
         }
 
         return fullPath.run(telemetryPacket);
