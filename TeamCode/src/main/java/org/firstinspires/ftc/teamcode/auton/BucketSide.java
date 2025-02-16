@@ -29,10 +29,10 @@ public class BucketSide extends LinearOpMode {
 
         double intakeWait = 0.3;
 
-        double yTargetCycle1 = -12;
-        double yTargetCycle2 = -12;
-        double yTargetCycle3 = -12;
-        double yTargetCycle4 = -12;
+        double yTargetCycle1 = -8;
+        double yTargetCycle2 = -8;
+        double yTargetCycle3 = -8;
+        double yTargetCycle4 = -8;
         double headingAdjustmentCycle1 = 0;
         double headingAdjustmentCycle2 = 0;
         double headingAdjustmentCycle3 = 0;
