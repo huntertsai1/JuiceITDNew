@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.climb.ClimbWinch;
 import org.firstinspires.ftc.teamcode.subsystems.extension.Extension;
 import org.firstinspires.ftc.teamcode.subsystems.lift.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.arm.Arm;
+import org.firstinspires.ftc.teamcode.subsystems.sweeper.Sweeper;
 import org.firstinspires.ftc.teamcode.util.enums.ClimbType;
 import org.firstinspires.ftc.teamcode.util.hardware.Component;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
@@ -36,6 +37,7 @@ public class Robot {
     public Arm arm;
     public Claw claw;
     public ClimbWinch climbWinch;
+    public Sweeper sweeper;
 
     public CommandMaster commands;
     public HardwareMap hardwareMap;
@@ -76,7 +78,9 @@ public class Robot {
                 new ContinuousServo(5, "claw2", map),                     //12
 
                 new ContinuousServo(0, "climb1", map, "climb1Encoder", false),//13
-                new ContinuousServo(1, "climb2", map, "climb2Encoder", true) //14
+                new ContinuousServo(1, "climb2", map, "climb2Encoder", true), //14
+
+                new StepperServo(0, "sweeper", map)         //15
         };
 
         VoltageSensor voltageSensor = map.voltageSensor.iterator().next();
@@ -89,6 +93,7 @@ public class Robot {
         this.arm = new Arm((StepperServo) components[9], (StepperServo) components[10]);
         this.claw = new Claw((ContinuousServo) components[11], (ContinuousServo) components[12], colorSensor);
         this.climbWinch = new ClimbWinch((ContinuousServo) components[13], (ContinuousServo) components[14]);
+        this.sweeper = new Sweeper((StepperServo) components[15]);
 
         this.commands = new CommandMaster(this);
         this.hardwareMap = map;

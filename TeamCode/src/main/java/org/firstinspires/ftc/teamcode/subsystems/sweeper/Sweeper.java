@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 public class Sweeper {
     StepperServo servo;
 
+    public boolean swept = false;
+
     public float RETRACTED_POS = 0;
     public float FULL_EXTENDED_POS = 240;
     public double SWEEP_DELAY = 2;
@@ -24,6 +26,7 @@ public class Sweeper {
     }
 
     public Action sweep() {
+        swept = true;
         return new SequentialAction(
                 new InstantAction(this::extend),
                 new SleepAction(SWEEP_DELAY),

@@ -61,6 +61,7 @@ public class AutonIntake extends CancellableAction {
                 }),
                 new SequentialAction(
                 subDrive.build(),
+                robot.sweeper.sweep(),
                 new ParallelAction(
                         robot.autoBucketIntake(true),
                         subSearching.build()
