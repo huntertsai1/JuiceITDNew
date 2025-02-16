@@ -133,7 +133,7 @@ public class RED_ENHANCED extends LinearOpMode {
             }
 
             if (gamepad1.square && !oldSquare) {
-                currentAutomation = new TeleAutoCycle(drive, robot);
+                currentAutomation = new TeleAutoCycle(drive, robot, gamepad1);
                 actionsQueue.add(
                         new SequentialAction(
                                 new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
