@@ -14,8 +14,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.TeleAutoCycle;
-import org.firstinspires.ftc.teamcode.commands.TeleRelocToHP;
+import org.firstinspires.ftc.teamcode.commands.teleop.TeleAutoCycle;
+import org.firstinspires.ftc.teamcode.commands.teleop.TeleRelocToHP;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.commands.util.CancellableAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;

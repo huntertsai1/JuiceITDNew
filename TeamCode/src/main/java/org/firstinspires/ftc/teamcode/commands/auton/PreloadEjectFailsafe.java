@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands;
+package org.firstinspires.ftc.teamcode.commands.auton;
 
 import androidx.annotation.NonNull;
 
@@ -7,9 +7,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class PreloadEjectFailsafe implements Action {

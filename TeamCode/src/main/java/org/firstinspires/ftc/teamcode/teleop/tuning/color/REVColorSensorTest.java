@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teleop.tuning;
+package org.firstinspires.ftc.teamcode.teleop.tuning.color;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -10,9 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.subsystems.claw.Claw;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
-import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 
 @TeleOp(group = "competition")

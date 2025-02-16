@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.commands.CommandMaster;
+import org.firstinspires.ftc.teamcode.commands.util.CommandMaster;
 import org.firstinspires.ftc.teamcode.subsystems.claw.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.climb.ClimbWinch;
 import org.firstinspires.ftc.teamcode.subsystems.extension.Extension;

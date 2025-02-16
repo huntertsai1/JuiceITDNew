@@ -12,14 +12,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.AutonIntake;
-import org.firstinspires.ftc.teamcode.commands.LoopAction;
+import org.firstinspires.ftc.teamcode.commands.auton.AutonIntake;
+import org.firstinspires.ftc.teamcode.commands.util.LoopAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 
 @Disabled
-@Autonomous(name = "BucketSide", group = "Autonomous")
-public class BucketSide extends LinearOpMode {
+@Autonomous(name = "BUCKET", group = "Autonomous")
+public class BUCKET extends LinearOpMode {
     Robot robot;
     PinpointDrive drive;
     public void runOpMode() {

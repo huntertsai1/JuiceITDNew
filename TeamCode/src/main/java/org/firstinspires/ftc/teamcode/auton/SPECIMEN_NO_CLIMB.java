@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.LoopAction;
+import org.firstinspires.ftc.teamcode.commands.util.LoopAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 
 
