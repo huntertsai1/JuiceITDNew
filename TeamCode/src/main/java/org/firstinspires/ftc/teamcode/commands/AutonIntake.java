@@ -36,7 +36,7 @@ public class AutonIntake extends CancellableAction {
 
     boolean ejecting;
     ElapsedTime ejectTimer = new ElapsedTime();
-    public AutonIntake(PinpointDrive drive, Robot robot, double xTarget, double headingBias, TrajectoryActionBuilder lastTraj, SampleColors target) {
+    public AutonIntake(PinpointDrive drive, Robot robot, double yTarget, double headingBias, TrajectoryActionBuilder lastTraj, SampleColors target) {
         this.drive = drive;
         this.robot = robot;
         this.target = target;
@@ -44,7 +44,7 @@ public class AutonIntake extends CancellableAction {
         subDrive = lastTraj.endTrajectory().fresh()
                 //ascent zone park
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(xTarget, -7, Math.toRadians(0 + headingBias)), Math.toRadians(0 + headingBias));
+                .splineToLinearHeading(new Pose2d(-31, yTarget, Math.toRadians(0 + headingBias)), Math.toRadians(0 + headingBias));
         subSearching = subDrive.endTrajectory().fresh()
                 .waitSeconds(1)
                 .turn(Math.toRadians(-5))

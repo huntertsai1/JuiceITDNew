@@ -29,8 +29,14 @@ public class BucketSide extends LinearOpMode {
 
         double intakeWait = 0.3;
 
-        double xTarget = -12;
-        double headingAdjustment = 0;
+        double yTargetCycle1 = -12;
+        double yTargetCycle2 = -12;
+        double yTargetCycle3 = -12;
+        double yTargetCycle4 = -12;
+        double headingAdjustmentCycle1 = 0;
+        double headingAdjustmentCycle2 = 0;
+        double headingAdjustmentCycle3 = 0;
+        double headingAdjustmentCycle4 = 0;
         boolean adventureUpdated = false;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
@@ -79,56 +85,185 @@ public class BucketSide extends LinearOpMode {
 //                //ascent zone park
 //                .setTangent(Math.toRadians(90))
 //                .splineToLinearHeading(new Pose2d(-31, -7, Math.toRadians(0)), Math.toRadians(0));
-        AutonIntake subDrive = new AutonIntake(drive, robot, xTarget, headingAdjustment, depo3, SampleColors.RED);;
+        AutonIntake subDrive1 = new AutonIntake(drive, robot, yTargetCycle1, headingAdjustmentCycle1, depo3, SampleColors.RED);
 
-        TrajectoryActionBuilder depo4 = subDrive.endTrajectory().fresh()
+        TrajectoryActionBuilder depo4 = subDrive1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
-                .waitSeconds(1.2);;
+                .waitSeconds(1.2);
+
+        AutonIntake subDrive2;
+
+        TrajectoryActionBuilder depo5;
+
+        AutonIntake subDrive3;
+
+        TrajectoryActionBuilder depo6;
+
+        AutonIntake subDrive4;
+
+        TrajectoryActionBuilder depo7;
 
         telemetry.addData("is","starting");
         telemetry.update();
 
         robot.initSubsystems();
 
+        int editingCycle = 1;
+
         while (!isStarted() && !isStopRequested()) {
             // CHOOSE YOUR ADVENTURE!
-            if (gamepad1.dpad_up) {
-                xTarget = -10;
+            if (gamepad1.triangle) {
+                editingCycle = 1;
+            } else if (gamepad1.circle) {
+                editingCycle = 2;
+            } else if (gamepad1.cross) {
+                editingCycle = 3;
+            } else if (gamepad1.square) {
+                editingCycle = 4;
+            }
+
+            if (gamepad1.dpad_up && editingCycle == 1) {
+                yTargetCycle1 = -10;
                 adventureUpdated = false;
             }
-            if (gamepad1.dpad_down) {
-                xTarget = -11;
+            if (gamepad1.dpad_down && editingCycle == 1) {
+                yTargetCycle1 = -8;
                 adventureUpdated = false;
             }
-            if (gamepad1.dpad_left) {
-                xTarget = -12;
+            if (gamepad1.dpad_left && editingCycle == 1) {
+                yTargetCycle1 = -7;
                 adventureUpdated = false;
             }
-            if (gamepad1.dpad_right) {
-                xTarget = -13;
+            if (gamepad1.dpad_right && editingCycle == 1) {
+                yTargetCycle1 = -9;
                 adventureUpdated = false;
             }
 
-            if (gamepad1.right_trigger > 0.2) {
-                headingAdjustment += gamepad1.right_trigger;
+            if (gamepad1.dpad_up && editingCycle == 2) {
+                yTargetCycle2 = -10;
                 adventureUpdated = false;
-            } else if (gamepad1.left_trigger > 0.2) {
-                headingAdjustment -= gamepad1.left_trigger;
+            }
+            if (gamepad1.dpad_down && editingCycle == 2) {
+                yTargetCycle2 = -8;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_left && editingCycle == 2) {
+                yTargetCycle2 = -7;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_right && editingCycle == 2) {
+                yTargetCycle2 = -9;
+                adventureUpdated = false;
+            }
+
+            if (gamepad1.dpad_up && editingCycle == 3) {
+                yTargetCycle3 = -10;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_down && editingCycle == 3) {
+                yTargetCycle3 = -8;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_left && editingCycle == 3) {
+                yTargetCycle3 = -7;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_right && editingCycle == 3) {
+                yTargetCycle3 = -9;
+                adventureUpdated = false;
+            }
+
+            if (gamepad1.dpad_up && editingCycle == 4) {
+                yTargetCycle4 = -10;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_down && editingCycle == 4) {
+                yTargetCycle4 = -8;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_left && editingCycle == 4) {
+                yTargetCycle4 = -7;
+                adventureUpdated = false;
+            }
+            if (gamepad1.dpad_right && editingCycle == 4) {
+                yTargetCycle4 = -9;
+                adventureUpdated = false;
+            }
+
+            if (gamepad1.right_trigger > 0.2 && editingCycle == 1) {
+                headingAdjustmentCycle1 += gamepad1.right_trigger;
+                adventureUpdated = false;
+            } else if (gamepad1.left_trigger > 0.2 && editingCycle == 1) {
+                headingAdjustmentCycle1 -= gamepad1.left_trigger;
+                adventureUpdated = false;
+            }
+
+            if (gamepad1.right_trigger > 0.2 && editingCycle == 2) {
+                headingAdjustmentCycle2 += gamepad1.right_trigger;
+                adventureUpdated = false;
+            } else if (gamepad1.left_trigger > 0.2 && editingCycle == 2) {
+                headingAdjustmentCycle2 -= gamepad1.left_trigger;
+                adventureUpdated = false;
+            }
+
+            if (gamepad1.right_trigger > 0.2 && editingCycle == 3) {
+                headingAdjustmentCycle3 += gamepad1.right_trigger;
+                adventureUpdated = false;
+            } else if (gamepad1.left_trigger > 0.2 && editingCycle == 3) {
+                headingAdjustmentCycle3 -= gamepad1.left_trigger;
+                adventureUpdated = false;
+            }
+
+            if (gamepad1.right_trigger > 0.2 && editingCycle == 4) {
+                headingAdjustmentCycle4 += gamepad1.right_trigger;
+                adventureUpdated = false;
+            } else if (gamepad1.left_trigger > 0.2 && editingCycle == 4) {
+                headingAdjustmentCycle4 -= gamepad1.left_trigger;
                 adventureUpdated = false;
             }
 
             if (gamepad1.right_bumper) {
-                subDrive = new AutonIntake(drive, robot, xTarget, headingAdjustment, depo3, SampleColors.RED);
-                depo4 = subDrive.endTrajectory().fresh()
+                subDrive1 = new AutonIntake(drive, robot, yTargetCycle1, headingAdjustmentCycle1, depo3, SampleColors.RED);
+                depo4 = subDrive1.endTrajectory().fresh()
+                        .setTangent(Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
+                        .waitSeconds(1.2);
+
+                subDrive2 = new AutonIntake(drive, robot, yTargetCycle2, headingAdjustmentCycle2, depo4, SampleColors.RED);
+                depo5 = subDrive2.endTrajectory().fresh()
+                        .setTangent(Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
+                        .waitSeconds(1.2);
+
+                subDrive3 = new AutonIntake(drive, robot, yTargetCycle2, headingAdjustmentCycle2, depo5, SampleColors.RED);
+                depo6 = subDrive3.endTrajectory().fresh()
+                        .setTangent(Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
+                        .waitSeconds(1.2);
+
+                subDrive4 = new AutonIntake(drive, robot, yTargetCycle2, headingAdjustmentCycle2, depo6, SampleColors.RED);
+                depo7 = subDrive4.endTrajectory().fresh()
                         .setTangent(Math.toRadians(180))
                         .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
                         .waitSeconds(1.2);
                 adventureUpdated = true;
             }
 
-            telemetry.addData("X TARGET", xTarget);
-            telemetry.addData("HEADING BIAS", headingAdjustment);
+            telemetry.addData("CURRENTLY EDITING", editingCycle);
+            if (editingCycle == 1) {
+                telemetry.addData("Y TARGET", yTargetCycle1);
+                telemetry.addData("HEADING BIAS", headingAdjustmentCycle1);
+            } else if (editingCycle == 2) {
+                telemetry.addData("Y TARGET", yTargetCycle2);
+                telemetry.addData("HEADING BIAS", headingAdjustmentCycle2);
+            } else if (editingCycle == 3) {
+                telemetry.addData("Y TARGET", yTargetCycle3);
+                telemetry.addData("HEADING BIAS", headingAdjustmentCycle3);
+            } else {
+                telemetry.addData("Y TARGET", yTargetCycle4);
+                telemetry.addData("HEADING BIAS", headingAdjustmentCycle4);
+            }
             telemetry.addData("SAVED", adventureUpdated);
             telemetry.update();
 
@@ -139,8 +274,26 @@ public class BucketSide extends LinearOpMode {
         if (isStopRequested()) return;
 
         if (!adventureUpdated) {
-            subDrive = new AutonIntake(drive, robot, xTarget, headingAdjustment, depo3, SampleColors.RED);
-            depo4 = subDrive.endTrajectory().fresh()
+            subDrive1 = new AutonIntake(drive, robot, yTargetCycle1, headingAdjustmentCycle1, depo3, SampleColors.RED);
+            depo4 = subDrive1.endTrajectory().fresh()
+                    .setTangent(Math.toRadians(180))
+                    .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
+                    .waitSeconds(1.2);
+
+            subDrive2 = new AutonIntake(drive, robot, yTargetCycle2, headingAdjustmentCycle2, depo4, SampleColors.RED);
+            depo5 = subDrive2.endTrajectory().fresh()
+                    .setTangent(Math.toRadians(180))
+                    .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
+                    .waitSeconds(1.2);
+
+            subDrive3 = new AutonIntake(drive, robot, yTargetCycle2, headingAdjustmentCycle2, depo5, SampleColors.RED);
+            depo6 = subDrive3.endTrajectory().fresh()
+                    .setTangent(Math.toRadians(180))
+                    .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
+                    .waitSeconds(1.2);
+
+            subDrive4 = new AutonIntake(drive, robot, yTargetCycle2, headingAdjustmentCycle2, depo6, SampleColors.RED);
+            depo7 = subDrive4.endTrajectory().fresh()
                     .setTangent(Math.toRadians(180))
                     .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(268))
                     .waitSeconds(1.2);
@@ -193,7 +346,7 @@ public class BucketSide extends LinearOpMode {
 
                         robot.outtakeSample(true),
 
-                        subDrive,
+                        subDrive1,
 
                         new InstantAction(() -> robot.claw.setPower(0)),
                         new ParallelAction(
