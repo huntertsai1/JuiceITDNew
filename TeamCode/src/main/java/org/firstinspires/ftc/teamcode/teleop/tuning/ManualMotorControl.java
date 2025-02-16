@@ -25,9 +25,13 @@ public class ManualMotorControl extends LinearOpMode {
     public static double ELBOW_POS = 282;
     public static double EXT_POS1 = 180;
     public static double EXT_POS2 = 180;
-    public static int LIFT_SPEED1 = 0;
-    public static int LIFT_SPEED2 = 0;
-    public static int LIFT_SPEED3 = 0;
+    public static double LIFT_SPEED1 = 0;
+    public static double LIFT_SPEED2 = 0;
+    public static double LIFT_SPEED3 = 0;
+    public static double LEFT_FRONT = 0;
+    public static double RIGHT_FRONT = 0;
+    public static double LEFT_BACK = 0;
+    public static double RIGHT_BACK = 0;
 
 
     StepperServo ext1;
@@ -42,6 +46,10 @@ public class ManualMotorControl extends LinearOpMode {
     Motor lift1;
     Motor lift2;
     Motor lift3;
+    Motor leftFront;
+    Motor rightFront;
+    Motor leftBack;
+    Motor rightBack;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -57,6 +65,10 @@ public class ManualMotorControl extends LinearOpMode {
         lift1 = new Motor(0, "lift1", hardwareMap, true);
         lift2 = new Motor(0, "lift2", hardwareMap, false);
         lift3 = new Motor(0, "lift3", hardwareMap, true);
+        leftBack = new Motor(0, "leftBack", hardwareMap, true);                //0 left odometer
+        rightBack = new Motor(1, "rightBack", hardwareMap, false);             //1 right odometer
+        leftFront = new Motor(2, "leftFront", hardwareMap, true);               //2 middle odometer
+        rightFront = new Motor(3, "rightFront", hardwareMap, false);
 
 
         intake2.servo.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -72,10 +84,13 @@ public class ManualMotorControl extends LinearOpMode {
             intake2.setSpeed((float) CLAW_SPEED2);
             climb1.setSpeed((float) CLIMB_SPEED1);
             climb2.setSpeed((float) CLIMB_SPEED2);
-            lift1.setSpeed(LIFT_SPEED1);
-            lift2.setSpeed(LIFT_SPEED2);
-            lift3.setSpeed(LIFT_SPEED3);
-
+            lift1.setSpeed((float) LIFT_SPEED1);
+            lift2.setSpeed((float) LIFT_SPEED2);
+            lift3.setSpeed((float) LIFT_SPEED3);
+            leftFront.setSpeed((float) LEFT_FRONT);
+            rightFront.setSpeed((float) RIGHT_FRONT);
+            leftBack.setSpeed((float) LEFT_BACK);
+            rightBack.setSpeed((float) RIGHT_BACK);
 
         }
     }
