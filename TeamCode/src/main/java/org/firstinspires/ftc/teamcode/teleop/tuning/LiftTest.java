@@ -1,0 +1,67 @@
+package org.firstinspires.ftc.teamcode.teleop.tuning;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.util.control.MotionProfile;
+import org.firstinspires.ftc.teamcode.util.control.MotionProfileGenerator;
+
+import java.util.concurrent.TimeUnit;
+
+@Config
+@TeleOp
+//@Disabled
+public class LiftTest extends OpMode {
+    private DcMotorEx lift1;
+    private DcMotorEx lift2;
+    private DcMotorEx lift3;
+    private DcMotorEx slidesEncoder;
+    private VoltageSensor voltageSensor;
+    public static double POWER1 = 0;
+    public static double POWER2 = 0;
+
+    public static double POWER3 = 0;
+
+
+    @Override
+    public void init() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        lift1 = hardwareMap.get(DcMotorEx.class, "lift1");
+        lift2 = hardwareMap.get(DcMotorEx.class, "lift2");
+        lift3 = hardwareMap.get(DcMotorEx.class, "lift3");
+        slidesEncoder = hardwareMap.get(DcMotorEx.class, "liftEncoder");
+        voltageSensor = hardwareMap.voltageSensor.iterator().next();
+
+        slidesEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    @Override
+    public void loop() {
+        int liftPos = slidesEncoder.getCurrentPosition();
+
+        lift1.setPower(POWER1);
+        lift2.setPower(POWER2);
+        lift3.setPower(POWER3);
+
+        telemetry.addData("POSITION ", liftPos);
+        telemetry.addData("Motor 1 current", lift1.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Motor 2 current", lift2.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Motor 3 current", lift3.getCurrent(CurrentUnit.AMPS));
+        telemetry.update();
+    }
+}
