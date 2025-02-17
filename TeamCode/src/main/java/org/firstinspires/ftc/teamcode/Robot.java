@@ -88,7 +88,7 @@ public class Robot {
         RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
         // INIT SUBSYSTEMS
 
-        this.lift = new Lift((Motor) components[4], (Motor) components[5], (Motor) components[6], voltageSensor);
+        this.lift = new Lift((Motor) components[4], (Motor) components[5], (Motor) components[6], new Motor(0, "liftEncoder", map, false), voltageSensor);
         this.extension = new Extension((StepperServo) components[7], (StepperServo) components[8]);
         this.arm = new Arm((StepperServo) components[9], (StepperServo) components[10]);
         this.claw = new Claw((ContinuousServo) components[11], (ContinuousServo) components[12], colorSensor);

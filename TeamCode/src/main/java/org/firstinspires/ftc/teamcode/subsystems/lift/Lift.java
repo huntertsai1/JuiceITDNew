@@ -32,10 +32,11 @@ public class Lift {
     private boolean threadState = false;
 
 
-    public Lift(Motor l1, Motor l2, Motor l3, VoltageSensor voltageSensor) {
+    public Lift(Motor l1, Motor l2, Motor l3, Motor encoder, VoltageSensor voltageSensor) {
         this.slides1 = l1;
         this.slides2 = l2;
         this.slides3 = l3;
+        this.slidesEncoder = encoder;
         this.voltageSensor = voltageSensor;
 
         controller1 = new PIDController(p, i , d);
@@ -51,7 +52,7 @@ public class Lift {
     public void update() {
 //        target = profile.get(timer.time());
 
-        int motorPos = slides1.motor.getCurrentPosition();
+        int motorPos = slidesEncoder.motor.getCurrentPosition();
 
         double pid1 = controller1.calculate(motorPos, target);
 //        double pid2 = controller2.calculate(slides2Pos, target);
