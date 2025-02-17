@@ -32,6 +32,9 @@ public class LiftTest extends OpMode {
     public static double POWER2 = 0;
 
     public static double POWER3 = 0;
+    public static boolean LIFT_1_REVERSE = false;
+    public static boolean LIFT_2_REVERSE = false;
+    public static boolean LIFT_3_REVERSE = false;
 
 
     @Override
@@ -52,6 +55,25 @@ public class LiftTest extends OpMode {
 
     @Override
     public void loop() {
+
+        if (LIFT_1_REVERSE) {
+            lift1.setDirection(DcMotorSimple.Direction.REVERSE);
+        } else {
+            lift1.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
+
+        if (LIFT_2_REVERSE) {
+            lift2.setDirection(DcMotorSimple.Direction.REVERSE);
+        } else {
+            lift2.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
+
+        if (LIFT_3_REVERSE) {
+            lift3.setDirection(DcMotorSimple.Direction.REVERSE);
+        } else {
+            lift3.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
+
         int liftPos = slidesEncoder.getCurrentPosition();
 
         lift1.setPower(POWER1);
