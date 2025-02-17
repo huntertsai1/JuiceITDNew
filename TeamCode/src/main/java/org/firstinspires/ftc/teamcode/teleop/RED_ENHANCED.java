@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name="RED")
+@TeleOp(name="RED ENHANCED")
 @Config
 public class RED_ENHANCED extends LinearOpMode {
     double oldTime = 0;

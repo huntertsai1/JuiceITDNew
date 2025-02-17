@@ -179,28 +179,6 @@ public class Robot {
         );
     }
 
-    public Action teleAutoIntakePrime (boolean action) {
-        return new SequentialAction(
-                new InstantAction(() -> {
-                    lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(190);
-                }),
-                new SleepAction(0.3),
-                new InstantAction(()->{
-                    arm.runToPreset(Levels.INTAKE);
-                    lift.slides1.resetEncoder();
-                    claw.startIntake();
-                    intaking = true;
-                    state = Levels.INTAKE;})
-        );
-    }
-
-    public Action teleAutoIntake() {
-        return new InstantAction(() -> {
-            extension.runToPosition(230);
-        });
-    }
-
 
     // INTAKE OPERATIONS
 
@@ -377,6 +355,30 @@ public class Robot {
                 claw.setStall(false,true)
         );
     }
+
+    // AUTOMATIC DRIVING
+    public Action teleAutoIntakePrime (boolean action) {
+        return new SequentialAction(
+                new InstantAction(() -> {
+                    lift.runToPreset(Levels.INTAKE);
+                    extension.runToPosition(190);
+                }),
+                new SleepAction(0.3),
+                new InstantAction(()->{
+                    arm.runToPreset(Levels.INTAKE);
+                    lift.slides1.resetEncoder();
+                    claw.startIntake();
+                    intaking = true;
+                    state = Levels.INTAKE;})
+        );
+    }
+
+    public Action teleAutoIntake() {
+        return new InstantAction(() -> {
+            extension.runToPosition(230);
+        });
+    }
+
     // DRIVE OPERATIONS
     public void setDrivePower(double x, double y, double rx) {
         double powerFrontLeft = y + x + rx;
