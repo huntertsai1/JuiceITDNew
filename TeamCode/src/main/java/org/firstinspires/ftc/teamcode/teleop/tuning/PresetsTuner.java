@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.subsystems.lift.Lift;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 
 @TeleOp(group = "competition")
 @Config
-@Disabled
+//@Disabled
 public class PresetsTuner extends LinearOpMode {
     public static double ARM_POS = 177.5;
     public static double CLAW_SPEED = 0;
@@ -48,6 +49,8 @@ public class PresetsTuner extends LinearOpMode {
         climb2 = new ContinuousServo(0, "climb2", hardwareMap);
         lift = new Lift(new Motor(0, "lift1", hardwareMap, false), new Motor(0, "lift2", hardwareMap, false), new Motor(0, "lift3", hardwareMap, false), new Motor(0, "liftEncoder", hardwareMap, false), hardwareMap.voltageSensor.iterator().next());
 
+        ext1.servo.setDirection(Servo.Direction.REVERSE);
+        ext2.servo.setDirection(Servo.Direction.REVERSE);
         intake2.servo.setDirection(DcMotorSimple.Direction.REVERSE);
         int prevLiftTarget = LIFT_POS;
         // Initialize your own robot class
