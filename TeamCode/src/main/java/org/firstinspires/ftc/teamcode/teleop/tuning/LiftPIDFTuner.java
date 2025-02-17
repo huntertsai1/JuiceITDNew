@@ -40,6 +40,8 @@ public class LiftPIDFTuner extends OpMode {
 
     private DcMotorEx slides1;
     private DcMotorEx slides2;
+    private DcMotorEx slides3;
+    private DcMotorEx slidesEncoder;
     private VoltageSensor voltageSensor;
 
 
@@ -50,6 +52,8 @@ public class LiftPIDFTuner extends OpMode {
 
         slides1 = hardwareMap.get(DcMotorEx.class, "lift1");
         slides2 = hardwareMap.get(DcMotorEx.class, "lift2");
+        slides3 = hardwareMap.get(DcMotorEx.class, "lift3");
+        slidesEncoder = hardwareMap.get(DcMotorEx.class, "liftEncoder");
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         profileTimer.reset();
@@ -62,7 +66,7 @@ public class LiftPIDFTuner extends OpMode {
     @Override
     public void loop() {
         controller1.setPID(p, i, d);
-        int slides1Pos = slides1.getCurrentPosition();
+        int slides1Pos = slidesEncoder.getCurrentPosition();
         telemetry.addData("pos ", slides1Pos);
 
         if (oldTarget != target) {
@@ -88,6 +92,7 @@ public class LiftPIDFTuner extends OpMode {
 
         slides1.setPower(-power1);
         slides2.setPower(-power1);
+        slides3.setPower(-power1);
 
         oldTarget = target;
 
@@ -95,6 +100,7 @@ public class LiftPIDFTuner extends OpMode {
         telemetry.addData("TARGET ", effectiveTarget);
         telemetry.addData("Motor 1 current", slides1.getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Motor 2 current", slides2.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Motor 3 current", slides3.getCurrent(CurrentUnit.AMPS));
         telemetry.update();
     }
 }
