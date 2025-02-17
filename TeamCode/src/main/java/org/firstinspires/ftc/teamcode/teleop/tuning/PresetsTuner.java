@@ -17,11 +17,11 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 @Config
 @Disabled
 public class PresetsTuner extends LinearOpMode {
-    public static double ARM_POS = 103;
+    public static double ARM_POS = 177.5;
     public static double CLAW_SPEED = 0;
     public static double CLIMB_SPEED = 0;
-    public static double ELBOW_POS = 282;
-    public static double EXT_POS = 180;
+    public static double ELBOW_POS = 177.5;
+    public static double EXT_POS = 177.5;
     public static int LIFT_POS = 0;
 
 

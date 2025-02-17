@@ -32,6 +32,9 @@ public class ManualMotorControl extends LinearOpMode {
     public static double RIGHT_FRONT = 0;
     public static double LEFT_BACK = 0;
     public static double RIGHT_BACK = 0;
+    public static boolean LIFT_1_REVERSE = false;
+    public static boolean LIFT_2_REVERSE = false;
+    public static boolean LIFT_3_REVERSE = false;
 
 
     StepperServo ext1;
@@ -76,6 +79,23 @@ public class ManualMotorControl extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
+            if (LIFT_1_REVERSE) {
+                lift1.motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            } else {
+                lift1.motor.setDirection(DcMotorSimple.Direction.FORWARD);
+            }
+
+            if (LIFT_2_REVERSE) {
+                lift2.motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            } else {
+                lift2.motor.setDirection(DcMotorSimple.Direction.FORWARD);
+            }
+
+            if (LIFT_3_REVERSE) {
+                lift3.motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            } else {
+                lift3.motor.setDirection(DcMotorSimple.Direction.FORWARD);
+            }
 //            ext1.setAngle((float) EXT_POS1);
 //            ext2.setAngle((float) EXT_POS2);
 //            arm.setAngle((float) ARM_POS);

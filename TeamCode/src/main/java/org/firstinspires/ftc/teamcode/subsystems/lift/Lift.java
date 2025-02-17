@@ -26,6 +26,7 @@ public class Lift {
     public Motor slides1;
     public Motor slides2;
     public Motor slides3;
+    public Motor slidesEncoder;
     public VoltageSensor voltageSensor;
 
     private boolean threadState = false;
