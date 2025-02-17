@@ -70,7 +70,7 @@ public class PresetsTuner extends LinearOpMode {
                 lift.runToPosition(LIFT_POS);
             }
             prevLiftTarget = LIFT_POS;
-            lift.update();
+//            lift.update();
         }
     }
 }
