@@ -15,16 +15,16 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 
 @TeleOp(group = "competition")
 @Config
-@Disabled
+//@Disabled
 public class ManualMotorControl extends LinearOpMode {
-    public static double ARM_POS = 103;
-    public static double CLAW_SPEED1 = 0;
-    public static double CLAW_SPEED2 = 0;
-    public static double CLIMB_SPEED1 = 0;
-    public static double CLIMB_SPEED2 = 0;
-    public static double ELBOW_POS = 282;
-    public static double EXT_POS1 = 180;
-    public static double EXT_POS2 = 180;
+//    public static double ARM_POS = 103;
+//    public static double CLAW_SPEED1 = 0;
+//    public static double CLAW_SPEED2 = 0;
+//    public static double CLIMB_SPEED1 = 0;
+//    public static double CLIMB_SPEED2 = 0;
+//    public static double ELBOW_POS = 282;
+//    public static double EXT_POS1 = 180;
+//    public static double EXT_POS2 = 180;
     public static double LIFT_SPEED1 = 0;
     public static double LIFT_SPEED2 = 0;
     public static double LIFT_SPEED3 = 0;
@@ -76,14 +76,14 @@ public class ManualMotorControl extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
-            ext1.setAngle((float) EXT_POS1);
-            ext2.setAngle((float) EXT_POS2);
-            arm.setAngle((float) ARM_POS);
-            elbow.setAngle((float) ELBOW_POS);
-            intake1.setSpeed((float) CLAW_SPEED1);
-            intake2.setSpeed((float) CLAW_SPEED2);
-            climb1.setSpeed((float) CLIMB_SPEED1);
-            climb2.setSpeed((float) CLIMB_SPEED2);
+//            ext1.setAngle((float) EXT_POS1);
+//            ext2.setAngle((float) EXT_POS2);
+//            arm.setAngle((float) ARM_POS);
+//            elbow.setAngle((float) ELBOW_POS);
+//            intake1.setSpeed((float) CLAW_SPEED1);
+//            intake2.setSpeed((float) CLAW_SPEED2);
+//            climb1.setSpeed((float) CLIMB_SPEED1);
+//            climb2.setSpeed((float) CLIMB_SPEED2);
             lift1.setSpeed((float) LIFT_SPEED1);
             lift2.setSpeed((float) LIFT_SPEED2);
             lift3.setSpeed((float) LIFT_SPEED3);
@@ -95,13 +95,3 @@ public class ManualMotorControl extends LinearOpMode {
         }
     }
 }
-
-
-// INTAKE (DOWN)
-// Arm: 103, elbow: 282, ext 190
-// INTAKE (INTERMEDIATE)
-// Arm: 130, elbow 282, ext 190
-// INTERMEDIATE
-// Arm: 260, Elbow: 190, Ext: 100
-
-// LIFT MAX 2150
