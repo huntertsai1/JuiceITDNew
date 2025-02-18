@@ -44,10 +44,9 @@ public class LiftTest extends OpMode {
         lift1 = hardwareMap.get(DcMotorEx.class, "lift1");
         lift2 = hardwareMap.get(DcMotorEx.class, "lift2");
         lift3 = hardwareMap.get(DcMotorEx.class, "lift3");
-        slidesEncoder = hardwareMap.get(DcMotorEx.class, "liftEncoder");
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        slidesEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -74,7 +73,7 @@ public class LiftTest extends OpMode {
             lift3.setDirection(DcMotorSimple.Direction.FORWARD);
         }
 
-        int liftPos = slidesEncoder.getCurrentPosition();
+        int liftPos = lift1.getCurrentPosition();
 
         lift1.setPower(POWER1);
         lift2.setPower(POWER2);

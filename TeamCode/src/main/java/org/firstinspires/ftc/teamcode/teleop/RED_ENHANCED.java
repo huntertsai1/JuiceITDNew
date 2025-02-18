@@ -228,7 +228,7 @@ public class RED_ENHANCED extends LinearOpMode {
                     robot.lift.runToPosition(50);
                 }
                 if (gamepad2.circle && !oldCircle2) {
-                    robot.lift.slides1.resetEncoder();
+                    robot.lift.lift1.resetEncoder();
                     robot.lift.runToPosition(0);
                 }
                 oldCircle2 = gamepad2.circle;

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems.extension;
 
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 
@@ -16,6 +18,9 @@ public class Extension {
     public Extension(StepperServo s1, StepperServo s2) {
         servo1 = s1;
         servo2 = s2;
+
+        servo1.servo.setDirection(Servo.Direction.REVERSE);
+        servo2.servo.setDirection(Servo.Direction.REVERSE);
     }
 
     public void runToPosition(float t) {

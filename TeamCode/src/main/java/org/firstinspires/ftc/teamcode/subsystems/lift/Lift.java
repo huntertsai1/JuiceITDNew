@@ -4,7 +4,6 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -23,36 +22,34 @@ public class Lift {
     private final double ticks_in_degrees = 700 / 180.0;
     public double power1;
 
-    public Motor slides1;
-    public Motor slides2;
-    public Motor slides3;
-    public Motor slidesEncoder;
+    public Motor lift1;
+    public Motor lift2;
+    public Motor lift3;
     public VoltageSensor voltageSensor;
 
     private boolean threadState = false;
 
 
-    public Lift(Motor l1, Motor l2, Motor l3, Motor encoder, VoltageSensor voltageSensor) {
-        this.slides1 = l1;
-        this.slides2 = l2;
-        this.slides3 = l3;
-        this.slidesEncoder = encoder;
+    public Lift(Motor l1, Motor l2, Motor l3, VoltageSensor voltageSensor) {
+        this.lift1 = l1;
+        this.lift2 = l2;
+        this.lift3 = l3;
         this.voltageSensor = voltageSensor;
 
         controller1 = new PIDController(p, i , d);
-        slides1.motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        slides1.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slides1.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        slides3.motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        slides3.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slides3.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift1.motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift1.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift1.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift3.motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift3.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift3.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
     public void update() {
 //        target = profile.get(timer.time());
 
-        int motorPos = slidesEncoder.motor.getCurrentPosition();
+        int motorPos = lift1.motor.getCurrentPosition();
 
         double pid1 = controller1.calculate(motorPos, target);
 //        double pid2 = controller2.calculate(slides2Pos, target);
@@ -64,14 +61,14 @@ public class Lift {
 //        power2 = pid2 + ff;
 
         if (target == 0){
-            slides1.motor.setPower(-power1);
-            slides2.motor.setPower(-power1); //was at *0.3 pre push
-            slides3.motor.setPower(-power1);
+            lift1.motor.setPower(-power1);
+            lift2.motor.setPower(-power1); //was at *0.3 pre push
+            lift3.motor.setPower(-power1);
         }
         else {
-            slides1.motor.setPower(-power1);
-            slides2.motor.setPower(-power1);
-            slides3.motor.setPower(-power1);
+            lift1.motor.setPower(-power1);
+            lift2.motor.setPower(-power1);
+            lift3.motor.setPower(-power1);
         }
     }
 
@@ -106,15 +103,15 @@ public class Lift {
     }
 
     public void setPower(float power) {
-        slides1.motor.setPower(power);
-        slides2.motor.setPower(power);
-        slides3.motor.setPower(power);
+        lift1.motor.setPower(power);
+        lift2.motor.setPower(power);
+        lift3.motor.setPower(power);
     }
 
     public void setPower(float power1, float power2, float power3) {
-        slides1.motor.setPower(power1);
-        slides2.motor.setPower(power2);
-        slides3.motor.setPower(power3);
+        lift1.motor.setPower(power1);
+        lift2.motor.setPower(power2);
+        lift3.motor.setPower(power3);
     }
 
     public void launchAsThread(Telemetry telemetry) {
@@ -154,12 +151,12 @@ public class Lift {
         threadState = false;
     }
     public void resetAllEncoders(){
-        slides1.resetEncoder();
-        slides2.resetEncoder();
+        lift1.resetEncoder();
+        lift2.resetEncoder();
     }
 
     public int getPos() {
-        return slides1.motor.getCurrentPosition();
+        return lift1.motor.getCurrentPosition();
     }
 
 }

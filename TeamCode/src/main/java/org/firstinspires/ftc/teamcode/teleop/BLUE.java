@@ -13,8 +13,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.WinchAlign;
-import org.firstinspires.ftc.teamcode.commands.WinchStopAction;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.util.enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
@@ -194,7 +192,7 @@ public class BLUE extends LinearOpMode {
                     robot.lift.runToPosition(50);
                 }
                 if (gamepad2.circle && !oldCircle2) {
-                    robot.lift.slides1.resetEncoder();
+                    robot.lift.lift1.resetEncoder();
                     robot.lift.runToPosition(0);
                 }
                 oldCircle2 = gamepad2.circle;
