@@ -74,13 +74,3 @@ public class PresetsTuner extends LinearOpMode {
         }
     }
 }
-
-
-// INTAKE (DOWN)
-// Arm: 103, elbow: 282, ext 190
-// INTAKE (INTERMEDIATE)
-// Arm: 130, elbow 282, ext 190
-// INTERMEDIATE
-// Arm: 260, Elbow: 190, Ext: 100
-
-// LIFT MAX 2150
