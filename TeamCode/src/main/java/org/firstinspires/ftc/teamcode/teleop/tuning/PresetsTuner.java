@@ -18,11 +18,12 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 @Config
 //@Disabled
 public class PresetsTuner extends LinearOpMode {
-    public static double ARM_POS = 177.5;
+    public static double ARM_POS = 250;
     public static double CLAW_SPEED = 0;
     public static double CLIMB_SPEED = 0;
-    public static double ELBOW_POS = 177.5;
-    public static double EXT_POS = 177.5;
+    public static double ELBOW_POS = 175;
+    public static double EXT_POS = 70;
+    public static double SWEEPER_POS = 177.5;
     public static int LIFT_POS = 0;
 
 
@@ -30,6 +31,7 @@ public class PresetsTuner extends LinearOpMode {
     StepperServo ext2;
     StepperServo arm;
     StepperServo elbow;
+    StepperServo sweeper;
     ContinuousServo intake1;
     ContinuousServo intake2;
     ContinuousServo climb1;
@@ -43,6 +45,7 @@ public class PresetsTuner extends LinearOpMode {
         ext2 = new StepperServo(0, "ext2", hardwareMap);
         arm = new StepperServo(0, "arm", hardwareMap);
         elbow = new StepperServo(0, "elbow", hardwareMap);
+        sweeper = new StepperServo(0, "sweeper", hardwareMap);
         intake1 = new ContinuousServo(0, "claw1", hardwareMap);
         intake2 = new ContinuousServo(0, "claw2", hardwareMap);
         climb1 = new ContinuousServo(0, "climb1", hardwareMap);
@@ -61,6 +64,7 @@ public class PresetsTuner extends LinearOpMode {
             ext2.setAngle((float) EXT_POS);
             arm.setAngle((float) ARM_POS);
             elbow.setAngle((float) ELBOW_POS);
+            sweeper.setAngle((float) SWEEPER_POS);
             intake1.setSpeed((float) CLAW_SPEED);
             intake2.setSpeed((float) CLAW_SPEED);
             climb1.setSpeed((float) CLIMB_SPEED);
