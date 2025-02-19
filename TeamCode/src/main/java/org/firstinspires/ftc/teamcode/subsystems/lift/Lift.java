@@ -13,6 +13,8 @@ import org.firstinspires.ftc.teamcode.util.control.MotionProfileGenerator;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 
+import java.util.concurrent.TimeUnit;
+
 public class Lift {
     private PIDController controller1;
 
@@ -34,7 +36,7 @@ public class Lift {
 
     public double MAX_VEL = 1500;
     public double MAX_ACCEL = 3000;
-    public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0,0, MAX_VEL, MAX_ACCEL);
+    public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0,1, MAX_VEL, MAX_ACCEL);
     public ElapsedTime timer = new ElapsedTime();
 
 
@@ -50,6 +52,8 @@ public class Lift {
 
         lift1.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift1.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        timer.reset();
     }
 
 
@@ -59,11 +63,11 @@ public class Lift {
         int motorPos = lift1.motor.getCurrentPosition();
 
         double pid1;
-        if (target <= 100) {
-            pid1 = controller1.calculate(motorPos, target);
-        } else {
-            pid1 = controller1.calculate(motorPos, target);
+        double effectiveTarget = target;
+        if (target <= 100 && motorPos != target) {
+            effectiveTarget = profile.get(timer.time(TimeUnit.MICROSECONDS)/1e6);
         }
+        pid1 = controller1.calculate(motorPos, effectiveTarget);
 //        double pid2 = controller2.calculate(slides2Pos, target);
 //        double ff = Math.cos(Math.toRadians(target / ticks_in_degrees)) * f;
         double ff = f;
@@ -87,7 +91,7 @@ public class Lift {
     public void runToPosition(int ticks) {
         target = ticks;
         if (ticks <= 100) {
-            profile = MotionProfileGenerator.generateSimpleMotionProfile(getPos(), ticks, MAX_VEL, MAX_VEL);
+            profile = MotionProfileGenerator.generateSimpleMotionProfile(getPos(), ticks, MAX_VEL, MAX_ACCEL);
             timer.reset();
         }
     }
