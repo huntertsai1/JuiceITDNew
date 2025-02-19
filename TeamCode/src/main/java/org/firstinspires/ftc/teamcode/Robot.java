@@ -64,9 +64,9 @@ public class Robot {
                 new Motor(2, "leftFront", map, true),               //2 middle odometer
                 new Motor(3, "rightFront", map, false),             //3
 
-                new Motor(0, "lift1", map, false),                  //4
-                new Motor(1, "lift2", map, false),                  //5
-                new Motor(2, "lift3", map, true),                  // 6
+                new Motor(0, "lift1", map, true),                  //4
+                new Motor(1, "lift2", map, true),                  //5
+                new Motor(2, "lift3", map, false),                  // 6
 
                 new StepperServo(2, "ext1", map),    //7
                 new StepperServo(3, "ext2", map),    //8
