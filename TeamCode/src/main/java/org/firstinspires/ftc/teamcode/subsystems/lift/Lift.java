@@ -17,7 +17,7 @@ public class Lift {
     private PIDController controller1;
 
     public double p = 0.023, i = 0.00, d = 0.001;
-    public double f = 0.24;
+    public double f = 0.23;
     double voltageCompensation;
 
     public double target = 0;
@@ -32,8 +32,8 @@ public class Lift {
 
     private boolean threadState = false;
 
-    public double MAX_VEL = 800;
-    public double MAX_ACCEL = 1500;
+    public double MAX_VEL = 1500;
+    public double MAX_ACCEL = 3000;
     public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0,0, MAX_VEL, MAX_ACCEL);
     public ElapsedTime timer = new ElapsedTime();
 
