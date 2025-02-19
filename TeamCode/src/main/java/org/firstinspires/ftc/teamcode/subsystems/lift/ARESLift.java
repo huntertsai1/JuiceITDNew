@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class ARESLift {
     private PIDController controller1;
 
-    public double p = 0.023, i = 0.00, d = 0.001;
-    public double f = 0.23;
+    public double p = 0.01, i = 0.00, d = 0.0001;
+    public double f = 0.006;
     double voltageCompensation;
 
     public double target = 0;
