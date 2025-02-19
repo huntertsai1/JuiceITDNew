@@ -23,6 +23,7 @@ public class Lift {
     double voltageCompensation;
 
     public double target = 0;
+    public double effectiveTarget = 0;
     public Levels currentLevel = Levels.ZERO;
     private final double ticks_in_degrees = 700 / 180.0;
     public double power1;
@@ -63,8 +64,8 @@ public class Lift {
         int motorPos = lift1.motor.getCurrentPosition();
 
         double pid1;
-        double effectiveTarget = target;
-        if (target <= 100 && motorPos != target) {
+        effectiveTarget = target;
+        if (target <= 100) {
             effectiveTarget = profile.get(timer.time(TimeUnit.MICROSECONDS)/1e6);
         }
         pid1 = controller1.calculate(motorPos, effectiveTarget);
