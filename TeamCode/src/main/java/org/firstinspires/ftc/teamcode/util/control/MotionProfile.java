@@ -9,7 +9,6 @@ public class MotionProfile {
 
     double acceleration_dt;
     double distance;
-    double halfway_distance;
     double acceleration_distance;
     double deceleration_dt;
     double cruise_distance;
@@ -17,6 +16,7 @@ public class MotionProfile {
     double deceleration_time;
     double start;
     double end;
+    double current_dt;
     //Telemetry telemetry;
     public MotionProfile(double start, double end, double maxvel, double maxaccel) {
         // Calculate the time it takes to accelerate to max velocity
@@ -31,11 +31,10 @@ public class MotionProfile {
         }
 
         // If we can't accelerate to max velocity in the given distance, we'll accelerate as much as possible
-        halfway_distance = distance / 2;
         acceleration_distance = 0.5 * maxaccel * Math.pow(acceleration_dt, 2);
 
-        if (acceleration_distance > halfway_distance) {
-            acceleration_dt = Math.sqrt(halfway_distance / (0.5 * maxaccel));
+        if (Math.abs(acceleration_distance) > Math.abs(distance/2)) {
+            acceleration_dt = Math.sqrt((distance/2)/ (0.5 * maxaccel));
         }
 
         acceleration_distance = 0.5 * maxaccel * Math.pow(acceleration_dt, 2);
@@ -66,12 +65,12 @@ public class MotionProfile {
 //        }
 
         // If we can't accelerate to max velocity in the given distance, we'll accelerate as much as possible
-        halfway_distance = distance / 2;
         acceleration_distance = 0.5 * maxaccel * Math.pow(acceleration_dt, 2);
 
-        if (acceleration_distance > halfway_distance) {
-            acceleration_dt = Math.sqrt(halfway_distance / (0.5 * maxaccel));
-            acceleration_distance = halfway_distance;
+        if (Math.abs(acceleration_distance) > Math.abs(distance/2)) {
+            acceleration_dt = Math.sqrt((distance/2) / (0.5 * maxaccel));
+            acceleration_distance = distance/2;
+            maxvel = maxaccel*acceleration_dt;
         }
 
         // we decelerate at the same rate as we accelerate
@@ -83,7 +82,6 @@ public class MotionProfile {
         cruise_dt = cruise_distance / maxvel;
         deceleration_time = acceleration_dt + cruise_dt;
 
-        double cruise_current_dt;
 
         // check if we're still in the motion profile
         double entire_dt = acceleration_dt + cruise_dt + deceleration_dt;
@@ -102,10 +100,10 @@ public class MotionProfile {
         else if (time <= deceleration_time) {
             //telemetry.addData("mode", 100);
             acceleration_distance = 0.5 * maxaccel * Math.pow(acceleration_dt, 2);
-            cruise_current_dt = time - acceleration_dt;
+            current_dt = time - acceleration_dt;
 
             // use the kinematic equation for constant velocity (i luv mrs moore)
-            return start + acceleration_distance + maxvel * cruise_current_dt;
+            return start + acceleration_distance + maxvel * current_dt;
         }
 
         // if we're decelerating
@@ -117,9 +115,9 @@ public class MotionProfile {
             cruise_distance = maxvel * cruise_dt;
             deceleration_time = time - deceleration_time;
             //telemetry.addData("deceleration_time after", deceleration_time);
-
+            current_dt= time - deceleration_time;
             // use the kinematic equations to calculate the instantaneous desired position
-            return start + acceleration_distance + cruise_distance + (maxvel * deceleration_time) - (0.5 * maxaccel * Math.pow(deceleration_time, 2));
+            return start + acceleration_distance + cruise_distance + (maxvel * current_dt) - (0.5 * maxaccel * Math.pow(current_dt, 2));
         }
     }
 }
