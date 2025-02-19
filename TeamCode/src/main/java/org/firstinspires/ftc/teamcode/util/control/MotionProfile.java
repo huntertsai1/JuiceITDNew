@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.util.control;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class MotionProfile {
 
     double maxvel;
@@ -15,7 +17,7 @@ public class MotionProfile {
     double deceleration_time;
     double start;
     double end;
-
+    //Telemetry telemetry;
     public MotionProfile(double start, double end, double maxvel, double maxaccel) {
         // Calculate the time it takes to accelerate to max velocity
         acceleration_dt = maxvel / maxaccel;
@@ -69,18 +71,15 @@ public class MotionProfile {
 
         if (acceleration_distance > halfway_distance) {
             acceleration_dt = Math.sqrt(halfway_distance / (0.5 * maxaccel));
+            acceleration_distance = halfway_distance;
         }
-
-        acceleration_distance = 0.5 * maxaccel * Math.pow(acceleration_dt, 2);
-
-        // recalculate max velocity based on the time we have to accelerate and decelerate
-        maxvel = maxaccel * acceleration_dt;
 
         // we decelerate at the same rate as we accelerate
         deceleration_dt = acceleration_dt;
 
         // calculate the time that we're at max velocity
         cruise_distance = distance - 2 * acceleration_distance;
+      //  cruise_distance = 0;
         cruise_dt = cruise_distance / maxvel;
         deceleration_time = acceleration_dt + cruise_dt;
 
@@ -94,12 +93,14 @@ public class MotionProfile {
 
         // if we're accelerating
         if (time <= acceleration_dt) {
+            //telemetry.addData("mode", 0);
             // use the kinematic equation for acceleration
             return start + (0.5 * maxaccel * Math.pow(time, 2));
         }
 
         // if we're cruising
         else if (time <= deceleration_time) {
+            //telemetry.addData("mode", 100);
             acceleration_distance = 0.5 * maxaccel * Math.pow(acceleration_dt, 2);
             cruise_current_dt = time - acceleration_dt;
 
@@ -109,9 +110,13 @@ public class MotionProfile {
 
         // if we're decelerating
         else {
+            //telemetry.addData("mode", 200);
+            //telemetry.addData("deceleration_time", deceleration_time);
+
             acceleration_distance = 0.5 * maxaccel * Math.pow(acceleration_dt, 2);
             cruise_distance = maxvel * cruise_dt;
             deceleration_time = time - deceleration_time;
+            //telemetry.addData("deceleration_time after", deceleration_time);
 
             // use the kinematic equations to calculate the instantaneous desired position
             return start + acceleration_distance + cruise_distance + (maxvel * deceleration_time) - (0.5 * maxaccel * Math.pow(deceleration_time, 2));

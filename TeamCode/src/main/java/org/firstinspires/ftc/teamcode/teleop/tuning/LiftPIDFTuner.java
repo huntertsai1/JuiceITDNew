@@ -21,15 +21,15 @@ import java.util.concurrent.TimeUnit;
 
 @Config
 @TeleOp
-@Disabled
+//@Disabled
 public class LiftPIDFTuner extends OpMode {
     private PIDController controller1;
 
-    public static double p = 0.015, i = 0.00, d = 0.00052;
-    public static double f = 0.14;
+    public static double p = 0.025, i = 0.00, d = 0.001;
+    public static double f = 0.24;
 
     public static double MAX_ACCEL = 1000, MAX_VEL = 1000;
-    public static boolean ACTIVATE_MP = false;
+    public static boolean ACTIVATE_MP = true;
     public double voltageCompensation;
 
     public static int target = 0;
@@ -41,7 +41,6 @@ public class LiftPIDFTuner extends OpMode {
     private DcMotorEx slides1;
     private DcMotorEx slides2;
     private DcMotorEx slides3;
-    private DcMotorEx slidesEncoder;
     private VoltageSensor voltageSensor;
 
 
@@ -53,7 +52,10 @@ public class LiftPIDFTuner extends OpMode {
         slides1 = hardwareMap.get(DcMotorEx.class, "lift1");
         slides2 = hardwareMap.get(DcMotorEx.class, "lift2");
         slides3 = hardwareMap.get(DcMotorEx.class, "lift3");
-        slidesEncoder = hardwareMap.get(DcMotorEx.class, "liftEncoder");
+
+        slides1.setDirection(DcMotorSimple.Direction.REVERSE);
+        slides2.setDirection(DcMotorSimple.Direction.REVERSE);
+
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         profileTimer.reset();
@@ -66,17 +68,17 @@ public class LiftPIDFTuner extends OpMode {
     @Override
     public void loop() {
         controller1.setPID(p, i, d);
-        int slides1Pos = slidesEncoder.getCurrentPosition();
+        int slides1Pos = slides1.getCurrentPosition();
         telemetry.addData("pos ", slides1Pos);
 
-        if (oldTarget != target) {
+        if (oldTarget != target && target <= 100) {
             profile = MotionProfileGenerator.generateSimpleMotionProfile(slides1Pos, target, MAX_VEL, MAX_ACCEL);
             profileTimer.reset();
         }
 
         double pid1;
         double effectiveTarget = target;
-        if (ACTIVATE_MP) {
+        if ((ACTIVATE_MP && target <= 100) && slides1Pos != target) {
             effectiveTarget = profile.get(profileTimer.time(TimeUnit.MICROSECONDS)/1e6);
         }
         pid1 = controller1.calculate(slides1Pos, effectiveTarget);
@@ -90,9 +92,9 @@ public class LiftPIDFTuner extends OpMode {
         telemetry.addData("POWER ", power1);
         telemetry.addData("Voltage Compensation ", voltageCompensation);
 
-        slides1.setPower(-power1);
-        slides2.setPower(-power1);
-        slides3.setPower(-power1);
+        slides1.setPower(power1);
+        slides2.setPower(power1);
+        slides3.setPower(power1);
 
         oldTarget = target;
 

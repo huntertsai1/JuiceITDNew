@@ -4,17 +4,20 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import org.firstinspires.ftc.teamcode.util.control.MotionProfile;
+import org.firstinspires.ftc.teamcode.util.control.MotionProfileGenerator;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 
 public class Lift {
     private PIDController controller1;
 
-    public double p = 0.015, i = 0.00, d = 0.00052;
-    public double f = 0.14;
+    public double p = 0.023, i = 0.00, d = 0.001;
+    public double f = 0.24;
     double voltageCompensation;
 
     public double target = 0;
@@ -28,6 +31,11 @@ public class Lift {
     public VoltageSensor voltageSensor;
 
     private boolean threadState = false;
+
+    public double MAX_VEL = 800;
+    public double MAX_ACCEL = 1500;
+    public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0,0, MAX_VEL, MAX_ACCEL);
+    public ElapsedTime timer = new ElapsedTime();
 
 
     public Lift(Motor l1, Motor l2, Motor l3, VoltageSensor voltageSensor) {
@@ -51,7 +59,12 @@ public class Lift {
 
         int motorPos = lift1.motor.getCurrentPosition();
 
-        double pid1 = controller1.calculate(motorPos, target);
+        double pid1;
+        if (target <= 100) {
+            pid1 = controller1.calculate(motorPos, profile.get(timer.time()));
+        } else {
+            pid1 = controller1.calculate(motorPos, target);
+        }
 //        double pid2 = controller2.calculate(slides2Pos, target);
 //        double ff = Math.cos(Math.toRadians(target / ticks_in_degrees)) * f;
         double ff = f;
@@ -74,8 +87,10 @@ public class Lift {
 
     public void runToPosition(int ticks) {
         target = ticks;
-//        profile = MotionProfileGenerator.generateSimpleMotionProfile(getPos(), ticks, maxvel, maxaccel);
-//        timer.reset();
+        if (ticks <= 100) {
+            profile = MotionProfileGenerator.generateSimpleMotionProfile(getPos(), ticks, MAX_VEL, MAX_VEL);
+            timer.reset();
+        }
     }
 
     public void runToPreset(Levels level) {

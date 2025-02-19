@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -26,6 +27,9 @@ public class Claw {
     public Claw(ContinuousServo s1, ContinuousServo s2, RevColorSensorV3 sensor) {
         servo1 = s1;
         servo2 = s2;
+
+        servo1.servo.setDirection(DcMotorSimple.Direction.REVERSE);
+        servo2.servo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         colorSensor = sensor;
         colorSensor.initialize();
