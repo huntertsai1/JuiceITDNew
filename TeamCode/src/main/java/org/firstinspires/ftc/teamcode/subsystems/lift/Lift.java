@@ -60,7 +60,7 @@ public class Lift {
 
         double pid1;
         if (target <= 100) {
-            pid1 = controller1.calculate(motorPos, target); //profile.get(timer.time())
+            pid1 = controller1.calculate(motorPos, target);
         } else {
             pid1 = controller1.calculate(motorPos, target);
         }
