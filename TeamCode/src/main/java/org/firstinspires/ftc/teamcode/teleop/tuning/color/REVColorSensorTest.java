@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop.tuning.color;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.hardware.lynx.LynxI2cDeviceSynch;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 
 @TeleOp(group = "competition")
 @Config
-@Disabled
+//@Disabled
 public class REVColorSensorTest extends LinearOpMode {
     RevColorSensorV3 sensor;
     ContinuousServo servo1;
@@ -24,6 +25,7 @@ public class REVColorSensorTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensor");
+        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
         sensor.initialize();
         servo1 = new ContinuousServo(1, "claw1", hardwareMap);
         servo2 = new ContinuousServo(1, "claw2", hardwareMap);
@@ -46,15 +48,16 @@ public class REVColorSensorTest extends LinearOpMode {
             float green = color.green;
             float blue = color.blue;
             SampleColors detected = null;
-            if (blue > 0.012) {
-                // Extreme blue output -> blue sample
-                detected = SampleColors.BLUE;
-            } else if (red >= 0.01 && green <= 0.01) {
-                detected = SampleColors.RED;
-            } else if (red >= 0.02 && green > 0.02) {
-                detected = SampleColors.YELLOW;
+            if (sensor.getDistance(DistanceUnit.MM) < 15) {
+                if (blue > 0.045) {
+                    // Extreme blue output -> blue sample
+                    detected = SampleColors.BLUE;
+                } else if (red >= 0.03 && green > 0.1) {
+                    detected = SampleColors.YELLOW;
+                } else if (red >= 0.01 && green < 0.055) {
+                    detected = SampleColors.RED;
+                }
             }
-
 
             telemetry.addData("detected", detected);
             telemetry.addData("r", red);

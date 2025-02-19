@@ -15,11 +15,11 @@ import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 
 import java.util.concurrent.TimeUnit;
 
-public class Lift {
+public class ARESLift {
     private PIDController controller1;
 
-    public double p = 0.023, i = 0.00, d = 0.001;
-    public double f = 0.23;
+    public double p = 0.01, i = 0.00, d = 0.0001;
+    public double f = 0.006;
     double voltageCompensation;
 
     public double target = 0;
@@ -29,7 +29,6 @@ public class Lift {
 
     public Motor lift1;
     public Motor lift2;
-    public Motor lift3;
     public VoltageSensor voltageSensor;
 
     private boolean threadState = false;
@@ -40,15 +39,13 @@ public class Lift {
     public ElapsedTime timer = new ElapsedTime();
 
 
-    public Lift(Motor l1, Motor l2, Motor l3, VoltageSensor voltageSensor) {
+    public ARESLift(Motor l1, Motor l2, VoltageSensor voltageSensor) {
         this.lift1 = l1;
         this.lift2 = l2;
-        this.lift3 = l3;
         this.voltageSensor = voltageSensor;
 
         controller1 = new PIDController(p, i , d);
         lift1.motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        lift2.motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         lift1.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift1.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -79,12 +76,10 @@ public class Lift {
         if (target == 0){
             lift1.motor.setPower(power1);
             lift2.motor.setPower(power1); //was at *0.3 pre push
-            lift3.motor.setPower(power1);
         }
         else {
             lift1.motor.setPower(power1);
             lift2.motor.setPower(power1);
-            lift3.motor.setPower(power1);
         }
     }
 
@@ -123,13 +118,11 @@ public class Lift {
     public void setPower(float power) {
         lift1.motor.setPower(power);
         lift2.motor.setPower(power);
-        lift3.motor.setPower(power);
     }
 
     public void setPower(float power1, float power2, float power3) {
         lift1.motor.setPower(power1);
         lift2.motor.setPower(power2);
-        lift3.motor.setPower(power3);
     }
 
     public void launchAsThread(Telemetry telemetry) {

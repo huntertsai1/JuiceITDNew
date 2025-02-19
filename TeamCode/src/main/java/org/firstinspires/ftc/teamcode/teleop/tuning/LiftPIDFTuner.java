@@ -25,10 +25,10 @@ import java.util.concurrent.TimeUnit;
 public class LiftPIDFTuner extends OpMode {
     private PIDController controller1;
 
-    public static double p = 0.025, i = 0.00, d = 0.001;
-    public static double f = 0.24;
+    public static double p = 0.023, i = 0.00, d = 0.001;
+    public static double f = 0.23;
 
-    public static double MAX_ACCEL = 1000, MAX_VEL = 1000;
+    public static double MAX_ACCEL = 3000, MAX_VEL = 1500;
     public static boolean ACTIVATE_MP = true;
     public double voltageCompensation;
 
@@ -60,7 +60,6 @@ public class LiftPIDFTuner extends OpMode {
 
         profileTimer.reset();
 
-        slides1.setDirection(DcMotorSimple.Direction.REVERSE);
         slides1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slides1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
