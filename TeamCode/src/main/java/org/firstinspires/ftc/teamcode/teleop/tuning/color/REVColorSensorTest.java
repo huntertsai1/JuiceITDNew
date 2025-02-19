@@ -49,12 +49,12 @@ public class REVColorSensorTest extends LinearOpMode {
             float blue = color.blue;
             SampleColors detected = null;
             if (sensor.getDistance(DistanceUnit.MM) < 15) {
-                if (blue > 0.06) {
+                if (blue > 0.045) {
                     // Extreme blue output -> blue sample
                     detected = SampleColors.BLUE;
                 } else if (red >= 0.03 && green > 0.1) {
                     detected = SampleColors.YELLOW;
-                } else if (red >= 0.01 && 0.05 > green && green > 0.035) {
+                } else if (red >= 0.01 && green < 0.055) {
                     detected = SampleColors.RED;
                 }
             }

@@ -183,11 +183,11 @@ public class Claw {
         float red = colorSensor.getNormalizedColors().red;
         float blue = colorSensor.getNormalizedColors().blue;
         float green = colorSensor.getNormalizedColors().green;
-        if (blue > 0.06 && ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) < 15) {
+        if (blue > 0.045 && ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) < 20) {
             return SampleColors.BLUE;
-        } else if (red >= 0.03 && green > 0.1 && ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) < 15) {
+        } else if (red >= 0.03 && green > 0.1 && ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) < 20) {
             return SampleColors.YELLOW;
-        } else if (red >= 0.01 && 0.05 > green && green > 0.035 && ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) < 15) {
+        } else if (red >= 0.01 && green < 0.055 && ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) < 20) {
             return SampleColors.RED;
         } else {
             return null;
