@@ -29,8 +29,9 @@ public class ARESLiftTest extends OpMode {
     boolean lBumper = false;
     boolean rBumper = false;
 
-    public static int HIGH_POS = 500;
+    public static int HIGH_POS = 800;
     public static int LOW_POS = 10;
+
 
 
     @Override
@@ -54,8 +55,11 @@ public class ARESLiftTest extends OpMode {
         lBumper = gamepad1.left_bumper;
         rBumper = gamepad1.right_bumper;
 
+        lift.update();
+
         telemetry.addData("POSITION ", lift.getPos());
-        telemetry.addData("TARGET", lift.target);
+        telemetry.addData("TARGET", lift.effectiveTarget);
+        telemetry.addData("motor power", lift.power1);
 //        telemetry.addData("Motor 1 current", lift1.getCurrent(CurrentUnit.AMPS));
 //        telemetry.addData("Motor 2 current", lift2.getCurrent(CurrentUnit.AMPS));
 //        telemetry.addData("Motor 3 current", lift3.getCurrent(CurrentUnit.AMPS));

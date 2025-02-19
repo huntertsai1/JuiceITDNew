@@ -113,9 +113,8 @@ public class MotionProfile {
 
             acceleration_distance = 0.5 * maxaccel * Math.pow(acceleration_dt, 2);
             cruise_distance = maxvel * cruise_dt;
-            deceleration_time = time - deceleration_time;
             //telemetry.addData("deceleration_time after", deceleration_time);
-            current_dt= time - deceleration_time;
+            current_dt = time - deceleration_time;
             // use the kinematic equations to calculate the instantaneous desired position
             return start + acceleration_distance + cruise_distance + (maxvel * current_dt) - (0.5 * maxaccel * Math.pow(current_dt, 2));
         }
