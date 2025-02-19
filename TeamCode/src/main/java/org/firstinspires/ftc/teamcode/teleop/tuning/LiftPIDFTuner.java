@@ -60,7 +60,6 @@ public class LiftPIDFTuner extends OpMode {
 
         profileTimer.reset();
 
-        slides1.setDirection(DcMotorSimple.Direction.REVERSE);
         slides1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slides1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }

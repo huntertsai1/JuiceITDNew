@@ -46,11 +46,10 @@ public class Lift {
 
         controller1 = new PIDController(p, i , d);
         lift1.motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift2.motor.setDirection(DcMotorSimple.Direction.REVERSE);
+
         lift1.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift1.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift3.motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        lift3.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift3.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
@@ -69,7 +68,7 @@ public class Lift {
 //        double ff = Math.cos(Math.toRadians(target / ticks_in_degrees)) * f;
         double ff = f;
 
-        voltageCompensation = 13.5 / voltageSensor.getVoltage();
+        voltageCompensation = 13.3 / voltageSensor.getVoltage();
         power1 = (pid1 + ff) * voltageCompensation;
 //        power2 = pid2 + ff;
 
@@ -103,9 +102,9 @@ public class Lift {
         } else if (level == Levels.LOCATING_TARGETS) {
             runToPosition(0);
         } else if (level == Levels.LOW_BASKET) {
-            runToPosition(1300);
+            runToPosition(500);
         } else if (level == Levels.HIGH_BASKET) {
-            runToPosition(2180);
+            runToPosition(1000);
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(0);
         } else if (level == Levels.HIGH_RUNG) {
