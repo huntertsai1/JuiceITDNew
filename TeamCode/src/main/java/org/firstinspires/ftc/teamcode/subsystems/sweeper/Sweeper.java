@@ -13,8 +13,8 @@ public class Sweeper {
 
     public boolean swept = false;
 
-    public float RETRACTED_POS = 0;
-    public float FULL_EXTENDED_POS = 240;
+    public float RETRACTED_POS = 80;
+    public float FULL_EXTENDED_POS = 205;
     public double SWEEP_DELAY = 2;
 
     public Sweeper(StepperServo s) {
