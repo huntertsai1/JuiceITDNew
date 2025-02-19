@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.qualcomm.hardware.lynx.LynxI2cDeviceSynch;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -33,6 +34,7 @@ public class Claw {
 
         colorSensor = sensor;
         colorSensor.initialize();
+        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
 
         sensorTimeout = new ElapsedTime();
     }
@@ -178,45 +180,17 @@ public class Claw {
     }
 
     public SampleColors detectSample() {
-//        if (sensorTimeout.time(TimeUnit.SECONDS) < 1f) {
-//            return null;
-//        }
-
-//        if (colorSensor.onlyPin0()) {
-//            return SampleColors.BLUE;
-//        } else if (colorSensor.onlyPin1()) {
-//            return SampleColors.RED;
-//        } else if (colorSensor.getBoth()) {
-//            return SampleColors.YELLOW;
-//        } else {
-//            return null;
-//        }
         float red = colorSensor.getNormalizedColors().red;
         float blue = colorSensor.getNormalizedColors().blue;
         float green = colorSensor.getNormalizedColors().green;
-        if (blue > 0.05) {
-            // Extreme blue output -> blue sample
+        if (blue > 0.06 && ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) < 15) {
             return SampleColors.BLUE;
-        } else if (red >= 0.03 && green <= 0.08) {
-            return SampleColors.RED;
-        } else if (red >= 0.05 && green > 0.08) {
+        } else if (red >= 0.03 && green > 0.1 && ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) < 15) {
             return SampleColors.YELLOW;
-        } else if (((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) <= 30) {
-            return SampleColors.UNIDENTIFIABLE;
+        } else if (red >= 0.01 && 0.05 > green && green > 0.035 && ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM) < 15) {
+            return SampleColors.RED;
         } else {
             return null;
         }
-//        if (colorSensor.blue() > 0.5) {
-//            return SampleColors.BLUE;
-//        } else if (colorSensor.red() > 0.5) {
-//            return SampleColors.RED;
-//        } else if (colorSensor.getDistance(DistanceUnit.MM) > 3) {
-//            return SampleColors.YELLOW;
-//        }
-
-
-//        sensorTimeout.reset();
-//
-//        return null;
     }
 }

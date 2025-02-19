@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 
 @TeleOp(group = "competition")
 @Config
-@Disabled
+//@Disabled
 public class ColorSensorDigital extends LinearOpMode {
     BrushlandColorSensor sensor;
     @Override
