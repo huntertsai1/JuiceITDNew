@@ -43,11 +43,11 @@ public class Arm {
             runToPosition(322);
             setWristAngle(0);
         } else if (level == Levels.LOW_RUNG) {
-            runToPosition(100);
-            setWristAngle(100);
+            runToPosition(330);
+            setWristAngle(70);
         } else if (level == Levels.HIGH_RUNG) {
-            runToPosition(346);
-            setWristAngle(150);
+            runToPosition(330);
+            setWristAngle(70);
         } else if (level == Levels.CLIMB_EXTENDED) {
             runToPosition(100);
             setWristAngle(100);
