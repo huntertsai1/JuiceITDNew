@@ -60,7 +60,7 @@ public class Lift {
 
         double pid1;
         if (target <= 100) {
-            pid1 = controller1.calculate(motorPos, profile.get(timer.time()));
+            pid1 = controller1.calculate(motorPos, target); //profile.get(timer.time())
         } else {
             pid1 = controller1.calculate(motorPos, target);
         }
@@ -73,14 +73,14 @@ public class Lift {
 //        power2 = pid2 + ff;
 
         if (target == 0){
-            lift1.motor.setPower(-power1);
-            lift2.motor.setPower(-power1); //was at *0.3 pre push
-            lift3.motor.setPower(-power1);
+            lift1.motor.setPower(power1);
+            lift2.motor.setPower(power1); //was at *0.3 pre push
+            lift3.motor.setPower(power1);
         }
         else {
-            lift1.motor.setPower(-power1);
-            lift2.motor.setPower(-power1);
-            lift3.motor.setPower(-power1);
+            lift1.motor.setPower(power1);
+            lift2.motor.setPower(power1);
+            lift3.motor.setPower(power1);
         }
     }
 
