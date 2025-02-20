@@ -227,7 +227,7 @@ public class RED extends LinearOpMode {
 //            telemetry.addData("COLOR", robot.targetColor.toString());
             //telemetry.addData("CLIMB", robot.climbMode.toString());
             telemetry.addData("LIFT ", robot.lift.getPos());
-            //telemetry.addData("LIFT Target", robot.lift.target);
+            telemetry.addData("LIFT POWER", robot.lift.power1);
 //            telemetry.addData("LOOPTIME: ", frequency);
             telemetry.addData("STATE: ", robot.state);
             //telemetry.addData("rbumper " ,gamepad1.right_bumper);
