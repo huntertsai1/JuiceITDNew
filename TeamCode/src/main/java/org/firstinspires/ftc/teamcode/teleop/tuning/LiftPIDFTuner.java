@@ -26,10 +26,10 @@ public class LiftPIDFTuner extends OpMode {
     private PIDController controller1;
 
     public static double p = 0.023, i = 0.00, d = 0.001;
-    public static double f = 0.23;
+    public static double f = 0.25;
 
     public static double MAX_ACCEL = 3000, MAX_VEL = 1500;
-    public static boolean ACTIVATE_MP = true;
+//    public static boolean ACTIVATE_MP = true;
     public double voltageCompensation;
 
     public static int target = 0;
@@ -77,7 +77,7 @@ public class LiftPIDFTuner extends OpMode {
 
         double pid1;
         double effectiveTarget = target;
-        if ((ACTIVATE_MP && target <= 100) && slides1Pos != target) {
+        if (target <= 100) {
             effectiveTarget = profile.get(profileTimer.time(TimeUnit.MICROSECONDS)/1e6);
         }
         pid1 = controller1.calculate(slides1Pos, effectiveTarget);

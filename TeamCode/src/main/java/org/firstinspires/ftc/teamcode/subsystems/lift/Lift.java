@@ -19,7 +19,7 @@ public class Lift {
     private PIDController controller1;
 
     public double p = 0.023, i = 0.00, d = 0.001;
-    public double f = 0.23;
+    public double f = 0.25;
     double voltageCompensation;
 
     public double target = 0;
