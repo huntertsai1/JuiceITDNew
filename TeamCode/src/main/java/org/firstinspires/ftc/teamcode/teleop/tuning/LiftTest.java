@@ -28,7 +28,9 @@ public class LiftTest extends OpMode {
     private DcMotorEx lift3;
     private DcMotorEx slidesEncoder;
     private VoltageSensor voltageSensor;
-    public static double POWER = 0;
+    public static double POWER1 = 0;
+    public static double POWER2 = 0;
+    public static double POWER3 = 0;
 
     public static boolean LIFT_1_REVERSE = true;
     public static boolean LIFT_2_REVERSE = true;
@@ -48,6 +50,10 @@ public class LiftTest extends OpMode {
         lift1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        lift1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        lift3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     @Override
@@ -73,9 +79,9 @@ public class LiftTest extends OpMode {
 
         int liftPos = lift1.getCurrentPosition();
 
-        lift1.setPower(POWER);
-        lift2.setPower(POWER);
-        lift3.setPower(POWER);
+        lift1.setPower(POWER1);
+        lift2.setPower(POWER2);
+        lift3.setPower(POWER3);
 
         telemetry.addData("POSITION ", liftPos);
         telemetry.addData("Motor 1 current", lift1.getCurrent(CurrentUnit.AMPS));
