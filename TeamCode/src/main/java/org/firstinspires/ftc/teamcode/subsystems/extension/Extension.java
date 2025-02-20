@@ -12,7 +12,7 @@ public class Extension {
 
     float target = 0;
 
-    public int MAXIMUM_EXTENSION = 100;
+    public int high = 285;
 
     public Extension(StepperServo s1, StepperServo s2) {
         servo1 = s1;
@@ -33,22 +33,14 @@ public class Extension {
         if (level == Levels.INIT) {
             runToPosition(low);
         } else if (level == Levels.INTAKE) {
-            runToPosition(285);
+            runToPosition(high);
         } else if (level == Levels.INTERMEDIATE) {
-            runToPosition(low);
-        } else if (level == Levels.LOCATING_TARGETS) {
             runToPosition(low);
         } else if (level == Levels.LOW_BASKET) {
             runToPosition(low);
         } else if (level == Levels.HIGH_BASKET) {
             runToPosition(low);
-        } else if (level == Levels.LOW_RUNG) {
-            runToPosition(low);
         } else if (level == Levels.HIGH_RUNG) {
-            runToPosition(low);
-        } else if (level == Levels.CLIMB_EXTENDED) {
-            runToPosition(low);
-        } else if (level == Levels.CLIMB_RETRACTED) {
             runToPosition(low);
         }
     }
