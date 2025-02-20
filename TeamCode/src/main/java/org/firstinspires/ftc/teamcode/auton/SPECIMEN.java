@@ -28,8 +28,6 @@ public class SPECIMEN extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-//        StateKeeper.putSpecimenHighRung(6.0, 3.0, 0.0, -3.0, -6.0);
-
         double HPDeposit = -50;
         double spikeBack = -15;
         double waits = 0.2;
