@@ -28,12 +28,10 @@ public class LiftTest extends OpMode {
     private DcMotorEx lift3;
     private DcMotorEx slidesEncoder;
     private VoltageSensor voltageSensor;
-    public static double POWER1 = 0;
-    public static double POWER2 = 0;
+    public static double POWER = 0;
 
-    public static double POWER3 = 0;
-    public static boolean LIFT_1_REVERSE = false;
-    public static boolean LIFT_2_REVERSE = false;
+    public static boolean LIFT_1_REVERSE = true;
+    public static boolean LIFT_2_REVERSE = true;
     public static boolean LIFT_3_REVERSE = false;
 
 
@@ -75,14 +73,15 @@ public class LiftTest extends OpMode {
 
         int liftPos = lift1.getCurrentPosition();
 
-        lift1.setPower(POWER1);
-        lift2.setPower(POWER2);
-        lift3.setPower(POWER3);
+        lift1.setPower(POWER);
+        lift2.setPower(POWER);
+        lift3.setPower(POWER);
 
         telemetry.addData("POSITION ", liftPos);
         telemetry.addData("Motor 1 current", lift1.getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Motor 2 current", lift2.getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Motor 3 current", lift3.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("RPM", ((liftPos * 60) / 145.1));
         telemetry.update();
     }
 }
