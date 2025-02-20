@@ -62,6 +62,9 @@ public class Lift {
         power1 = (pid1 + ff) * voltageCompensation;
 
         if (target == 0) {
+            lift1.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             lift1.motor.setPower(0);
             lift2.motor.setPower(0);
             lift3.motor.setPower(0);
