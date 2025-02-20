@@ -9,7 +9,7 @@ public class Extension {
     StepperServo servo1;
     StepperServo servo2;
     //120 - 195
-    float low = 60;
+    float low = 70;
 
     float target = 0;
 
