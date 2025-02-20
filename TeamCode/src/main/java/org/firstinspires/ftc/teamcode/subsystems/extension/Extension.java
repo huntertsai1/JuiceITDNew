@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 public class Extension {
     StepperServo servo1;
     StepperServo servo2;
-    //120 - 195
     float low = 60;
 
     float target = 0;

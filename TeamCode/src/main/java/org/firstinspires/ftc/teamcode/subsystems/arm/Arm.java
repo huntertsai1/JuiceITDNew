@@ -8,6 +8,8 @@ public class Arm {
     StepperServo wrist;
 
     float target = 0;
+    float wristDown = 172;
+    float wristUp = 0;
 
     public Arm(StepperServo s1, StepperServo s2) {
         servo = s1;
@@ -23,25 +25,25 @@ public class Arm {
     public void runToPreset(Levels level) {
         if (level == Levels.INIT) {
             runToPosition(215);
-            setWristAngle(176);
+            setWristAngle(wristDown);
         } else if (level == Levels.INTAKE) {
             runToPosition(135);//103
-            setWristAngle(176);
+            setWristAngle(wristDown);
         } else if (level == Levels.INTAKE_INTERMEDIATE) {
             runToPosition(185);
-            setWristAngle(176);
+            setWristAngle(wristDown);
         } else if (level == Levels.INTERMEDIATE) {
             runToPosition(215);
-            setWristAngle(176);
+            setWristAngle(wristDown);
         } else if (level == Levels.LOCATING_TARGETS) {
             runToPosition(100);
             setWristAngle(100);
         } else if (level == Levels.LOW_BASKET) {
             runToPosition(322);
-            setWristAngle(0);
+            setWristAngle(wristUp);
         } else if (level == Levels.HIGH_BASKET) {
             runToPosition(322);
-            setWristAngle(0);
+            setWristAngle(wristUp);
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(330);
             setWristAngle(70);
