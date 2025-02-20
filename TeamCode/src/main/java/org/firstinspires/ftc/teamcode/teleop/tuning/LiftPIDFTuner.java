@@ -77,6 +77,7 @@ public class LiftPIDFTuner extends OpMode {
         telemetry.addData("Motor 1 current", slides1.getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Motor 2 current", slides2.getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Motor 3 current", slides3.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Motor 1 RPM", ((slides1.getVelocity())*60 / 28));
         telemetry.update();
     }
 }
