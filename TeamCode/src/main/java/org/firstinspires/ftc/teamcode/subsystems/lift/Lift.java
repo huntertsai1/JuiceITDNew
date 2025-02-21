@@ -61,7 +61,7 @@ public class Lift {
         voltageCompensation = 13.3 / voltageSensor.getVoltage();
         power1 = (pid1 + ff) * voltageCompensation;
 
-        if (target == 0) {
+        if (target == 0 || target == -15) {
             lift1.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
