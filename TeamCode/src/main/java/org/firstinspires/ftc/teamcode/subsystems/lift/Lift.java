@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.util.control.MotionProfile;
-import org.firstinspires.ftc.teamcode.util.control.MotionProfileGenerator;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 
@@ -18,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class Lift {
     private PIDController controller1;
 
-    public double p = 0.02, i = 0.00, d = 0.0006;
+    public double p = 0.022, i = 0.00, d = 0.0006;
     public double f = 0.2;
     double voltageCompensation;
 
@@ -31,7 +29,6 @@ public class Lift {
     public VoltageSensor voltageSensor;
     public double MAX_VEL = 1500;
     public double MAX_ACCEL = 3000;
-    public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0,1, MAX_VEL, MAX_ACCEL);
     public ElapsedTime timer = new ElapsedTime();
     public boolean goingDown = false;
     public boolean spiked = false;
@@ -63,36 +60,28 @@ public class Lift {
 
         voltageCompensation = 13.3 / voltageSensor.getVoltage();
         power1 = (pid1 + ff) * voltageCompensation;
+
         if (goingDown){
-            if (motorPos < 60){
+            if (motorPos < 100){
                 power1 = -0.1;
             }
-            if (lift1.motor.getCurrent(CurrentUnit.AMPS) <= 6 || spiked){
+            if (lift1.motor.getCurrent(CurrentUnit.AMPS) >= 6 || spiked){
                 spiked = true;
                 power1 = 0;
             }
 
         }
-//        if (target == 0 || target == -15) {
-//            lift1.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//            lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//            lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//            lift1.motor.setPower(0);
-//            lift2.motor.setPower(0);
-//            lift3.motor.setPower(0);
-//        }
-//        else {
-            lift1.motor.setPower(power1);
-            lift2.motor.setPower(power1);
-            lift3.motor.setPower(power1);
-//        }
+
+        lift1.motor.setPower(power1);
+        lift2.motor.setPower(power1);
+        lift3.motor.setPower(power1);
     }
 
     public void runToPosition(int ticks) {
         spiked = false;
         target = ticks;
         if (ticks <= 0){
-            target = 50;
+            target = 100;
             goingDown = true;
         }
     }

@@ -14,8 +14,6 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.util.control.MotionProfile;
-import org.firstinspires.ftc.teamcode.util.control.MotionProfileGenerator;
 
 import java.util.concurrent.TimeUnit;
 
