@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 public class Lift {
     private PIDController controller1;
 
-    public double p = 0.023, i = 0.00, d = 0.001;
-    public double f = 0.25;
+    public double p = 0.02, i = 0.00, d = 0.0006;
+    public double f = 0.2;
     double voltageCompensation;
 
     public double target = 0;
@@ -61,19 +61,19 @@ public class Lift {
         voltageCompensation = 13.3 / voltageSensor.getVoltage();
         power1 = (pid1 + ff) * voltageCompensation;
 
-        if (target == 0 || target == -15) {
-            lift1.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            lift1.motor.setPower(0);
-            lift2.motor.setPower(0);
-            lift3.motor.setPower(0);
-        }
-        else {
+//        if (target == 0 || target == -15) {
+//            lift1.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//            lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//            lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//            lift1.motor.setPower(0);
+//            lift2.motor.setPower(0);
+//            lift3.motor.setPower(0);
+//        }
+//        else {
             lift1.motor.setPower(power1);
             lift2.motor.setPower(power1);
             lift3.motor.setPower(power1);
-        }
+//        }
     }
 
     public void runToPosition(int ticks) {
@@ -90,9 +90,9 @@ public class Lift {
         } else if (level == Levels.LOCATING_TARGETS) {
             runToPosition(0);
         } else if (level == Levels.LOW_BASKET) {
-            runToPosition(500);
+            runToPosition(700);
         } else if (level == Levels.HIGH_BASKET) {
-            runToPosition(1000);
+            runToPosition(1400);
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(0);
         } else if (level == Levels.HIGH_RUNG) {
