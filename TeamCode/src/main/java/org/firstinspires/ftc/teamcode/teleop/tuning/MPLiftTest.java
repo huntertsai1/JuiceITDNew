@@ -62,7 +62,7 @@ public class MPLiftTest extends OpMode {
         lift.update();
 
         telemetry.addData("POSITION ", lift.getPos());
-        telemetry.addData("TARGET", lift.effectiveTarget);
+        //telemetry.addData("TARGET", lift.effectiveTarget);
         telemetry.addData("motor power", lift.power1);
         telemetry.addData("nand", nand);
 //        telemetry.addData("Motor 1 current", lift1.getCurrent(CurrentUnit.AMPS));

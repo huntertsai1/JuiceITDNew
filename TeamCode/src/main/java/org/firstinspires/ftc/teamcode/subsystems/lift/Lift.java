@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.subsystems.lift;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.util.control.MotionProfile;
 import org.firstinspires.ftc.teamcode.util.control.MotionProfileGenerator;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
@@ -31,7 +33,8 @@ public class Lift {
     public double MAX_ACCEL = 3000;
     public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0,1, MAX_VEL, MAX_ACCEL);
     public ElapsedTime timer = new ElapsedTime();
-
+    public boolean goingDown = false;
+    public boolean spiked = false;
 
     public Lift(Motor l1, Motor l2, Motor l3, VoltageSensor voltageSensor) {
         this.lift1 = l1;
@@ -60,7 +63,16 @@ public class Lift {
 
         voltageCompensation = 13.3 / voltageSensor.getVoltage();
         power1 = (pid1 + ff) * voltageCompensation;
+        if (goingDown){
+            if (motorPos < 60){
+                power1 = -0.1;
+            }
+            if (lift1.motor.getCurrent(CurrentUnit.AMPS) <= 6 || spiked){
+                spiked = true;
+                power1 = 0;
+            }
 
+        }
 //        if (target == 0 || target == -15) {
 //            lift1.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 //            lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -77,7 +89,12 @@ public class Lift {
     }
 
     public void runToPosition(int ticks) {
+        spiked = false;
         target = ticks;
+        if (ticks <= 0){
+            target = 50;
+            goingDown = true;
+        }
     }
 
     public void runToPreset(Levels level) {

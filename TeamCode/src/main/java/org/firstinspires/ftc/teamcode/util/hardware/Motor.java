@@ -10,13 +10,13 @@ import org.firstinspires.ftc.teamcode.util.hardware.Component;
 public class Motor extends Component {
     private boolean reverse;
     private float speed;
-    public DcMotor motor;
+    public DcMotorEx motor;
 
     public Motor(int port, String name, HardwareMap map, boolean reverse){
         super(port, name);
         this.reverse = reverse;
         this.speed = 0;
-        motor = map.dcMotor.get(name);
+        motor = map.get(DcMotorEx.class, name);
 
         if(reverse){
             motor.setDirection(DcMotor.Direction.REVERSE);
