@@ -67,12 +67,11 @@ public class Lift {
         if (goingDown) {
             if (motorPos < 100) {
                 power1 = -0.1;
+                if (lift1.motor.getCurrent(CurrentUnit.AMPS) >= 6 || spiked || motorPos <= 5) {
+                    spiked = true;
+                    power1 = 0;
+                }
             }
-            if (lift1.motor.getCurrent(CurrentUnit.AMPS) >= 6 || spiked || motorPos <= 5) {
-                spiked = true;
-                power1 = 0;
-            }
-
         }
 
         lift1.motor.setPower(power1);
