@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 import org.firstinspires.ftc.teamcode.util.control.MotionProfile;
 import org.firstinspires.ftc.teamcode.util.control.MotionProfileGenerator;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
@@ -18,25 +16,19 @@ import java.util.concurrent.TimeUnit;
 public class Lift {
     private PIDController controller1;
 
-    public double p = 0.023, i = 0.00, d = 0.001;
-    public double f = 0.25;
+    public double p = 0.02, i = 0.00, d = 0.0006;
+    public double f = 0.2;
     double voltageCompensation;
 
     public double target = 0;
-    public double effectiveTarget = 0;
-    public Levels currentLevel = Levels.ZERO;
-    private final double ticks_in_degrees = 700 / 180.0;
     public double power1;
 
     public Motor lift1;
     public Motor lift2;
     public Motor lift3;
     public VoltageSensor voltageSensor;
-
-    private boolean threadState = false;
-
-    public double MAX_VEL = 3200;
-    public double MAX_ACCEL = 2000;
+    public double MAX_VEL = 1500;
+    public double MAX_ACCEL = 3000;
     public MotionProfile profile = MotionProfileGenerator.generateSimpleMotionProfile(0,1, MAX_VEL, MAX_ACCEL);
     public ElapsedTime timer = new ElapsedTime();
 
@@ -59,42 +51,33 @@ public class Lift {
 
 
     public void update() {
-//        target = profile.get(timer.time());
 
         int motorPos = lift1.motor.getCurrentPosition();
-
-        double pid1;
-        effectiveTarget = target;
-        if (target <= 100) {
-            effectiveTarget = profile.get(timer.time(TimeUnit.MICROSECONDS)/1e6);
-        }
-        pid1 = controller1.calculate(motorPos, effectiveTarget);
-//        double pid2 = controller2.calculate(slides2Pos, target);
-//        double ff = Math.cos(Math.toRadians(target / ticks_in_degrees)) * f;
         double ff = f;
+        double pid1;
+
+        pid1 = controller1.calculate(motorPos, target);
 
         voltageCompensation = 13.3 / voltageSensor.getVoltage();
         power1 = (pid1 + ff) * voltageCompensation;
-//        power2 = pid2 + ff;
 
-        if (target == 0){
-            lift1.motor.setPower(power1);
-            lift2.motor.setPower(power1); //was at *0.3 pre push
-            lift3.motor.setPower(power1);
-        }
-        else {
+//        if (target == 0 || target == -15) {
+//            lift1.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//            lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//            lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//            lift1.motor.setPower(0);
+//            lift2.motor.setPower(0);
+//            lift3.motor.setPower(0);
+//        }
+//        else {
             lift1.motor.setPower(power1);
             lift2.motor.setPower(power1);
             lift3.motor.setPower(power1);
-        }
+//        }
     }
 
     public void runToPosition(int ticks) {
         target = ticks;
-        if (ticks <= 100) {
-            profile = MotionProfileGenerator.generateSimpleMotionProfile(getPos(), ticks, MAX_VEL, MAX_ACCEL);
-            timer.reset();
-        }
     }
 
     public void runToPreset(Levels level) {
@@ -107,13 +90,13 @@ public class Lift {
         } else if (level == Levels.LOCATING_TARGETS) {
             runToPosition(0);
         } else if (level == Levels.LOW_BASKET) {
-            runToPosition(500);
+            runToPosition(700);
         } else if (level == Levels.HIGH_BASKET) {
-            runToPosition(1000);
+            runToPosition(1400);
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(0);
         } else if (level == Levels.HIGH_RUNG) {
-            runToPosition(365);
+            runToPosition(375);
         } else if (level == Levels.CLIMB_EXTENDED) {
             runToPosition(0);
         } else if (level == Levels.CLIMB_RETRACTED) {
@@ -131,47 +114,6 @@ public class Lift {
         lift1.motor.setPower(power1);
         lift2.motor.setPower(power2);
         lift3.motor.setPower(power3);
-    }
-
-    public void launchAsThread(Telemetry telemetry) {
-        threadState = true;
-        telemetry.addData("Slides Threads State:", "STARTING");
-        telemetry.update();
-        Thread t1 = new Thread(() -> {
-            telemetry.addData("Slides Threads State:", "STARTED");
-            telemetry.update();
-            while (threadState == true) {
-                update();
-            }
-            telemetry.addData("Slides Threads State:", "STOPPED");
-            telemetry.update();
-        });
-        t1.start();
-    }
-
-    public void destroyThreads(Telemetry telemetry) {
-        telemetry.addData("Slides Threads State:", "STOPPING");
-        telemetry.update();
-        target = -10;
-        threadState = false;
-    }
-
-    public void launchAsThreadBasic() {
-        threadState = true;
-        Thread t1 = new Thread(() -> {
-            while (threadState == true) {
-                update();
-            }
-        });
-        t1.start();
-    }
-
-    public void destroyThreadsBasic() {
-        threadState = false;
-    }
-    public void resetAllEncoders(){
-        lift1.resetEncoder();
-        lift2.resetEncoder();
     }
 
     public int getPos() {
