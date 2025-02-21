@@ -44,7 +44,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(22, -42, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(22, -48, Math.toRadians(-90)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
 
                 .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
@@ -65,7 +65,7 @@ public class SPECIMEN extends LinearOpMode {
 
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(61.5, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(62, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -200,7 +200,7 @@ public class SPECIMEN extends LinearOpMode {
                         new LoopAction(() -> {
                             robot.lift.update();
                         }, this::isStopRequested)
-                        , new WinchTimeAction(robot.climbWinch, 1.24, -1, telemetry)
+//                        , new WinchTimeAction(robot.climbWinch, 1.24, -1, telemetry)
                 )
         );
     }
