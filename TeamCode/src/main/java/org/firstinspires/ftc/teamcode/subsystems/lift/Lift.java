@@ -80,9 +80,11 @@ public class Lift {
     public void runToPosition(int ticks) {
         spiked = false;
         target = ticks;
-        if (ticks <= 0){
+        if (ticks <= 0) {
             target = 100;
             goingDown = true;
+        }else{
+            goingDown = false;
         }
     }
 
