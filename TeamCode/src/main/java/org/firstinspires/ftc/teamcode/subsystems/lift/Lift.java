@@ -61,11 +61,11 @@ public class Lift {
         voltageCompensation = 13.3 / voltageSensor.getVoltage();
         power1 = (pid1 + ff) * voltageCompensation;
 
-        if (goingDown){
-            if (motorPos < 100){
+        if (goingDown) {
+            if (motorPos < 100) {
                 power1 = -0.1;
             }
-            if (lift1.motor.getCurrent(CurrentUnit.AMPS) >= 6 || spiked){
+            if (lift1.motor.getCurrent(CurrentUnit.AMPS) >= 6 || spiked || motorPos <= 5) {
                 spiked = true;
                 power1 = 0;
             }
