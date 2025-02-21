@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.util.enums.AllianceColor;
@@ -228,6 +229,7 @@ public class RED extends LinearOpMode {
             //telemetry.addData("CLIMB", robot.climbMode.toString());
             telemetry.addData("LIFT ", robot.lift.getPos());
             telemetry.addData("LIFT POWER", robot.lift.power1);
+            telemetry.addData("LIFT POWER", robot.lift.lift1.motor.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("LIFT TARGET", robot.lift.target);
 //            telemetry.addData("LOOPTIME: ", frequency);
             telemetry.addData("STATE: ", robot.state);

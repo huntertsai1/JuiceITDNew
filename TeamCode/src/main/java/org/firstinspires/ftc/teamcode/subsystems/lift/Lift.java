@@ -45,6 +45,9 @@ public class Lift {
 
         lift1.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift1.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift1.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         timer.reset();
     }
