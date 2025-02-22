@@ -25,7 +25,7 @@ public class REVColorSensorTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensor");
-        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
+//        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
         sensor.initialize();
         servo1 = new ContinuousServo(1, "claw1", hardwareMap);
         servo2 = new ContinuousServo(1, "claw2", hardwareMap);
@@ -48,13 +48,13 @@ public class REVColorSensorTest extends LinearOpMode {
             float green = color.green;
             float blue = color.blue;
             SampleColors detected = null;
-            if (sensor.getDistance(DistanceUnit.MM) < 15) {
+            if (sensor.getDistance(DistanceUnit.MM) < 7) {
                 if (blue > 0.045) {
                     // Extreme blue output -> blue sample
                     detected = SampleColors.BLUE;
-                } else if (red >= 0.03 && green > 0.1) {
+                } else if (red >= 0.05 && green > 0.08) {
                     detected = SampleColors.YELLOW;
-                } else if (red >= 0.01 && green < 0.055) {
+                } else if (red >= 0.01 && green < 0.055 && blue < 0.03) {
                     detected = SampleColors.RED;
                 }
             }
