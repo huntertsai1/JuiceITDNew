@@ -203,7 +203,7 @@ public class Robot {
     public Action autoTeleIntakeBoom() {
         return new SequentialAction(
                 new InstantAction(() -> {
-                    extension.runToPosition(250);
+                    extension.runToPosition(260);
                     lift.lift1.resetEncoder();
                 })
         );

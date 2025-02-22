@@ -165,7 +165,7 @@ public class RED_ENHANCED extends LinearOpMode {
                     actionsQueue.add(
                             new SequentialAction(
                                     new InstantAction(() -> {
-                                        robot.lift.runToPosition(250);
+                                        robot.lift.runToPosition(100);
                                         robot.arm.runToPreset(Levels.HIGH_BASKET);
                                     }),
                                     new SleepAction(0.5),
