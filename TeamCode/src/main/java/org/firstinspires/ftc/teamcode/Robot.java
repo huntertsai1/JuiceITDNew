@@ -152,9 +152,9 @@ public class Robot {
                     claw.startIntake();
                     intaking = true;
                     state = Levels.INTAKE;}),
-                new SleepAction(1.3),
+                new SleepAction(1.2),
                 new InstantAction(() -> {
-                    extension.runToPosition(220);
+                    extension.runToPosition(240);
                 })
         );
     }
