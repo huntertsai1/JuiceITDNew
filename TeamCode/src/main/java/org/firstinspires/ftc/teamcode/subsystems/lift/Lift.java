@@ -101,13 +101,13 @@ public class Lift {
         } else if (level == Levels.LOCATING_TARGETS) {
             runToPosition(0);
         } else if (level == Levels.LOW_BASKET) {
-            runToPosition(700);
+            runToPosition(800);
         } else if (level == Levels.HIGH_BASKET) {
             runToPosition(1450);
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(0);
         } else if (level == Levels.HIGH_RUNG) {
-            runToPosition(375);
+            runToPosition(600);
         } else if (level == Levels.CLIMB_EXTENDED) {
             runToPosition(0);
         } else if (level == Levels.CLIMB_RETRACTED) {
