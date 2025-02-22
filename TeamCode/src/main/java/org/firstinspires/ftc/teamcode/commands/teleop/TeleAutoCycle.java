@@ -39,7 +39,8 @@ public class TeleAutoCycle extends CancellableAction {
     public TeleAutoCycle(PinpointDrive drive, Robot robot, Gamepad gamepad) {
         this.drive = drive;
         this.robot = robot;
-        double depoTargetX = StateKeeper.findOpenHighRung();
+//        double depoTargetX = StateKeeper.findOpenHighRung();
+        double depoTargetX = 0;
 
         if (depoTargetX == -16236) {
             cancelled = true;
@@ -68,11 +69,11 @@ public class TeleAutoCycle extends CancellableAction {
             fullPath = new SequentialAction(
                     robot.autoSpecIntake(true),
                     new SleepAction(intakeWait),
-                    new InstantAction(() -> {
-                        if (robot.claw.detectSample() == null) {
-                            failsafeAbort();
-                        }
-                    }),
+//                    new InstantAction(() -> {
+//                        if (robot.claw.detectSample() == null) {
+//                            failsafeAbort();
+//                        }
+//                    }),
                     new ParallelAction(
                             robot.highRungAuto(true),
                             depoPath
@@ -81,18 +82,12 @@ public class TeleAutoCycle extends CancellableAction {
 
                     new ParallelAction(
                             new SequentialAction(
-                                 new SleepAction(1),
-                                    new InstantAction(() -> {
-//                                        if (robot.claw.detectSample() != null) {
-                                            // Depo succeeded
-                                            StateKeeper.putSpecimenHighRung(depoTargetX);
-//                                        }
-                                    })
-                            ),
-                            new ParallelAction(
-                                    intakePath,
-                                    robot.autoSpecIntake(true)
+                                 new SleepAction(1)
                             )
+                    ),
+                    new ParallelAction(
+                            intakePath,
+                            robot.autoSpecIntake(true)
                     )
             );
         }
