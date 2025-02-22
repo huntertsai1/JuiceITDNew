@@ -69,11 +69,11 @@ public class TeleAutoCycle extends CancellableAction {
             fullPath = new SequentialAction(
                     robot.autoTeleIntakeBoom(),
                     new SleepAction(intakeWait),
-                    new InstantAction(() -> {
-                        if (robot.claw.detectSample() == null) {
-                            failsafeAbort();
-                        }
-                    }),
+//                    new InstantAction(() -> {
+//                        if (robot.claw.detectSample() == null) {
+//                            failsafeAbort();
+//                        }
+//                    }),
                     new ParallelAction(
                             robot.highRungAuto(true),
                             depoPath,
