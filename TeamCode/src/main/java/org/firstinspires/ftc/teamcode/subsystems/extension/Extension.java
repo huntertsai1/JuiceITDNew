@@ -41,7 +41,7 @@ public class Extension {
         } else if (level == Levels.HIGH_BASKET) {
             runToPosition(low);
         } else if (level == Levels.HIGH_RUNG) {
-            runToPosition(75);
+            runToPosition(69);
         }
     }
 

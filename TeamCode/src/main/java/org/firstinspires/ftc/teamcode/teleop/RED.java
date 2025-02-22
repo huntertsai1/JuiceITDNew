@@ -79,8 +79,13 @@ public class RED extends LinearOpMode {
             }
             oldRBumper= gamepad1.right_bumper;
 
-            if ((gamepad1.right_trigger > 0.3) && (oldRtrigger > 0.3)){
-                actionsQueue.add(robot.stopIntakeAction());
+            if ((gamepad1.right_trigger >= 0.3) && (oldRtrigger <= 0.3)){
+                if (robot.state == Levels.HIGH_RUNG) {
+                    actionsQueue.add(robot.specIntakeStop());
+                    }
+                else {
+                    actionsQueue.add(robot.stopIntakeAction());
+                }
             }
             oldRtrigger = gamepad1.right_trigger;
 
@@ -116,7 +121,7 @@ public class RED extends LinearOpMode {
             }
             oldSquare = gamepad1.square;
 
-            if (gamepad1.left_trigger >= 0.5 && oldTrigger <= 0.5) {
+            if (gamepad1.left_trigger >= 0.3 && oldTrigger <= 0.3) {
                 if (robot.mode == Robot.Gamepiece.SPECIMEN) {
                     actionsQueue.add(
                             new SequentialAction(

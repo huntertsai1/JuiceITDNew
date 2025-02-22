@@ -226,6 +226,7 @@ public class Robot {
                     new InstantAction(() -> {
                         claw.startIntake();
                         arm.runToPreset(Levels.INTAKE);
+                        lift.lift1.resetEncoder();
                         intaking = true;
                         state = Levels.INTAKE;
                     })
@@ -251,7 +252,21 @@ public class Robot {
             claw.stopIntake();
             intermediatePreset();
         } );
+    }
 
+    public Action specIntakeStop() {
+        return new SequentialAction(
+                new InstantAction(()->{
+            intaking = false;
+            claw.stopIntake();
+            lift.runToPreset(Levels.INTERMEDIATE);
+        } ),
+                new SleepAction(0.1),
+                new InstantAction(() -> {
+                    extension.runToPreset(Levels.INTERMEDIATE);
+                    arm.runToPreset(Levels.INTERMEDIATE);
+                    state = Levels.INTERMEDIATE;
+                }));
     }
 
     private ElapsedTime colorTimeout = new ElapsedTime();
