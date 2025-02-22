@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 @Config
 @TeleOp
-//@Disabled
+@Disabled
 public class LiftTest extends OpMode {
     private DcMotorEx lift1;
     private DcMotorEx lift2;

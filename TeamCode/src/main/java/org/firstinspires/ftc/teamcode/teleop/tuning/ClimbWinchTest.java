@@ -24,7 +24,7 @@ import java.util.List;
 
 @TeleOp(group = "tuning")
 @Config
-//@Disabled
+@Disabled
 public class ClimbWinchTest extends LinearOpMode {
 
 

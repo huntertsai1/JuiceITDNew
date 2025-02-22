@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 
 @TeleOp(name="cv tuner")
 @Config
-//Disabled
+@Disabled
 public class LocalizationTest extends LinearOpMode {
     Motor backLeft;
     Motor backRight;

@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 
 @TeleOp(group = "competition")
 @Config
-//@Disabled
+@Disabled
 public class ManualMotorControl extends LinearOpMode {
 //    public static double ARM_POS = 103;
 //    public static double CLAW_SPEED1 = 0;

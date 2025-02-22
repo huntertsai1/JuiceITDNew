@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 
 @TeleOp(group = "competition")
 @Config
-//@Disabled
+@Disabled
 public class ColorSensorI2C extends LinearOpMode {
     RevColorSensorV3 sensor;
     @Override
