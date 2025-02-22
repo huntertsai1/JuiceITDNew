@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class Lift {
     private PIDController controller1;
 
-    public double p = 0.022, i = 0.00, d = 0.0006;
+    public double p = 0.014, i = 0.00, d = 0.0007;
     public double f = 0.2;
     double voltageCompensation;
 
@@ -61,8 +61,8 @@ public class Lift {
 
         pid1 = controller1.calculate(motorPos, target);
 
-        voltageCompensation = 13.3 / voltageSensor.getVoltage();
-        power1 = (pid1 + ff) * voltageCompensation;
+//        voltageCompensation = 13.3 / voltageSensor.getVoltage();
+        power1 = (pid1 + ff);
 
         if (goingDown) {
             if (motorPos < 120) {
@@ -107,7 +107,7 @@ public class Lift {
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(0);
         } else if (level == Levels.HIGH_RUNG) {
-            runToPosition(570);
+            runToPosition(578);
         } else if (level == Levels.CLIMB_EXTENDED) {
             runToPosition(0);
         } else if (level == Levels.CLIMB_RETRACTED) {
