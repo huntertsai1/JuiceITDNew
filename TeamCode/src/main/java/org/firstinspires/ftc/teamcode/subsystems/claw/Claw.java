@@ -79,7 +79,7 @@ public class Claw {
     }
 
     public void eject() {
-        setPower((float) -0.5);
+        setPower((float) -0.4);
         try {
             Thread.sleep(500);
             setPower(0);
@@ -89,7 +89,7 @@ public class Claw {
     }
 
     public void ejectOps() {
-        setPower((float) -0.5);
+        setPower((float) -0.4);
         try {
             Thread.sleep(500);
             setPower(1);
@@ -100,7 +100,7 @@ public class Claw {
 
     public Action ejectOps(boolean action) {
         return new SequentialAction(
-                new InstantAction(() -> setPower((float) -0.5)),
+                new InstantAction(() -> setPower((float) -0.4)),
                 new SleepAction(0.5),
                 new InstantAction(() -> setPower((float) 1))
         );

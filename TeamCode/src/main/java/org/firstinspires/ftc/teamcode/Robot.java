@@ -190,7 +190,7 @@ public class Robot {
                 }),
                 new SleepAction(0.2),
                 new InstantAction(() -> {
-                    extension.runToPosition(175);
+                    extension.runToPosition(190);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
