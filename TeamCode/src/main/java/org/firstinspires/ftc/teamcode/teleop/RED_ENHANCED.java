@@ -257,12 +257,12 @@ public class RED_ENHANCED extends LinearOpMode {
                 robot.setDrivePower(-x, y, rx);
             } else if (driverMode == DRIVER_MODE.AUTO) {
 //                drive.updatePoseEstimate();
-                if (Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) + Math.abs(gamepad1.right_stick_x) <= 0.05 ) {
-                    if (currentAutomation != null) {
-                        currentAutomation.abort();
-                    }
-                    driverMode = DRIVER_MODE.HUMAN;
-                }
+//                if (Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) + Math.abs(gamepad1.right_stick_x) <= 0.05 ) {
+//                    if (currentAutomation != null) {
+//                        currentAutomation.abort();
+//                    }
+//                    driverMode = DRIVER_MODE.HUMAN;
+//                }
             }
 
             robot.lift.update();
