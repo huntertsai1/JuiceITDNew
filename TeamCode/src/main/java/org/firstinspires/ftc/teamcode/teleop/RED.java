@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,6 +16,10 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
+import org.firstinspires.ftc.teamcode.commands.teleop.TeleAutoCycle;
+import org.firstinspires.ftc.teamcode.commands.teleop.TeleRelocToHP;
+import org.firstinspires.ftc.teamcode.commands.util.CancellableAction;
+import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
@@ -30,6 +35,8 @@ public class RED extends LinearOpMode {
 
     // STATES
     boolean manualExtension = false;
+    DRIVER_MODE driverMode = DRIVER_MODE.HUMAN;
+    CancellableAction currentAutomation = null;
     int climbOverride = 3;
 
     Gamepad oldGamepad = new Gamepad();
@@ -42,6 +49,7 @@ public class RED extends LinearOpMode {
     boolean oldCircle = false;
     boolean oldDpadUp = false;
     boolean oldDpadDown = false;
+    boolean oldDpadLeft = false;
     boolean oldCircle2 = false;
     boolean liftReset = false;
     boolean oldCross2 = false;
@@ -54,7 +62,9 @@ public class RED extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Robot robot = new Robot(hardwareMap, false);
+        PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(0,0,0));
         List<Action> actionsQueue = new ArrayList<>();
+        TeleAutoCycle.depoTargetX = 9;
 
         waitForStart();
 //        robot.initSubsystems(true);
@@ -101,11 +111,38 @@ public class RED extends LinearOpMode {
             if (gamepad1.cross &&!oldCross) {
                 if (robot.mode == Robot.Gamepiece.SAMPLE) {
                     actionsQueue.add(robot.outtakeSample(true));
-                } else{
-                    actionsQueue.add(robot.outtakeSpecimen(true));
+                } else if (robot.mode == Robot.Gamepiece.SPECIMEN && driverMode == DRIVER_MODE.HUMAN){
+//                    actionsQueue.add(robot.outtakeSpecimen(true));
+                    currentAutomation = new TeleAutoCycle(drive, robot, gamepad1);
+                    actionsQueue.add(
+                            new SequentialAction(
+                                    new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
+                                    currentAutomation,
+                                    new InstantAction(() -> {
+                                        currentAutomation = null;
+                                        driverMode = DRIVER_MODE.HUMAN;
+                                    })
+                            )
+                    );
                 }
             }
             oldCross = gamepad1.cross;
+
+            if (gamepad1.dpad_left && !oldDpadLeft && driverMode == DRIVER_MODE.HUMAN) {
+                currentAutomation = new TeleRelocToHP(drive, robot);
+                actionsQueue.add(
+                        new SequentialAction(
+                                new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
+                                currentAutomation,
+                                new InstantAction(() -> {
+                                    currentAutomation = null;
+                                    driverMode = DRIVER_MODE.HUMAN;
+                                })
+                        )
+                );
+            }
+            oldDpadLeft = gamepad1.dpad_left;
+
             if (gamepad1.triangle && !oldTriangle){
                 robot.toggleGamepiece();
             }
@@ -214,10 +251,20 @@ public class RED extends LinearOpMode {
             }
             actionsQueue = newActions;
 
-            double x = -gamepad1.left_stick_x;
-            double y = -gamepad1.left_stick_y;
-            double rx = gamepad1.right_stick_x;
-            robot.setDrivePower(-x, y, rx);
+            if (driverMode == DRIVER_MODE.HUMAN) {
+                double x = -gamepad1.left_stick_x;
+                double y = -gamepad1.left_stick_y;
+                double rx = gamepad1.right_stick_x;
+                robot.setDrivePower(-x, y, rx);
+            } else if (driverMode == DRIVER_MODE.AUTO) {
+//                drive.updatePoseEstimate();
+//                if (Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) + Math.abs(gamepad1.right_stick_x) <= 0.05 ) {
+//                    if (currentAutomation != null) {
+//                        currentAutomation.abort();
+//                    }
+//                    driverMode = DRIVER_MODE.HUMAN;
+//                }
+            }
 
             robot.lift.update();
 //            PoseKeeper.set(robot.drive.pose);
@@ -247,5 +294,9 @@ public class RED extends LinearOpMode {
 
     private void setManualExtension() {
         manualExtension = !manualExtension;
+    }
+    enum DRIVER_MODE {
+        HUMAN,
+        AUTO
     }
 }
