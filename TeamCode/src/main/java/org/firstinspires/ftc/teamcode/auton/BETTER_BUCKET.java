@@ -42,44 +42,48 @@ public class BETTER_BUCKET extends LinearOpMode {
                 //preload
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(-54, -51, Math.toRadians(45)), Math.toRadians(160))
-                .waitSeconds(0.4);
+                .waitSeconds(0.6);
 
         TrajectoryActionBuilder spike1 = preload.endTrajectory().fresh()
                 //spike1
-                .turn(Math.toRadians(41))
-                .waitSeconds(0.2);
+                .setTangent(Math.toRadians(45))
+                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(104)), Math.toRadians(45))
+                .waitSeconds(0.5);
 
         TrajectoryActionBuilder deposit1 = spike1.endTrajectory().fresh()
-                //deposit1
-                .turn(Math.toRadians(-45))
-                .waitSeconds(0.3);
+                //depo1
+                .setTangent(Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-53, -51, Math.toRadians(30)), Math.toRadians(200))
+                .waitSeconds(1.2);
 
         TrajectoryActionBuilder spike2 = deposit1.endTrajectory().fresh()
                 //spike2
-                .turn(Math.toRadians(65))
-                .waitSeconds(0.2);
+                .setTangent(Math.toRadians(92))
+                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(109)), Math.toRadians(100))
+                .waitSeconds(0.5);
 
         TrajectoryActionBuilder deposit2 = spike2.endTrajectory().fresh()
-                //deposit2
-                .turn(Math.toRadians(-66))
-                .waitSeconds(0.3);
+                //depo2
+                .setTangent(Math.toRadians(272))
+                .splineToLinearHeading(new Pose2d(-53, -51, Math.toRadians(35)), Math.toRadians(272))
+                .waitSeconds(1.2);
 
         TrajectoryActionBuilder spike3 = deposit2.endTrajectory().fresh()
                 //spike3
                 .setTangent(Math.toRadians(88))
-                .splineToLinearHeading(new Pose2d(-62, -47, Math.toRadians(115)), Math.toRadians(95))
+                .splineToLinearHeading(new Pose2d(-63, -47, Math.toRadians(110)), Math.toRadians(95))
                 .waitSeconds(0.5);
 
         TrajectoryActionBuilder deposit3 = spike3.endTrajectory().fresh()
-                //deposit3
+                //depo3
                 .setTangent(Math.toRadians(268))
-                .splineToLinearHeading(new Pose2d(-55, -48, Math.toRadians(45)), Math.toRadians(268))
+                .splineToLinearHeading(new Pose2d(-53, -51, Math.toRadians(30)), Math.toRadians(268))
                 .waitSeconds(1.2);
 
-                TrajectoryActionBuilder subDrive = deposit3.endTrajectory().fresh()
+        TrajectoryActionBuilder subDrive = deposit3.endTrajectory().fresh()
                 //ascent zone park
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-31, -7, Math.toRadians(0)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(-26, -9, Math.toRadians(0)), Math.toRadians(0));
 
         robot.initSubsystems();
 
@@ -99,7 +103,7 @@ public class BETTER_BUCKET extends LinearOpMode {
                                 spike1.build(),
 
                                 robot.autoBucketIntake(true),
-                                new SleepAction(0.3),
+                                new SleepAction(0.5),
 
                                 new InstantAction(() -> robot.claw.setPower(0)),
                                 new ParallelAction(
@@ -111,7 +115,7 @@ public class BETTER_BUCKET extends LinearOpMode {
                                 spike2.build(),
 
                                 robot.autoBucketIntake(true),
-                                new SleepAction(0.3),
+                                new SleepAction(0.5),
 
                                 new InstantAction(() -> robot.claw.setPower(0)),
                                 new ParallelAction(
@@ -122,8 +126,8 @@ public class BETTER_BUCKET extends LinearOpMode {
 
                                 spike3.build(),
 
-                                robot.autoBucketIntake(true),
-                                new SleepAction(0.3),
+                                robot.autoBucketIntakeTHIRD(true),
+                                new SleepAction(0.5),
 
                                 new InstantAction(() -> robot.claw.setPower(0)),
                                 new ParallelAction(
