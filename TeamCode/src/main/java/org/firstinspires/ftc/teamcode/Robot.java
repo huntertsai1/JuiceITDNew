@@ -345,6 +345,23 @@ public class Robot {
         );
     }
 
+    public Action highRungAuto(boolean action) {
+        return new SequentialAction(
+                new InstantAction( () ->
+                    {
+                        extension.runToPreset(Levels.HIGH_RUNG);
+                        arm.runToPreset(Levels.HIGH_RUNG);
+                        claw.setStall(true);
+                    }
+                ),
+                new SleepAction(0.5),
+                new InstantAction(() -> {
+                    lift.runToPreset(Levels.HIGH_RUNG);
+                    state = Levels.HIGH_RUNG;
+                })
+        );
+    }
+
     // OUTTAKE
     public Action outtakeSample(boolean action) {
 

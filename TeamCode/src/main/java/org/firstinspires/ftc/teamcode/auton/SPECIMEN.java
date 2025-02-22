@@ -134,7 +134,7 @@ public class SPECIMEN extends LinearOpMode {
 
                             new ParallelAction(
                                     preload.build(),
-                                    robot.highRung(true)
+                                    robot.highRungAuto(true)
                             ),
                             robot.autoSpecimen(true),
 
@@ -151,7 +151,7 @@ public class SPECIMEN extends LinearOpMode {
                             intakeSpec2.build(),
                             robot.autoSpecIntake(true),
                             new SleepAction(intakeWait),
-                            robot.highRung(true),
+                            robot.highRungAuto(true),
                             new SleepAction(waits),
 
                             depositSpec2.build(),
@@ -163,7 +163,7 @@ public class SPECIMEN extends LinearOpMode {
                                         robot.autoSpecIntake(true)
                                 ),
                             new SleepAction(intakeWait),
-                                robot.highRung(true),
+                                robot.highRungAuto(true),
                             new SleepAction(waits),
 
                             depositSpec3.build(),
@@ -175,7 +175,7 @@ public class SPECIMEN extends LinearOpMode {
                                         robot.autoSpecIntake(true)
                                 ),
                             new SleepAction(intakeWait),
-                            robot.highRung(true),
+                            robot.highRungAuto(true),
                             new SleepAction(waits),
 
                             depositSpec4.build(),
@@ -187,7 +187,7 @@ public class SPECIMEN extends LinearOpMode {
                                         robot.autoSpecIntake(true)
                                 ),
                             new SleepAction(intakeWait),
-                            robot.highRung(true),
+                            robot.highRungAuto(true),
                             new SleepAction(waits),
 
                             depositSpec5.build(),
