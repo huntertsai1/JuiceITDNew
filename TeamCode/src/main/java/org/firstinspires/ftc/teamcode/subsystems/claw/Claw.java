@@ -115,7 +115,7 @@ public class Claw {
 
     public Action eject(boolean action) {
         return new SequentialAction(
-                new InstantAction(() -> setPower((float) -0.5)),
+                new InstantAction(() -> setPower((float) -0.4)),
                 new SleepAction(0.1),
                 new InstantAction(() -> setPower(0))
         );
@@ -185,7 +185,7 @@ public class Claw {
             float green = colorSensor.getNormalizedColors().green;
             double distance = ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM);
             if (distance < 7) {
-                if (blue > 0.045) {
+                if (blue > 0.06 && red < 0.09) {
                     // Extreme blue output -> blue sample
                     return SampleColors.BLUE;
                 } else if (red >= 0.05 && green > 0.08) {
