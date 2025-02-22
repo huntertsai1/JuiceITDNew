@@ -60,8 +60,8 @@ public class TeleAutoCycle extends CancellableAction {
                             new TranslationalVelConstraint(veloLim),
                             new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                     .build();
-            intakePath = drive.actionBuilder(new Pose2d(0, -30, Math.toRadians(-92)))
-                    .setTangent(Math.toRadians(-90))
+            intakePath = drive.actionBuilder(new Pose2d(depoTargetX, -30, Math.toRadians(-92)))
+                    .setTangent(Math.toRadians(0))
                     .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
                             new TranslationalVelConstraint(veloLim),
                             new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
@@ -77,15 +77,12 @@ public class TeleAutoCycle extends CancellableAction {
                     new ParallelAction(
                             robot.highRungAuto(true),
                             depoPath,
-                            new InstantAction(()->{depoTargetX -= 5;})
+                            new InstantAction(()->{depoTargetX -= 1.5;})
                     ),
                     robot.autoSpecimen(true),
 
-                    new ParallelAction(
-                            new SequentialAction(
-                                 new SleepAction(1)
-                            )
-                    ),
+                    new SleepAction(0.1),
+
                     new ParallelAction(
                             intakePath,
                             robot.autoTeleIntakePrime()

@@ -64,6 +64,7 @@ public class RED_ENHANCED extends LinearOpMode {
         Robot robot = new Robot(hardwareMap, false);
         PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(0,0,0));
         List<Action> actionsQueue = new ArrayList<>();
+        TeleAutoCycle.depoTargetX = 9;
 
         waitForStart();
 //        robot.initSubsystems(true);

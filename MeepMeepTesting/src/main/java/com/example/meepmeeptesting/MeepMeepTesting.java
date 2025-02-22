@@ -31,14 +31,10 @@ public class MeepMeepTesting {
                 .build();
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-38, -62, Math.toRadians(0)))
-                        .setTangent(Math.toRadians(88))
-                        .splineToLinearHeading(new Pose2d(-62, -47, Math.toRadians(115)), Math.toRadians(95))
-                        .waitSeconds(0.5)
-                        .setTangent(Math.toRadians(268))
-                        .splineToLinearHeading(new Pose2d(-55, -50, Math.toRadians(45)), Math.toRadians(268))
-                        .waitSeconds(1.2)
-                        .build()
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -30, Math.toRadians(-90)))
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0))
+                .build()
         );
 
 //        myBot.runAction(myBot.getDrive().actionBuilder(startPose)

@@ -15,7 +15,7 @@ public class Sweeper {
 
     public float RETRACTED_POS = 88;
     public float FULL_EXTENDED_POS = 210;
-    public double SWEEP_DELAY = 0.5;
+    public double SWEEP_DELAY = 0.3;
 
     public Sweeper(StepperServo s) {
         servo = s;
