@@ -123,6 +123,7 @@ public class Robot {
         arm.runToPreset(Levels.INIT);
         lift.runToPreset(Levels.INIT);
         extension.runToPreset(Levels.INIT);
+        sweeper.setPosition(88);
     }
 
     public Action autoSpecimen (boolean action) {
