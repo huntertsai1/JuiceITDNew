@@ -354,7 +354,7 @@ public class Robot {
                         claw.setStall(true);
                     }
                 ),
-                new SleepAction(0.5),
+                new SleepAction(0.2),
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.HIGH_RUNG);
                     state = Levels.HIGH_RUNG;

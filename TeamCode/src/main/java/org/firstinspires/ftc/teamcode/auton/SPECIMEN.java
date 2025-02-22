@@ -151,10 +151,10 @@ public class SPECIMEN extends LinearOpMode {
                             intakeSpec2.build(),
                             robot.autoSpecIntake(true),
                             new SleepAction(intakeWait),
-                            robot.highRungAuto(true),
-                            new SleepAction(waits),
-
-                            depositSpec2.build(),
+                            new ParallelAction(
+                                    robot.highRungAuto(true),
+                                    depositSpec2.build()
+                            ),
                             robot.autoSpecimen(true),
 
                             //SPEC3
@@ -163,10 +163,10 @@ public class SPECIMEN extends LinearOpMode {
                                         robot.autoSpecIntake(true)
                                 ),
                             new SleepAction(intakeWait),
-                                robot.highRungAuto(true),
-                            new SleepAction(waits),
-
-                            depositSpec3.build(),
+                                new ParallelAction(
+                                        robot.highRungAuto(true),
+                                        depositSpec3.build()
+                                ),
                             robot.autoSpecimen(true),
 
                             //SPEC4
@@ -175,10 +175,10 @@ public class SPECIMEN extends LinearOpMode {
                                         robot.autoSpecIntake(true)
                                 ),
                             new SleepAction(intakeWait),
-                            robot.highRungAuto(true),
-                            new SleepAction(waits),
-
-                            depositSpec4.build(),
+                                new ParallelAction(
+                                        robot.highRungAuto(true),
+                                        depositSpec4.build()
+                                ),
                             robot.autoSpecimen(true),
 
                             //SPEC5
@@ -187,10 +187,10 @@ public class SPECIMEN extends LinearOpMode {
                                         robot.autoSpecIntake(true)
                                 ),
                             new SleepAction(intakeWait),
-                            robot.highRungAuto(true),
-                            new SleepAction(waits),
-
-                            depositSpec5.build(),
+                                new ParallelAction(
+                                        robot.highRungAuto(true),
+                                        depositSpec5.build()
+                                ),
                             robot.autoSpecimen(true),
 
                             //PARK
