@@ -29,7 +29,7 @@ public class TeleAutoCycle extends CancellableAction {
     double accelLowerLim = -40.0;
     double waits = 0.2;
     double intakeWait = 0.3;
-    public static double depoTargetX = 9;
+    public static double depoTargetX = 11.5;
     PinpointDrive drive;
     Robot robot;
     Action depoPath;
@@ -69,19 +69,19 @@ public class TeleAutoCycle extends CancellableAction {
             fullPath = new SequentialAction(
                     robot.autoTeleIntakeBoom(),
                     new SleepAction(intakeWait),
-//                    new InstantAction(() -> {
-//                        if (robot.claw.detectSample() == null) {
-//                            failsafeAbort();
-//                        }
-//                    }),
+                    new InstantAction(() -> {
+                        if (robot.claw.detectSample() == null) {
+                            failsafeAbort();
+                        }
+                    }),
                     new ParallelAction(
                             robot.highRungAuto(true),
                             depoPath,
-                            new InstantAction(()->{depoTargetX -= 1.5;})
+                            new InstantAction(()->{depoTargetX -= 1;})
                     ),
                     robot.autoSpecimen(true),
 
-                    new SleepAction(0.1),
+//                    new SleepAction(0.1),
 
                     new ParallelAction(
                             intakePath,
