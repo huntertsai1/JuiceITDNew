@@ -29,7 +29,7 @@ public class SPECIMEN extends LinearOpMode {
         drive = new PinpointDrive(hardwareMap, startPose);
 
         double HPDeposit = -51;
-        double spikeBack = -17;
+        double spikeBack = -16.5;
         double waits = 0.2;
         double intakeWait = 0.3;
 
@@ -65,7 +65,7 @@ public class SPECIMEN extends LinearOpMode {
 
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(62.5, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(64, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -149,7 +149,7 @@ public class SPECIMEN extends LinearOpMode {
                             //SPEC2
 
                             intakeSpec2.build(),
-                            robot.autoSpecIntake(true),
+                            robot.autoSpecIntakeINITAL(true),
                             new SleepAction(intakeWait),
                             new ParallelAction(
                                     robot.highRungAuto(true),

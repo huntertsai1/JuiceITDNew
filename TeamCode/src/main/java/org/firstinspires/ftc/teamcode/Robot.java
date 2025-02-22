@@ -139,11 +139,34 @@ public class Robot {
         );
     }
 
-    public Action autoSpecIntake(boolean action) {
+    public Action autoSpecIntakeINITAL(boolean action) {
         return new SequentialAction(
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
                     extension.runToPosition(180);
+                }),
+                new SleepAction(0.3),
+                new InstantAction(()->{
+                    arm.runToPreset(Levels.INTAKE);
+                    claw.startIntake();
+                    intaking = true;
+                    state = Levels.INTAKE;}),
+                new SleepAction(1.2),
+                new InstantAction(() -> {
+                    extension.runToPosition(240);
+                    lift.lift1.resetEncoder();
+                })
+        );
+    }
+
+    public Action autoSpecIntake(boolean action) {
+        return new SequentialAction(
+                new InstantAction(() -> {
+                    lift.runToPreset(Levels.INTAKE);
+                }),
+                new SleepAction(0.1),
+                new InstantAction(() -> {
+                    extension.runToPosition(175);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
