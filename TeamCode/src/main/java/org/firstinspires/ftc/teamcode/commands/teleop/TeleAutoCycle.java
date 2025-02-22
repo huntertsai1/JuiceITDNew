@@ -66,31 +66,33 @@ public class TeleAutoCycle extends CancellableAction {
                             new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                     .build();
             fullPath = new SequentialAction(
-                    robot.teleAutoIntake(),
+                    robot.autoSpecIntake(true),
                     new SleepAction(intakeWait),
                     new InstantAction(() -> {
                         if (robot.claw.detectSample() == null) {
                             failsafeAbort();
                         }
                     }),
-                    robot.highRung(true),
-                    new SleepAction(waits),
-
-                    depoPath,
+                    new ParallelAction(
+                            robot.highRungAuto(true),
+                            depoPath
+                    ),
                     robot.autoSpecimen(true),
 
                     new ParallelAction(
                             new SequentialAction(
                                  new SleepAction(1),
                                     new InstantAction(() -> {
-                                        if (robot.claw.detectSample() != null) {
+//                                        if (robot.claw.detectSample() != null) {
                                             // Depo succeeded
                                             StateKeeper.putSpecimenHighRung(depoTargetX);
-                                        }
+//                                        }
                                     })
                             ),
-                            intakePath,
-                            robot.teleAutoIntakePrime(true)
+                            new ParallelAction(
+                                    intakePath,
+                                    robot.autoSpecIntake(true)
+                            )
                     )
             );
         }
