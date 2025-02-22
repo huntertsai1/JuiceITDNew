@@ -164,7 +164,7 @@ public class Robot {
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
                 }),
-                new SleepAction(0.1),
+                new SleepAction(0.2),
                 new InstantAction(() -> {
                     extension.runToPosition(175);
                 }),
@@ -174,7 +174,7 @@ public class Robot {
                     claw.startIntake();
                     intaking = true;
                     state = Levels.INTAKE;}),
-                new SleepAction(1.2),
+                new SleepAction(1.3),
                 new InstantAction(() -> {
                     extension.runToPosition(240);
                     lift.lift1.resetEncoder();
