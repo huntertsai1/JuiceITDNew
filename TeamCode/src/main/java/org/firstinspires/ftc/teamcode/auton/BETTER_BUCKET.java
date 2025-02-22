@@ -29,10 +29,10 @@ public class BETTER_BUCKET extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double HPDeposit = -51;
-        double spikeBack = -16.5;
-        double waits = 0.2;
-        double intakeWait = 0.3;
+        double depositX = -54;
+        double depositY = -50;
+        double depositWait = 1.2;
+        double intakeWait = 0.5;
 
         double veloLim = 60.0;
         double accelUpperLim = 60.0;
@@ -41,49 +41,50 @@ public class BETTER_BUCKET extends LinearOpMode {
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 //preload
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(-54, -51, Math.toRadians(45)), Math.toRadians(160))
+                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(45)), Math.toRadians(160))
                 .waitSeconds(0.6);
 
         TrajectoryActionBuilder spike1 = preload.endTrajectory().fresh()
                 //spike1
                 .setTangent(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(105.5)), Math.toRadians(45))
-                .waitSeconds(0.5);
+                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(106)), Math.toRadians(45))
+                .waitSeconds(intakeWait);
 
         TrajectoryActionBuilder deposit1 = spike1.endTrajectory().fresh()
                 //depo1
                 .setTangent(Math.toRadians(225))
-                .splineToLinearHeading(new Pose2d(-53, -51, Math.toRadians(30)), Math.toRadians(200))
-                .waitSeconds(1.2);
+                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(30)), Math.toRadians(200))
+                .waitSeconds(depositWait);
 
         TrajectoryActionBuilder spike2 = deposit1.endTrajectory().fresh()
                 //spike2
                 .setTangent(Math.toRadians(92))
-                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(111)), Math.toRadians(100))
-                .waitSeconds(0.5);
+                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(112)), Math.toRadians(100))
+                .waitSeconds(intakeWait);
 
         TrajectoryActionBuilder deposit2 = spike2.endTrajectory().fresh()
                 //depo2
                 .setTangent(Math.toRadians(272))
-                .splineToLinearHeading(new Pose2d(-53, -51, Math.toRadians(35)), Math.toRadians(272))
-                .waitSeconds(1.2);
+                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(35)), Math.toRadians(272))
+                .waitSeconds(depositWait);
 
         TrajectoryActionBuilder spike3 = deposit2.endTrajectory().fresh()
                 //spike3
                 .setTangent(Math.toRadians(88))
                 .splineToLinearHeading(new Pose2d(-63, -47, Math.toRadians(110)), Math.toRadians(95))
-                .waitSeconds(0.5);
+                .waitSeconds(intakeWait);
 
         TrajectoryActionBuilder deposit3 = spike3.endTrajectory().fresh()
                 //depo3
                 .setTangent(Math.toRadians(268))
-                .splineToLinearHeading(new Pose2d(-53, -51, Math.toRadians(30)), Math.toRadians(268))
-                .waitSeconds(1.2);
+                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(30)), Math.toRadians(268))
+                .waitSeconds(depositWait);
 
         TrajectoryActionBuilder subDrive = deposit3.endTrajectory().fresh()
                 //ascent zone park
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-26, -4, Math.toRadians(0)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(-48, -11, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(-25);
 
         robot.initSubsystems();
 
@@ -141,7 +142,7 @@ public class BETTER_BUCKET extends LinearOpMode {
                         new LoopAction(() -> {
                             robot.lift.update();
                         }, this::isStopRequested)
-//                        , new WinchTimeAction(robot.climbWinch, 1.24, -1, telemetry)
+                        , new WinchTimeAction(robot.climbWinch, 2, -1, telemetry) //TUNE
                 )
         );
     }
