@@ -65,11 +65,12 @@ public class Lift {
         power1 = (pid1 + ff) * voltageCompensation;
 
         if (goingDown) {
-            if (motorPos < 100) {
-                power1 = -0.1;
-                if (lift1.motor.getCurrent(CurrentUnit.AMPS) >= 6 || spiked || motorPos <= 5) {
+            if (motorPos < 120) {
+                power1 = -0.3;
+                if ((lift1.motor.getCurrent(CurrentUnit.AMPS) >= 1.2 && motorPos <= 50 )|| spiked) {
                     spiked = true;
                     power1 = 0;
+                    target = 0;
                 }
             }
         }
@@ -102,7 +103,7 @@ public class Lift {
         } else if (level == Levels.LOW_BASKET) {
             runToPosition(700);
         } else if (level == Levels.HIGH_BASKET) {
-            runToPosition(1400);
+            runToPosition(1450);
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(0);
         } else if (level == Levels.HIGH_RUNG) {
