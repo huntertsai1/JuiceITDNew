@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 
 @Disabled
-@Autonomous(name = "BUCKET", group = "Autonomous")
+@Autonomous(name = "HATETHIS", group = "Autonomous")
 public class BUCKET extends LinearOpMode {
     Robot robot;
     PinpointDrive drive;

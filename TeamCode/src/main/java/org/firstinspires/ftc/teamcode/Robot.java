@@ -186,7 +186,7 @@ public class Robot {
         return new SequentialAction(
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(240);
+                    extension.runToPosition(185);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
@@ -351,7 +351,7 @@ public class Robot {
                     lift.runToPreset(Levels.HIGH_BASKET);
                     arm.runToPreset(Levels.INTERMEDIATE);
                 }),
-                new SleepAction(1.5),
+                new SleepAction(1),
                 new InstantAction(() -> {
                     arm.runToPreset(Levels.HIGH_BASKET);
                     state = Levels.HIGH_BASKET;
