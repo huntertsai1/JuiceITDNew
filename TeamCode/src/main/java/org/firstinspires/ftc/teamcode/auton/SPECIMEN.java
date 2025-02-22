@@ -29,7 +29,7 @@ public class SPECIMEN extends LinearOpMode {
         drive = new PinpointDrive(hardwareMap, startPose);
 
         double HPDeposit = -51;
-        double spikeBack = -15;
+        double spikeBack = -17;
         double waits = 0.2;
         double intakeWait = 0.3;
 
@@ -38,7 +38,7 @@ public class SPECIMEN extends LinearOpMode {
         double accelLowerLim = -40.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
-                .lineToY(-30,
+                .lineToY(-28,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
