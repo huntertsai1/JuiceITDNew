@@ -245,7 +245,7 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(0.3), // DELAY BETWEEN ARM DROPPING AND EXTENSION FULLY EXTENDING, EDIT IF NEEDED
                 new InstantAction(() -> {
-                    extension.runToPosition(220);
+                    extension.runToPosition(230);
                 })
         );
     }
