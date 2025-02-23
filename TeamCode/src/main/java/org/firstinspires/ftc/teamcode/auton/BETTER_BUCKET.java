@@ -65,13 +65,13 @@ public class BETTER_BUCKET extends LinearOpMode {
         TrajectoryActionBuilder deposit2 = spike2.endTrajectory().fresh()
                 //depo2
                 .setTangent(Math.toRadians(272))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(35)), Math.toRadians(272))
+                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(40)), Math.toRadians(272))
                 .waitSeconds(depositWait);
 
         TrajectoryActionBuilder spike3 = deposit2.endTrajectory().fresh()
                 //spike3
                 .setTangent(Math.toRadians(88))
-                .splineToLinearHeading(new Pose2d(-64, -45, Math.toRadians(120)), Math.toRadians(95))
+                .splineToLinearHeading(new Pose2d(-64, -42, Math.toRadians(120)), Math.toRadians(95))
                 .waitSeconds(intakeWait);
 
         TrajectoryActionBuilder deposit3 = spike3.endTrajectory().fresh()
