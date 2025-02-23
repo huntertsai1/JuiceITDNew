@@ -137,8 +137,11 @@ public class BETTER_BUCKET extends LinearOpMode {
                                 ),
                                 robot.outtakeSample(true),
                                 new SleepAction(1),
-                                subDrive.build()
-                        ),
+                                subDrive.build(),
+                                robot.sweeper.sweep(),
+                                new SleepAction(1),
+                                robot.sweeper.sweep()
+                                ),
                         new LoopAction(() -> {
                             robot.lift.update();
                         }, this::isStopRequested)
