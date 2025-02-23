@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class Lift {
     private PIDController controller1;
 
-    public double p = 0.014, i = 0.00, d = 0.0007;
+    public double p = 0.015, i = 0.00, d = 0.0007;
     public double f = 0.2;
     double voltageCompensation;
 
@@ -66,7 +66,7 @@ public class Lift {
 
         if (goingDown) {
             if (motorPos < 120) {
-                power1 = -0.3;
+                power1 = -0.4;
                 if ((lift1.motor.getCurrent(CurrentUnit.AMPS) >= 1.2 && motorPos <= 50 )|| spiked) {
                     spiked = true;
                     power1 = 0;
