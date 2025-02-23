@@ -45,7 +45,7 @@ public class Robot {
     // STATE VARS
     boolean auton;
     boolean intaking = false;
-    public boolean activateSensor = true;
+    public boolean activateSensor = false;
     public Levels state = Levels.INIT;
     public Gamepiece mode = Gamepiece.SAMPLE;
     public SampleColors targetColor = SampleColors.YELLOW;
@@ -225,7 +225,7 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(0.3), // DELAY BETWEEN ARM DROPPING AND EXTENSION FULLY EXTENDING, EDIT IF NEEDED
                 new InstantAction(() -> {
-                    extension.runToPosition(240);
+                    extension.runToPosition(250);
                 }),
                 new SleepAction(1),
                 new InstantAction(() -> {
@@ -249,11 +249,11 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(0.3), // DELAY BETWEEN ARM DROPPING AND EXTENSION FULLY EXTENDING, EDIT IF NEEDED
                 new InstantAction(() -> {
-                    extension.runToPosition(240);
+                    extension.runToPosition(250);
                 }),
                 new SleepAction(1),
                 new InstantAction(() -> {
-                    extension.runToPosition(270);
+                    extension.runToPosition(280);
                 })
         );
     }

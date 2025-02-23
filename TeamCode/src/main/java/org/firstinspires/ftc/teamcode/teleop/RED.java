@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name="RED")
+@TeleOp(name="RED AND BLUE REMEMBER")
 @Config
 public class RED extends LinearOpMode {
     double oldTime = 0;
