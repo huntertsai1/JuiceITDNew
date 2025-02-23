@@ -142,7 +142,7 @@ public class RED extends LinearOpMode {
             oldTriangle = gamepad1.triangle;
 
             if (gamepad1.circle && !oldCircle){
-                actionsQueue.add(robot.claw.ejectOps(true));
+                robot.toggleColorSensor();
 
             }
             oldCircle = gamepad1.circle;
