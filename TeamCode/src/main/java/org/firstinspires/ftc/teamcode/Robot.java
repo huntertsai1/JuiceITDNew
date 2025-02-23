@@ -225,7 +225,11 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(0.3), // DELAY BETWEEN ARM DROPPING AND EXTENSION FULLY EXTENDING, EDIT IF NEEDED
                 new InstantAction(() -> {
-                    extension.runToPosition(285);
+                    extension.runToPosition(260);
+                }),
+                new SleepAction(0.2),
+                new InstantAction(() -> {
+                    extension.runToPosition(280);
                 })
         );
     }
@@ -234,7 +238,7 @@ public class Robot {
         return new SequentialAction(
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(140);
+                    extension.runToPosition(135);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
@@ -245,7 +249,11 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(0.3), // DELAY BETWEEN ARM DROPPING AND EXTENSION FULLY EXTENDING, EDIT IF NEEDED
                 new InstantAction(() -> {
-                    extension.runToPosition(230);
+                    extension.runToPosition(240);
+                }),
+                new SleepAction(0.2),
+                new InstantAction(() -> {
+                    extension.runToPosition(260);
                 })
         );
     }

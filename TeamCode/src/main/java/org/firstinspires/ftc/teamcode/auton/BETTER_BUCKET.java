@@ -47,7 +47,7 @@ public class BETTER_BUCKET extends LinearOpMode {
         TrajectoryActionBuilder spike1 = preload.endTrajectory().fresh()
                 //spike1
                 .setTangent(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-44.5, -48, Math.toRadians(106)), Math.toRadians(45))
+                .splineToLinearHeading(new Pose2d(-45, -48, Math.toRadians(106)), Math.toRadians(45))
                 .waitSeconds(intakeWait);
 
         TrajectoryActionBuilder deposit1 = spike1.endTrajectory().fresh()
@@ -59,7 +59,7 @@ public class BETTER_BUCKET extends LinearOpMode {
         TrajectoryActionBuilder spike2 = deposit1.endTrajectory().fresh()
                 //spike2
                 .setTangent(Math.toRadians(92))
-                .splineToLinearHeading(new Pose2d(-58.5, -48, Math.toRadians(111)), Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(112)), Math.toRadians(100))
                 .waitSeconds(intakeWait);
 
         TrajectoryActionBuilder deposit2 = spike2.endTrajectory().fresh()
@@ -71,7 +71,7 @@ public class BETTER_BUCKET extends LinearOpMode {
         TrajectoryActionBuilder spike3 = deposit2.endTrajectory().fresh()
                 //spike3
                 .setTangent(Math.toRadians(88))
-                .splineToLinearHeading(new Pose2d(-66, -42, Math.toRadians(117)), Math.toRadians(95))
+                .splineToLinearHeading(new Pose2d(-64.5, -45, Math.toRadians(119)), Math.toRadians(95))
                 .waitSeconds(intakeWait);
 
         TrajectoryActionBuilder deposit3 = spike3.endTrajectory().fresh()
