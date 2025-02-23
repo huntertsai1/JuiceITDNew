@@ -220,16 +220,16 @@ public class Robot {
                 new InstantAction(()->{
                     arm.runToPreset(Levels.INTAKE);
                     lift.lift1.resetEncoder();
-                    claw.startIntake();
+                    claw.setPower(0.8F);
                     intaking = true;
                     state = Levels.INTAKE;}),
                 new SleepAction(0.3), // DELAY BETWEEN ARM DROPPING AND EXTENSION FULLY EXTENDING, EDIT IF NEEDED
                 new InstantAction(() -> {
-                    extension.runToPosition(260);
+                    extension.runToPosition(240);
                 }),
                 new SleepAction(1),
                 new InstantAction(() -> {
-                    extension.runToPosition(280);
+                    extension.runToPosition(285);
                 })
         );
     }
@@ -244,7 +244,7 @@ public class Robot {
                 new InstantAction(()->{
                     arm.runToPreset(Levels.INTAKE);
                     lift.lift1.resetEncoder();
-                    claw.startIntake();
+                    claw.setPower(0.8F);
                     intaking = true;
                     state = Levels.INTAKE;}),
                 new SleepAction(0.3), // DELAY BETWEEN ARM DROPPING AND EXTENSION FULLY EXTENDING, EDIT IF NEEDED
@@ -253,7 +253,7 @@ public class Robot {
                 }),
                 new SleepAction(1),
                 new InstantAction(() -> {
-                    extension.runToPosition(260);
+                    extension.runToPosition(270);
                 })
         );
     }
