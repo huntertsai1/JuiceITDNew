@@ -249,7 +249,9 @@ public class RED extends LinearOpMode {
                 double y = -gamepad1.left_stick_y;
                 double rx = gamepad1.right_stick_x;
                 robot.setDrivePower(-x, y, rx);
-            } else if (driverMode == DRIVER_MODE.AUTO)
+            } else if (driverMode == DRIVER_MODE.AUTO) {
+                //nothing for now
+            }
 
             robot.lift.update();
 
