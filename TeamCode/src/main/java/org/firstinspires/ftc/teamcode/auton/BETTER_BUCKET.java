@@ -77,7 +77,7 @@ public class BETTER_BUCKET extends LinearOpMode {
         TrajectoryActionBuilder deposit3 = spike3.endTrajectory().fresh()
                 //depo3
                 .setTangent(Math.toRadians(268))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(30)), Math.toRadians(268))
+                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(40)), Math.toRadians(268))
                 .waitSeconds(depositWait);
 
         TrajectoryActionBuilder subDrive = deposit3.endTrajectory().fresh()
