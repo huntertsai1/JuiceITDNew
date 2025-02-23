@@ -145,7 +145,7 @@ public class BETTER_BUCKET extends LinearOpMode {
                         new LoopAction(() -> {
                             robot.lift.update();
                         }, this::isStopRequested)
-//                        , new WinchTimeAction(robot.climbWinch, 2.1, -1, telemetry) //TUNE
+                        , new WinchTimeAction(robot.climbWinch, 2.2, -1, telemetry)
                 )
         );
     }
