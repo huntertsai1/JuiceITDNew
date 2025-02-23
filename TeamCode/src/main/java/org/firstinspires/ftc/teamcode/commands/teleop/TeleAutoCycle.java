@@ -35,7 +35,7 @@ public class TeleAutoCycle extends CancellableAction {
     Action depoPath;
     Action intakePath;
     Action fullPath;
-    Pose2d relocPos = new Pose2d(19, -48, Math.toRadians(-45));
+    Pose2d relocPos = new Pose2d(7, -32, Math.toRadians(-90));
     public TeleAutoCycle(PinpointDrive drive, Robot robot, Gamepad gamepad) {
         this.drive = drive;
         this.robot = robot;
@@ -56,32 +56,25 @@ public class TeleAutoCycle extends CancellableAction {
 
             depoPath = drive.actionBuilder(relocPos)
                     .setTangent(Math.toRadians(180))
-                    .splineToLinearHeading(new Pose2d(depoTargetX, -30, Math.toRadians(-92)), Math.toRadians(90),
+                    .splineToLinearHeading(new Pose2d(depoTargetX, -29, Math.toRadians(-92)), Math.toRadians(90),
                             new TranslationalVelConstraint(veloLim),
                             new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                     .build();
             intakePath = drive.actionBuilder(new Pose2d(depoTargetX, -30, Math.toRadians(-92)))
-                    .setTangent(Math.toRadians(0))
-                    .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
+                    .setTangent(Math.toRadians(-90))
+                    .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
                             new TranslationalVelConstraint(veloLim),
                             new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                     .build();
             fullPath = new SequentialAction(
                     robot.autoTeleIntakeBoom(),
                     new SleepAction(intakeWait),
-//                    new InstantAction(() -> {
-//                        if (robot.claw.detectSample() == null) {
-//                            failsafeAbort();
-//                        }
-//                    }),
                     new ParallelAction(
                             robot.highRungAuto(true),
                             depoPath,
                             new InstantAction(()->{depoTargetX -= 1.5;})
                     ),
                     robot.autoSpecimen(true),
-
-//                    new SleepAction(0.1),
 
                     new ParallelAction(
                             intakePath,

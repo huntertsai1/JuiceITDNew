@@ -20,6 +20,7 @@ public class MeepMeepTesting {
         double depositY = -50;
         double waits = 0.2;
         double intakeWait = 0.3;
+        double depoTargetX = 9;
 
         double veloLim = 60.0;
         double accelUpperLim = 60.0;
@@ -32,46 +33,59 @@ public class MeepMeepTesting {
                 .build();
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-38, -62, Math.toRadians(0)))
-                //preload
-                .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(45)), Math.toRadians(160))
-                .waitSeconds(0.6)
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(7, -32, Math.toRadians(-90)))
 
-                //spike1
-                .setTangent(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(106)), Math.toRadians(45))
-                .waitSeconds(0.5)
+                // Automated cycling
 
-                //depo1
-                .setTangent(Math.toRadians(225))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(30)), Math.toRadians(200))
-                .waitSeconds(1.2)
+                    .setTangent(Math.toRadians(-90))
+                    .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
+                            new TranslationalVelConstraint(veloLim),
+                            new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
 
-                //spike2
-                .setTangent(Math.toRadians(92))
-                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(112)), Math.toRadians(100))
-                .waitSeconds(0.5)
+                        .setTangent(Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(depoTargetX, -29, Math.toRadians(-92)), Math.toRadians(90),
+                                new TranslationalVelConstraint(veloLim),
+                                new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
 
-                //depo2
-                .setTangent(Math.toRadians(272))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(35)), Math.toRadians(272))
-                .waitSeconds(1.2)
-
-                //spike3
-                .setTangent(Math.toRadians(88))
-                .splineToLinearHeading(new Pose2d(-63, -47, Math.toRadians(110)), Math.toRadians(95))
-                .waitSeconds(0.5)
-
-                //depo3
-                .setTangent(Math.toRadians(268))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(30)), Math.toRadians(268))
-                .waitSeconds(1.2)
-
-                //ascent zone park
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-48, -11, Math.toRadians(0)), Math.toRadians(0))
-                .lineToX(-25)
+//                //preload
+//                .setTangent(Math.toRadians(160))
+//                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(45)), Math.toRadians(160))
+//                .waitSeconds(0.6)
+//
+//                //spike1
+//                .setTangent(Math.toRadians(45))
+//                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(106)), Math.toRadians(45))
+//                .waitSeconds(0.5)
+//
+//                //depo1
+//                .setTangent(Math.toRadians(225))
+//                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(30)), Math.toRadians(200))
+//                .waitSeconds(1.2)
+//
+//                //spike2
+//                .setTangent(Math.toRadians(92))
+//                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(112)), Math.toRadians(100))
+//                .waitSeconds(0.5)
+//
+//                //depo2
+//                .setTangent(Math.toRadians(272))
+//                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(35)), Math.toRadians(272))
+//                .waitSeconds(1.2)
+//
+//                //spike3
+//                .setTangent(Math.toRadians(88))
+//                .splineToLinearHeading(new Pose2d(-63, -47, Math.toRadians(110)), Math.toRadians(95))
+//                .waitSeconds(0.5)
+//
+//                //depo3
+//                .setTangent(Math.toRadians(268))
+//                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(30)), Math.toRadians(268))
+//                .waitSeconds(1.2)
+//
+//                //ascent zone park
+//                .setTangent(Math.toRadians(90))
+//                .splineToLinearHeading(new Pose2d(-48, -11, Math.toRadians(0)), Math.toRadians(0))
+//                .lineToX(-25)
 
 
                 .build()
