@@ -399,7 +399,7 @@ public class Robot {
                     lift.runToPreset(Levels.HIGH_BASKET);
                     arm.runToPreset(Levels.INTERMEDIATE);
                 }),
-                new SleepAction(1),
+                new SleepAction(1.4),
                 new InstantAction(() -> {
                     arm.runToPreset(Levels.HIGH_BASKET);
                     state = Levels.HIGH_BASKET;

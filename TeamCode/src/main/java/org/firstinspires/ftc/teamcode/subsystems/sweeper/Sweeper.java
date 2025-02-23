@@ -13,7 +13,7 @@ public class Sweeper {
 
     public boolean swept = false;
 
-    public float RETRACTED_POS = 90;
+    public float RETRACTED_POS = 100;
     public float FULL_EXTENDED_POS = 210;
     public double SWEEP_DELAY = 0.3;
 
