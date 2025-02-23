@@ -29,7 +29,7 @@ public class SPECIMEN extends LinearOpMode {
         drive = new PinpointDrive(hardwareMap, startPose);
 
         double HPDeposit = -51;
-        double spikeBack = -16.5;
+        double spikeBack = -16;
         double waits = 0.2;
         double intakeWait = 0.3;
 
@@ -44,10 +44,10 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(24, -48, Math.toRadians(-90)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(26, -48, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(38, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
 
-                .splineToLinearHeading(new Pose2d(48, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(50, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -55,7 +55,7 @@ public class SPECIMEN extends LinearOpMode {
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(48, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(50, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(56, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
