@@ -154,7 +154,7 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(1.2),
                 new InstantAction(() -> {
-                    extension.runToPosition(250);
+                    extension.runToPosition(260);
                     lift.lift1.resetEncoder();
                 })
         );
@@ -177,7 +177,7 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(1.3),
                 new InstantAction(() -> {
-                    extension.runToPosition(250);
+                    extension.runToPosition(260);
                     lift.lift1.resetEncoder();
                 })
         );

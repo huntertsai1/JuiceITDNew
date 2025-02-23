@@ -74,7 +74,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(19, -48), Math.toRadians(-45));
+                .strafeToLinearHeading(new Vector2d(20, -47), Math.toRadians(-45));
 
         TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
@@ -84,7 +84,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec3 = depositSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -96,7 +96,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec4 = depositSpec3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -108,7 +108,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec5 = depositSpec4.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(19, -48, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
