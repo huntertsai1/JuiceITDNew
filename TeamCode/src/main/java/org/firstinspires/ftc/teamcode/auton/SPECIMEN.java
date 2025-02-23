@@ -47,7 +47,7 @@ public class SPECIMEN extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(26, -48, Math.toRadians(-90)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(38, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
 
-                .splineToLinearHeading(new Pose2d(50, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(48, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -55,8 +55,8 @@ public class SPECIMEN extends LinearOpMode {
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(48, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(44, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(56, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -64,7 +64,7 @@ public class SPECIMEN extends LinearOpMode {
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(53, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(52, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(64, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
