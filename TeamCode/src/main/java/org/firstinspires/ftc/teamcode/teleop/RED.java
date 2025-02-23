@@ -39,7 +39,6 @@ public class RED extends LinearOpMode {
     CancellableAction currentAutomation = null;
     int climbOverride = 3;
 
-    Gamepad oldGamepad = new Gamepad();
     boolean oldRBumper = false;
     boolean oldLBumper = false;
     boolean oldCross = false;
@@ -64,18 +63,14 @@ public class RED extends LinearOpMode {
         Robot robot = new Robot(hardwareMap, false);
         PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(0,0,0));
         List<Action> actionsQueue = new ArrayList<>();
-        TeleAutoCycle.depoTargetX = 9;
+        TeleAutoCycle.depoTargetX = 11;
 
         waitForStart();
-//        robot.initSubsystems(true);
         if (isStopRequested()) return;
 
         while (opModeIsActive() && !isStopRequested()) {
             TelemetryPacket packet = new TelemetryPacket();
 
-//            if (gamepad1.left_bumper && !oldGamepad.left_bumper) {
-//                actionsQueue.add(new InstantAction(robot::teleDepositPreset));
-//            }
             if (gamepad1.right_bumper && !oldRBumper) {
                 if (robot.state != Levels.INTAKE_INTERMEDIATE) {
                     actionsQueue.add(
@@ -104,7 +99,6 @@ public class RED extends LinearOpMode {
                     actionsQueue.add(robot.highBasketAction());
                 }else{
                     actionsQueue.add(robot.highRung(true));
-//                    actionsQueue.add(robot.claw.setStall(true, true));
                 }
             }
             oldLBumper = gamepad1.left_bumper;
@@ -112,7 +106,6 @@ public class RED extends LinearOpMode {
                 if (robot.mode == Robot.Gamepiece.SAMPLE) {
                     actionsQueue.add(robot.outtakeSample(true));
                 } else if (robot.mode == Robot.Gamepiece.SPECIMEN && driverMode == DRIVER_MODE.HUMAN){
-//                    actionsQueue.add(robot.outtakeSpecimen(true));
                     currentAutomation = new TeleAutoCycle(drive, robot, gamepad1);
                     actionsQueue.add(
                             new SequentialAction(
@@ -154,7 +147,6 @@ public class RED extends LinearOpMode {
             oldCircle = gamepad1.circle;
 
             if (gamepad1.square && !oldSquare){
-//                actionsQueue.add(robot.claw.ejectOps(true));
                 actionsQueue.add(robot.claw.ejectOps(true));
             }
             oldSquare = gamepad1.square;
@@ -256,21 +248,9 @@ public class RED extends LinearOpMode {
                 double y = -gamepad1.left_stick_y;
                 double rx = gamepad1.right_stick_x;
                 robot.setDrivePower(-x, y, rx);
-            } else if (driverMode == DRIVER_MODE.AUTO) {
-//                drive.updatePoseEstimate();
-//                if (Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) + Math.abs(gamepad1.right_stick_x) <= 0.05 ) {
-//                    if (currentAutomation != null) {
-//                        currentAutomation.abort();
-//                    }
-//                    driverMode = DRIVER_MODE.HUMAN;
-//                }
-            }
+            } else if (driverMode == DRIVER_MODE.AUTO)
 
             robot.lift.update();
-//            PoseKeeper.set(robot.drive.pose);
-
-//            telemetry.addData("rbumpero " ,oldRBumper);
-            oldGamepad.copy(gamepad1);
 
             double newTime = getRuntime();
             double loopTime = newTime-oldTime;
@@ -278,22 +258,14 @@ public class RED extends LinearOpMode {
             oldTime = newTime;
 
             telemetry.addData("MODE", robot.mode.toString());
-//            telemetry.addData("COLOR", robot.targetColor.toString());
-            //telemetry.addData("CLIMB", robot.climbMode.toString());
+            telemetry.addData("STATE: ", robot.state);
+            telemetry.addData("COLOR ENABLED", robot.activateSensor);
             telemetry.addData("LIFT ", robot.lift.getPos());
             telemetry.addData("LIFT POWER", robot.lift.power1);
-            telemetry.addData("LIFT CURRENT", robot.lift.lift1.motor.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("LIFT TARGET", robot.lift.target);
             telemetry.addData("LOOPTIME: ", frequency);
-            telemetry.addData("STATE: ", robot.state);
-            //telemetry.addData("rbumper " ,gamepad1.right_bumper);
-            telemetry.addData("COLOR ENABLED", robot.activateSensor);
             telemetry.update();
         }
-    }
-
-    private void setManualExtension() {
-        manualExtension = !manualExtension;
     }
     enum DRIVER_MODE {
         HUMAN,
