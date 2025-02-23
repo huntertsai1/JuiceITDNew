@@ -227,7 +227,7 @@ public class Robot {
                 new InstantAction(() -> {
                     extension.runToPosition(260);
                 }),
-                new SleepAction(0.2),
+                new SleepAction(1),
                 new InstantAction(() -> {
                     extension.runToPosition(280);
                 })
@@ -251,7 +251,7 @@ public class Robot {
                 new InstantAction(() -> {
                     extension.runToPosition(240);
                 }),
-                new SleepAction(0.2),
+                new SleepAction(1),
                 new InstantAction(() -> {
                     extension.runToPosition(260);
                 })

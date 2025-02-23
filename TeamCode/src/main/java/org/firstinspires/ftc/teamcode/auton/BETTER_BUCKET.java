@@ -32,7 +32,7 @@ public class BETTER_BUCKET extends LinearOpMode {
         double depositX = -52.8;
         double depositY = -48.5;
         double depositWait = 1.2;
-        double intakeWait = 0.7;
+        double intakeWait = 0.9;
 
         double veloLim = 60.0;
         double accelUpperLim = 60.0;
@@ -104,7 +104,7 @@ public class BETTER_BUCKET extends LinearOpMode {
                                 spike1.build(),
 
                                 robot.autoBucketIntake(true),
-                                new SleepAction(0.5),
+                                new SleepAction(1),
 
                                 new InstantAction(() -> robot.claw.setPower(0)),
                                 new ParallelAction(
@@ -116,7 +116,7 @@ public class BETTER_BUCKET extends LinearOpMode {
                                 spike2.build(),
 
                                 robot.autoBucketIntake(true),
-                                new SleepAction(0.5),
+                                new SleepAction(1),
 
                                 new InstantAction(() -> robot.claw.setPower(0)),
                                 new ParallelAction(
@@ -128,7 +128,7 @@ public class BETTER_BUCKET extends LinearOpMode {
                                 spike3.build(),
 
                                 robot.autoBucketIntakeTHIRD(true),
-                                new SleepAction(0.5),
+                                new SleepAction(1),
 
                                 new InstantAction(() -> robot.claw.setPower(0)),
                                 new ParallelAction(
