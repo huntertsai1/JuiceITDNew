@@ -142,8 +142,12 @@ public class RED extends LinearOpMode {
             oldTriangle = gamepad1.triangle;
 
             if (gamepad1.circle && !oldCircle){
-                actionsQueue.add(robot.sweeper.sweep());
-                actionsQueue.add(robot.claw.ejectOps(true));
+                actionsQueue.add(
+                        new SequentialAction(
+                                robot.sweeper.sweep(),
+                                robot.claw.ejectOps(true)
+                        )
+                );
             }
             oldCircle = gamepad1.circle;
 
