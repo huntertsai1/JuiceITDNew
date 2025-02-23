@@ -188,7 +188,7 @@ public class Robot {
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
                 }),
-                new SleepAction(0.2),
+                new SleepAction(0.4),
                 new InstantAction(() -> {
                     extension.runToPosition(190);
                 }),
