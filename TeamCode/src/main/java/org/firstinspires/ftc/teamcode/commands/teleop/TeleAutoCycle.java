@@ -29,7 +29,7 @@ public class TeleAutoCycle extends CancellableAction {
     double accelLowerLim = -40.0;
     double waits = 0.2;
     double intakeWait = 0.3;
-    public static double depoTargetX = 11;
+    public static double depoTargetX = 9;
     PinpointDrive drive;
     Robot robot;
     Action depoPath;

@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
@@ -63,7 +64,7 @@ public class RED extends LinearOpMode {
         Robot robot = new Robot(hardwareMap, false);
         PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(0,0,0));
         List<Action> actionsQueue = new ArrayList<>();
-        TeleAutoCycle.depoTargetX = 11;
+        TeleAutoCycle.depoTargetX = 9;
 
         waitForStart();
         if (isStopRequested()) return;
@@ -149,7 +150,7 @@ public class RED extends LinearOpMode {
 
             if (gamepad1.square && !oldSquare){
                 actionsQueue.add(
-                        new SequentialAction(
+                        new ParallelAction(
                                 robot.sweeper.sweep(),
                                 robot.claw.ejectOps(true)
                         )
