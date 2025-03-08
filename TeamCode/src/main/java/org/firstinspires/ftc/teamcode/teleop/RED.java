@@ -196,7 +196,7 @@ public class RED extends LinearOpMode {
 
             if (gamepad1.dpad_up && !oldDpadUp){
                 autoWinches = 1;
-                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 1.4, -1, telemetry), new InstantAction(()->{autoWinches = 0;})));
+                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 1.65, -1, telemetry), new InstantAction(()->{autoWinches = 0;})));
             }
             else if (gamepad1.dpad_down && !oldDpadDown){
                 autoWinches = 1;
