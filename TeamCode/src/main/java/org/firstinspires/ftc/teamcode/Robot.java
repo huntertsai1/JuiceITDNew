@@ -45,7 +45,7 @@ public class Robot {
     // STATE VARS
     boolean auton;
     boolean intaking = false;
-    public boolean activateSensor = false;
+    public boolean activateSensor = true;
     public Levels state = Levels.INIT;
     public Gamepiece mode = Gamepiece.SAMPLE;
     public SampleColors targetColor = SampleColors.YELLOW;

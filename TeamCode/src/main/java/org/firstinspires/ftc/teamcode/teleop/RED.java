@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name="RED AND BLUE REMEMBER")
+@TeleOp(name="RED")
 @Config
 public class RED extends LinearOpMode {
     double oldTime = 0;
@@ -122,20 +122,20 @@ public class RED extends LinearOpMode {
             }
             oldCross = gamepad1.cross;
 
-            if (gamepad1.dpad_left && !oldDpadLeft && driverMode == DRIVER_MODE.HUMAN) {
-                currentAutomation = new TeleRelocToHP(drive, robot);
-                actionsQueue.add(
-                        new SequentialAction(
-                                new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
-                                currentAutomation,
-                                new InstantAction(() -> {
-                                    currentAutomation = null;
-                                    driverMode = DRIVER_MODE.HUMAN;
-                                })
-                        )
-                );
-            }
-            oldDpadLeft = gamepad1.dpad_left;
+//            if (gamepad1.dpad_left && !oldDpadLeft && driverMode == DRIVER_MODE.HUMAN) {
+//                currentAutomation = new TeleRelocToHP(drive, robot);
+//                actionsQueue.add(
+//                        new SequentialAction(
+//                                new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
+//                                currentAutomation,
+//                                new InstantAction(() -> {
+//                                    currentAutomation = null;
+//                                    driverMode = DRIVER_MODE.HUMAN;
+//                                })
+//                        )
+//                );
+//            }
+//            oldDpadLeft = gamepad1.dpad_left;
 
             if (gamepad1.triangle && !oldTriangle){
                 robot.toggleGamepiece();
