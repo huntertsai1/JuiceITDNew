@@ -45,7 +45,7 @@ public class SPECIMEN extends LinearOpMode {
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(26, -48, Math.toRadians(-90)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(38, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
 
                 .splineToLinearHeading(new Pose2d(48, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 

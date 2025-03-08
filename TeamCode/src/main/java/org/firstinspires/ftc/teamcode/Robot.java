@@ -453,7 +453,7 @@ public class Robot {
     public Action intermediateDepositPreset(){
         return new SequentialAction(
             new InstantAction(() ->{arm.runToPreset(Levels.INTERMEDIATE); extension.runToPreset(Levels.INTERMEDIATE);}),
-            new SleepAction(0.1),
+            new SleepAction(0.2),
             new InstantAction(()->{lift.runToPreset(Levels.INTERMEDIATE);
                 state = Levels.INTERMEDIATE;})
         );

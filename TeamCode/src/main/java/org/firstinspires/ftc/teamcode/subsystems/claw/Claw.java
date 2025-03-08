@@ -185,17 +185,9 @@ public class Claw {
             float green = colorSensor.getNormalizedColors().green;
             double distance = ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM);
             if (distance < 7) {
-                if (blue > 0.06 && red < 0.09) {
-                    // Extreme blue output -> blue sample
-                    return SampleColors.BLUE;
-                } else if (red >= 0.05 && green > 0.08) {
-                    return SampleColors.YELLOW;
-                } else if (red >= 0.01 && green < 0.055 && blue < 0.03) {
-                    return SampleColors.RED;
-                } else {
-                    return SampleColors.UNIDENTIFIABLE;
-                }
-            } else {
+                return SampleColors.YELLOW;
+            }
+            else {
                 return null;
             }
     }
