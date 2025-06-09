@@ -73,6 +73,15 @@ public class Lift {
         if (goingDown) {
             pid2 = controller2.calculate(motorPos, target);
             power1 = (pid2 + ff2) * voltageCompensation;
+
+            if (motorPos < 120) {
+                power1 = -0.4;
+                if ((lift1.motor.getCurrent(CurrentUnit.AMPS) >= 1.2 && motorPos <= 50 )|| spiked) {
+                    spiked = true;
+                    power1 = 0;
+                    target = 0;
+                }
+            }
         }
 
         else {
@@ -86,8 +95,10 @@ public class Lift {
     }
 
     public void runToPosition(int ticks) {
+        spiked = false;
         target = ticks;
-        if (ticks <= 200) {
+        if (ticks <= 0) {
+            target = 150;
             goingDown = true;
         } else {
             goingDown = false;
@@ -98,7 +109,7 @@ public class Lift {
         if (level == Levels.INIT) {
             runToPosition(0);
         } else if (level == Levels.INTAKE) {
-            runToPosition(0);
+            runToPosition(-15);
         } else if (level == Levels.INTERMEDIATE) {
             runToPosition(0);
         } else if (level == Levels.LOCATING_TARGETS) {
