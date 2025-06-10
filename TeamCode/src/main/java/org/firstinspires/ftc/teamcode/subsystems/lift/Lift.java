@@ -98,7 +98,7 @@ public class Lift {
         spiked = false;
         target = ticks;
         if (ticks <= 0) {
-            target = 150;
+            target = 100;
             goingDown = true;
         } else {
             goingDown = false;
