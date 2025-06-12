@@ -60,7 +60,11 @@ public class SplitLiftPIDFTuner extends OpMode {
 
     @Override
     public void loop() {
-        isDown = target < lastTarget;
+        if (target < lastTarget) {
+            isDown = true;
+        } else if (target > lastTarget) {
+            isDown = false;
+        }
         lastTarget = target;
 
         controller1.setPID(p1, i1, d1);
@@ -94,7 +98,7 @@ public class SplitLiftPIDFTuner extends OpMode {
         telemetry.addData("Motor 1 current", slides1.getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Motor 2 current", slides2.getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Motor 3 current", slides3.getCurrent(CurrentUnit.AMPS));
-        telemetry.addData("Motor 1 RPM", ((slides1.getVelocity())*60 / 28));
+        telemetry.addData("Motor 1 RPM", ((slides1.getVelocity()) * 60 / 28));
         telemetry.update();
     }
 }
