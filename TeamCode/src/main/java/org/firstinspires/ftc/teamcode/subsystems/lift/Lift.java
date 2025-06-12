@@ -17,10 +17,10 @@ public class Lift {
     private PIDController controller1;
     private PIDController controller2;
 
-    public double p1 = 0.017, i1 = 0.00, d1 = 0.00085;
+    public double p1 = 0.014, i1 = 0.00, d1 = 0.0008;
     public double f1 = 0.15;
 
-    public double p2 = 0.006, i2 = 0.00, d2 = 0.0003;
+    public double p2 = 0.0006, i2 = 0.00, d2 = 0.00;
     public double f2 = 0.15;
     double voltageCompensation;
 
@@ -74,7 +74,7 @@ public class Lift {
             pid2 = controller2.calculate(motorPos, target);
             power1 = (pid2 + ff2) * voltageCompensation;
 
-            if (motorPos < 120) {
+            if (motorPos < 200) {
                 power1 = -0.4;
                 if ((lift1.motor.getCurrent(CurrentUnit.AMPS) >= 1.2 && motorPos <= 50 )|| spiked) {
                     spiked = true;
