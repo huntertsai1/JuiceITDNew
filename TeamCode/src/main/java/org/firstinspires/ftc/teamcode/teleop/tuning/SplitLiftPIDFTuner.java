@@ -22,10 +22,10 @@ public class SplitLiftPIDFTuner extends OpMode {
     private PIDController controller1;
     private PIDController controller2;
 
-    public static double p1 = 0.014, i1 = 0.00, d1 = 0.0007;
+    public static double p1 = 0.026, i1 = 0.00, d1 = 0.0009;
     public static double f1 = 0.15;
 
-    public static double p2 = 0.014, i2 = 0.00, d2 = 0.0007;
+    public static double p2 = 0.00, i2 = 0.00, d2 = 0.00;
     public static double f2 = 0.15;
     public double voltageCompensation;
 
@@ -37,6 +37,9 @@ public class SplitLiftPIDFTuner extends OpMode {
     private DcMotorEx slides2;
     private DcMotorEx slides3;
     private VoltageSensor voltageSensor;
+
+    private ElapsedTime timer;
+    private ElapsedTime doneTimer;
 
 
     @Override
@@ -62,8 +65,10 @@ public class SplitLiftPIDFTuner extends OpMode {
     public void loop() {
         if (target < lastTarget) {
             isDown = true;
+            timer.reset();
         } else if (target > lastTarget) {
             isDown = false;
+            timer.reset();
         }
         lastTarget = target;
 
@@ -92,7 +97,12 @@ public class SplitLiftPIDFTuner extends OpMode {
         slides2.setPower(power1);
         slides3.setPower(power1);
 
+        if (Math.abs(slides1Pos - target) > 20) {
+            doneTimer.reset();
+        }
+
         telemetry.addData("POSITION ", slides1Pos);
+        telemetry.addData("TIME TO TARGET", timer.time() - doneTimer.time());
         telemetry.addData("MODE", isDown ? "DOWN" : "UP");
         telemetry.addData("TARGET ", target);
         telemetry.addData("Motor 1 current", slides1.getCurrent(CurrentUnit.AMPS));
