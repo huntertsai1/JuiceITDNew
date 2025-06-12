@@ -23,10 +23,10 @@ public class SplitLiftPIDFTuner extends OpMode {
     private PIDController controller2;
 
     public static double p1 = 0.014, i1 = 0.00, d1 = 0.0007;
-    public static double f1 = 0.2;
+    public static double f1 = 0.15;
 
     public static double p2 = 0.014, i2 = 0.00, d2 = 0.0007;
-    public static double f2 = 0.2;
+    public static double f2 = 0.15;
     public double voltageCompensation;
 
     public static int target = 0;
