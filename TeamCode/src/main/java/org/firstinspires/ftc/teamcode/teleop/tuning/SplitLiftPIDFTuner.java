@@ -22,7 +22,7 @@ public class SplitLiftPIDFTuner extends OpMode {
     private PIDController controller1;
     private PIDController controller2;
 
-    public static double p1 = 0.026, i1 = 0.00, d1 = 0.0009;
+    public static double p1 = 0.017, i1 = 0.00, d1 = 0.00085;
     public static double f1 = 0.15;
 
     public static double p2 = 0.00, i2 = 0.00, d2 = 0.00;
@@ -38,8 +38,8 @@ public class SplitLiftPIDFTuner extends OpMode {
     private DcMotorEx slides3;
     private VoltageSensor voltageSensor;
 
-    private ElapsedTime timer;
-    private ElapsedTime doneTimer;
+    private ElapsedTime timer = new ElapsedTime();
+    private ElapsedTime doneTimer = new ElapsedTime();
 
 
     @Override
