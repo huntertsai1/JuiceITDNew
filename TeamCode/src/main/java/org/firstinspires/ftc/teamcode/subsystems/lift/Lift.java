@@ -78,7 +78,7 @@ public class Lift {
                 power1 = -0.4;
                 if ((lift1.motor.getCurrent(CurrentUnit.AMPS) >= 1.2 && motorPos <= 50 )|| spiked) {
                     spiked = true;
-                    power1 = 0;
+                    power1 = -0.1;
                     target = 0;
                 }
             }
