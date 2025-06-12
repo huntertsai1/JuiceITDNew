@@ -17,13 +17,13 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 
 @TeleOp(group = "competition")
 @Config
-@Disabled
+//@Disabled
 public class PresetsTuner extends LinearOpMode {
-    public static double ARM_POS = 250;
+    public static double ARM_POS = 155;
     public static double CLAW_SPEED = 0;
     public static double CLIMB_SPEED = 0;
-    public static double ELBOW_POS = 175;
-    public static double EXT_POS = 70;
+    public static double ELBOW_POS = 173;
+    public static double EXT_POS = 60;
     public static double SWEEPER_POS = 177.5;
     public static int LIFT_POS = 0;
 
