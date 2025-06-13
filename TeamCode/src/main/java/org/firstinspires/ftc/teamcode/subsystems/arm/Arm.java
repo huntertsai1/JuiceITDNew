@@ -28,7 +28,7 @@ public class Arm {
             setWristAngle(wristDown);
         } else if (level == Levels.INTAKE) {
             runToPosition(170);
-            setWristAngle(200);
+            setWristAngle(205);
         } else if (level == Levels.INTAKE_INTERMEDIATE) {
             runToPosition(185);
             setWristAngle(wristDown);

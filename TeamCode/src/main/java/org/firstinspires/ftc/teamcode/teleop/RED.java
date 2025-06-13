@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -66,10 +67,20 @@ public class RED extends LinearOpMode {
         List<Action> actionsQueue = new ArrayList<>();
         TeleAutoCycle.depoTargetX = 9;
 
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+
+        for (LynxModule module : allHubs) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+
         waitForStart();
         if (isStopRequested()) return;
 
         while (opModeIsActive() && !isStopRequested()) {
+            for (LynxModule module : allHubs) {
+                module.clearBulkCache();
+            }
+
             TelemetryPacket packet = new TelemetryPacket();
 
             if (gamepad1.right_bumper && !oldRBumper) {
@@ -269,10 +280,11 @@ public class RED extends LinearOpMode {
             telemetry.addData("MODE", robot.mode.toString());
             telemetry.addData("STATE: ", robot.state);
             telemetry.addData("COLOR ENABLED", robot.activateSensor);
-            telemetry.addData("LIFT ", robot.lift.getPos());
             telemetry.addData("LIFT POWER", robot.lift.power1);
-            telemetry.addData("LIFT TARGET", robot.lift.target);
+            telemetry.addData("LIFT ", robot.lift.getPos());
+            telemetry.addData("LIFT TARGET ", robot.lift.target);
             telemetry.addData("LOOPTIME: ", frequency);
+            telemetry.addData("queue", actionsQueue);
             telemetry.update();
         }
     }

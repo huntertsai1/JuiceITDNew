@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -18,6 +19,8 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.util.LoopAction;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
+
+import java.util.List;
 
 
 @Autonomous(name = "BUCKET", group = "Autonomous")
@@ -87,6 +90,11 @@ public class BETTER_BUCKET extends LinearOpMode {
                 .lineToX(-20);
 
         robot.initSubsystems();
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+
+        for (LynxModule module : allHubs) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
 
         waitForStart();
 
@@ -143,6 +151,9 @@ public class BETTER_BUCKET extends LinearOpMode {
                                 robot.sweeper.sweep()
                                 ),
                         new LoopAction(() -> {
+                            for (LynxModule module : allHubs) {
+                                module.clearBulkCache();
+                            }
                             robot.lift.update();
                         }, this::isStopRequested)
                         , new WinchTimeAction(robot.climbWinch, 2.2, -1, telemetry)
