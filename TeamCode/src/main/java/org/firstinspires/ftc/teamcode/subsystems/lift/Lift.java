@@ -48,7 +48,7 @@ public class Lift {
         lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        lift1.motor.setCurrentAlert(1.2, CurrentUnit.AMPS);
+        lift1.motor.setCurrentAlert(1.4, CurrentUnit.AMPS);
 
         timer.reset();
     }
@@ -64,11 +64,11 @@ public class Lift {
         power1 = (pid1 + ff);
 
         if (goingDown) {
-            if (motorPos < 200) {
+            if (motorPos < 300) {
                 power1 = -0.5;
                 if ((lift1.motor.isOverCurrent() && motorPos <= 50 ) || spiked) {
                     spiked = true;
-                    power1 = -0.15;
+                    power1 = 0;
                     target = 0;
                 }
             }
@@ -82,8 +82,8 @@ public class Lift {
     public void runToPosition(int ticks) {
         spiked = false;
         target = ticks;
-        if (ticks <= 0) {
-            target = 100;
+        if (ticks == 0) {
+            target = 200;
             goingDown = true;
         } else {
             goingDown = false;
@@ -94,7 +94,7 @@ public class Lift {
         if (level == Levels.INIT) {
             runToPosition(0);
         } else if (level == Levels.INTAKE) {
-            runToPosition(-15);
+            runToPosition(-30);
         } else if (level == Levels.INTERMEDIATE) {
             runToPosition(0);
         } else if (level == Levels.LOCATING_TARGETS) {
