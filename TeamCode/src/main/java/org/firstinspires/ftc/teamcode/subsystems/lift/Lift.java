@@ -17,13 +17,10 @@ import java.util.concurrent.TimeUnit;
 @Config
 public class Lift {
     private PIDController controller1;
-    private PIDController controller2;
 
-    public static double p1 = 0.014, i1 = 0.00, d1 = 0.0008;
-    public static double f1 = 0.15;
+    public static double p = 0.014, i = 0.00, d = 0.0008;
+    public static double f = 0.15;
 
-    public static double p2 = 0.0006, i2 = 0.00, d2 = 0.00;
-    public static double f2 = 0.15;
 
     public double target = 0;
     private int motorPos = 0;
@@ -32,8 +29,6 @@ public class Lift {
     public Motor lift1;
     public Motor lift2;
     public Motor lift3;
-    public double MAX_VEL = 1500;
-    public double MAX_ACCEL = 3000;
     public ElapsedTime timer = new ElapsedTime();
     public boolean goingDown = false;
     public boolean spiked = false;
@@ -43,8 +38,7 @@ public class Lift {
         this.lift2 = l2;
         this.lift3 = l3;
 
-        controller1 = new PIDController(p1, i1 , d1);
-        controller2 = new PIDController(p2, i2 , d2);
+        controller1 = new PIDController(p, i , d);
 
         lift1.motor.setDirection(DcMotorSimple.Direction.REVERSE);
         lift2.motor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -63,21 +57,16 @@ public class Lift {
     public void update() {
 
         motorPos = lift1.motor.getCurrentPosition();
-        double ff1 = f1;
-        double ff2 = f2;
+        double ff = f;
 
         double pid1;
-        double pid2;
 
         if (goingDown) {
-            pid2 = controller2.calculate(motorPos, target);
-            power1 = (pid2 + ff2);
-
-            if (motorPos < 200) {
+            if (motorPos < 120) {
                 power1 = -0.4;
-                if ((lift1.motor.isOverCurrent() && motorPos <= 50 )|| spiked) {
+                if ((lift1.motor.isOverCurrent() && motorPos <= 50 ) || spiked) {
                     spiked = true;
-                    power1 = -0.1;
+                    power1 = -0.15;
                     target = 0;
                 }
             }
@@ -85,7 +74,7 @@ public class Lift {
 
         else {
             pid1 = controller1.calculate(motorPos, target);
-            power1 = (pid1 + ff1);
+            power1 = (pid1 + ff);
         }
 
         lift1.motor.setPower(power1);
