@@ -50,10 +50,10 @@ public class Robot {
     public Gamepiece mode = Gamepiece.SAMPLE;
     public SampleColors targetColor = SampleColors.YELLOW;
     public ClimbType climbMode = ClimbType.LEVEL_3;
-    Motor backLeft;
-    Motor backRight;
-    Motor frontLeft;
-    Motor frontRight;
+    public Motor backLeft;
+    public Motor backRight;
+    public Motor frontLeft;
+    public Motor frontRight;
 
     public Robot(HardwareMap map, boolean auton){
         this.auton = auton;
