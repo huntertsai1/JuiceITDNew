@@ -21,7 +21,6 @@ public class Lift {
     public static double p = 0.014, i = 0.00, d = 0.0008;
     public static double f = 0.15;
 
-
     public double target = 0;
     private int motorPos = 0;
     public double power1;
@@ -61,6 +60,9 @@ public class Lift {
 
         double pid1;
 
+        pid1 = controller1.calculate(motorPos, target);
+        power1 = (pid1 + ff);
+
         if (goingDown) {
             if (motorPos < 200) {
                 power1 = -0.5;
@@ -70,11 +72,6 @@ public class Lift {
                     target = 0;
                 }
             }
-        }
-
-        else {
-            pid1 = controller1.calculate(motorPos, target);
-            power1 = (pid1 + ff);
         }
 
         lift1.motor.setPower(power1);
