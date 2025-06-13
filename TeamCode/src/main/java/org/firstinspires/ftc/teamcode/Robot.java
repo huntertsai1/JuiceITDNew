@@ -83,12 +83,10 @@ public class Robot {
                 new StepperServo(0, "sweeper", map)         //15
         };
 
-        VoltageSensor voltageSensor = map.voltageSensor.iterator().next();
-//        BrushlandColorSensor colorSensor = new BrushlandColorSensor(0, "color", map);
         RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
         // INIT SUBSYSTEMS
 
-        this.lift = new Lift((Motor) components[4], (Motor) components[5], (Motor) components[6], voltageSensor);
+        this.lift = new Lift((Motor) components[4], (Motor) components[5], (Motor) components[6]);
         this.extension = new Extension((StepperServo) components[7], (StepperServo) components[8]);
         this.arm = new Arm((StepperServo) components[9], (StepperServo) components[10]);
         this.claw = new Claw((ContinuousServo) components[11], (ContinuousServo) components[12], colorSensor);
