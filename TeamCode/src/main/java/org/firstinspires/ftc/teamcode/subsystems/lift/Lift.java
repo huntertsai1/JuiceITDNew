@@ -62,8 +62,8 @@ public class Lift {
         double pid1;
 
         if (goingDown) {
-            if (motorPos < 120) {
-                power1 = -0.4;
+            if (motorPos < 200) {
+                power1 = -0.5;
                 if ((lift1.motor.isOverCurrent() && motorPos <= 50 ) || spiked) {
                     spiked = true;
                     power1 = -0.15;
