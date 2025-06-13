@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems.lift;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -13,15 +14,16 @@ import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 
 import java.util.concurrent.TimeUnit;
 
+@Config
 public class Lift {
     private PIDController controller1;
     private PIDController controller2;
 
-    public double p1 = 0.014, i1 = 0.00, d1 = 0.0008;
-    public double f1 = 0.15;
+    public static double p1 = 0.014, i1 = 0.00, d1 = 0.0008;
+    public static double f1 = 0.15;
 
-    public double p2 = 0.0006, i2 = 0.00, d2 = 0.00;
-    public double f2 = 0.15;
+    public static double p2 = 0.0006, i2 = 0.00, d2 = 0.00;
+    public static double f2 = 0.15;
 
     public double target = 0;
     private int motorPos = 0;
