@@ -273,6 +273,7 @@ public class RED extends LinearOpMode {
             telemetry.addData("LIFT POWER", robot.lift.power1);
             telemetry.addData("LIFT TARGET", robot.lift.target);
             telemetry.addData("LOOPTIME: ", frequency);
+            telemetry.addData("queue", actionsQueue);
             telemetry.update();
         }
     }
