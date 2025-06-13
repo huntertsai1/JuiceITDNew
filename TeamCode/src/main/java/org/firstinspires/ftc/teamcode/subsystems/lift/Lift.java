@@ -82,8 +82,8 @@ public class Lift {
     public void runToPosition(int ticks) {
         spiked = false;
         target = ticks;
-        if (ticks == 0) {
-            target = 200;
+        if (ticks <= 0) {
+            target = 100;
             goingDown = true;
         } else {
             goingDown = false;
@@ -94,7 +94,7 @@ public class Lift {
         if (level == Levels.INIT) {
             runToPosition(0);
         } else if (level == Levels.INTAKE) {
-            runToPosition(-30);
+            runToPosition(-15);
         } else if (level == Levels.INTERMEDIATE) {
             runToPosition(0);
         } else if (level == Levels.LOCATING_TARGETS) {
