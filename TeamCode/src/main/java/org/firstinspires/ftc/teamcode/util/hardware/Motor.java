@@ -9,13 +9,13 @@ import org.firstinspires.ftc.teamcode.util.hardware.Component;
 
 public class Motor extends Component {
     private boolean reverse;
-    private float speed;
+    private float power;
     public DcMotorEx motor;
 
     public Motor(int port, String name, HardwareMap map, boolean reverse){
         super(port, name);
         this.reverse = reverse;
-        this.speed = 0;
+        this.power = 0;
         motor = map.get(DcMotorEx.class, name);
 
         if(reverse){
@@ -25,15 +25,20 @@ public class Motor extends Component {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-        motor.setPower(speed);
+    private float lastPower = 0;
+    public void setSpeed(float power) {
+        this.power = power;
+        if (Math.abs(power) < .01) {
+            power = 0;
+        }
+        if (Math.abs(power - lastPower) > 0.02) {
+            motor.setPower(power);
+            lastPower = power;
+        }
     }
 
     public float getEncoderValue(){
         return motor.getCurrentPosition();
-
     }
 
     public void setTarget(int ticks){
