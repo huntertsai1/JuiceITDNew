@@ -25,7 +25,7 @@ public class REVColorSensorTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensor");
-//        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
+        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
         sensor.initialize();
         servo1 = new ContinuousServo(1, "claw1", hardwareMap);
         servo2 = new ContinuousServo(1, "claw2", hardwareMap);

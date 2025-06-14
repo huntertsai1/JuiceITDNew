@@ -9,12 +9,12 @@ import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 
 @TeleOp(group = "competition")
 @Config
-@Disabled
+//@Disabled
 public class ColorSensorDigital extends LinearOpMode {
     BrushlandColorSensor sensor;
     @Override
     public void runOpMode() throws InterruptedException {
-        sensor = new BrushlandColorSensor(0, "color", hardwareMap);
+        sensor = new BrushlandColorSensor(0, "colorSensor", hardwareMap);
         // Initialize your own robot class
         waitForStart();
         if (isStopRequested()) return;

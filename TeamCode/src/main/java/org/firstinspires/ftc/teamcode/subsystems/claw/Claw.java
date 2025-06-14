@@ -20,12 +20,12 @@ import java.util.Arrays;
 public class Claw {
     public ContinuousServo servo1;
     public ContinuousServo servo2;
-    RevColorSensorV3 colorSensor;
+    BrushlandColorSensor colorSensor;
     float power = 0;
 
     ElapsedTime sensorTimeout;
 
-    public Claw(ContinuousServo s1, ContinuousServo s2, RevColorSensorV3 sensor) {
+    public Claw(ContinuousServo s1, ContinuousServo s2, BrushlandColorSensor sensor) {
         servo1 = s1;
         servo2 = s2;
 
@@ -33,8 +33,8 @@ public class Claw {
         servo2.servo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         colorSensor = sensor;
-        colorSensor.initialize();
-        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
+//        colorSensor.initialize();
+//        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
 
         sensorTimeout = new ElapsedTime();
     }
@@ -180,15 +180,36 @@ public class Claw {
     }
 
     public SampleColors detectSample() {
-            float red = colorSensor.getNormalizedColors().red;
-            float blue = colorSensor.getNormalizedColors().blue;
-            float green = colorSensor.getNormalizedColors().green;
-            double distance = ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM);
-            if (distance < 7) {
-                return SampleColors.YELLOW;
-            }
-            else {
-                return null;
-            }
+//        float red = colorSensor.getNormalizedColors().red;
+//        float blue = colorSensor.getNormalizedColors().blue;
+//        float green = colorSensor.getNormalizedColors().green;
+//        double distance = ((DistanceSensor) colorSensor).getDistance(DistanceUnit.MM);
+//        if (distance < 20) {
+//            if (blue > 0.01 && red < 0.003) {
+//                // Extreme blue output -> blue sample
+//                return SampleColors.BLUE;
+//            } else if (red >= 0.02 && green > 0.02) {
+//                return SampleColors.YELLOW;
+//            } else if (red >= 0.01 && green < 0.01 && blue < 0.01) {
+//                return SampleColors.RED;
+//            } else {
+//                return SampleColors.UNIDENTIFIABLE;
+////            }
+//            return SampleColors.YELLOW;
+//        } else {
+//            return null;
+//        }
+        boolean p0 = colorSensor.getPin0();
+        boolean p1 = colorSensor.getPin1();
+
+        if (p0 && p1) {
+            return SampleColors.YELLOW;
+        } else if (p0 && !p1) {
+            return SampleColors.RED;
+        } else if (!p0 && p1) {
+            return SampleColors.BLUE;
+        }
+
+        return null;
     }
 }

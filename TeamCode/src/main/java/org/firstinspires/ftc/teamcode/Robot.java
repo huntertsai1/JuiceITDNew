@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.subsystems.lift.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.arm.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.sweeper.Sweeper;
 import org.firstinspires.ftc.teamcode.util.enums.ClimbType;
+import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 import org.firstinspires.ftc.teamcode.util.hardware.Component;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
@@ -45,7 +46,7 @@ public class Robot {
     // STATE VARS
     boolean auton;
     boolean intaking = false;
-    public boolean activateSensor = false;
+    public boolean activateSensor = true;
     public Levels state = Levels.INIT;
     public Gamepiece mode = Gamepiece.SAMPLE;
     public SampleColors targetColor = SampleColors.YELLOW;
@@ -83,7 +84,8 @@ public class Robot {
                 new StepperServo(0, "sweeper", map)         //15
         };
 
-        RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
+//        RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
+        BrushlandColorSensor colorSensor = new BrushlandColorSensor(0, "colorSensor", map);
         // INIT SUBSYSTEMS
 
         this.lift = new Lift((Motor) components[4], (Motor) components[5], (Motor) components[6]);
@@ -312,6 +314,11 @@ public class Robot {
     }
 
     public void intermediatePreset() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         arm.runToPreset(Levels.INTERMEDIATE);
         extension.runToPreset(Levels.INTERMEDIATE);
         lift.runToPreset(Levels.INTERMEDIATE);
@@ -352,33 +359,13 @@ public class Robot {
     boolean ejectStarted = false;
     public boolean autoStopIntakeUpdate(SampleColors... colors) {
         int r = claw.smartStopDetect(colors);
-        if (ejectStarted && ejectTimeout.time(TimeUnit.MILLISECONDS) >= 150) {
-            ejectStarted = false;
-            claw.setPower(1);
-        } else if (!ejectStarted) {
-            if (r == 0 && colorTimeout.time() > 0) {
-                timerStarted = false;
+            if (r == 0) {
                 return true;
-            } else if (r == 1 && timerStarted && colorTimeout.time() > 0.000) {
-                while (colorTimeout.time() < 0.1) {
-                    if (claw.smartStopDetect() != 1) {
-                        return true;
-                    }
-                }
+            } else if (r == 1) {
                 stopIntake();
                 return false;
-            } else if (r == -1 && timerStarted && colorTimeout.time() > 0.050) {
-                claw.setPower((float) -0.5);
-                ejectTimeout.reset();
-                ejectStarted = true;
-                return true;
-            } else if ((r == 1 || r == -1) && !timerStarted) {
-                timerStarted = true;
-                colorTimeout.reset();
             }
-        }
-
-        return true;
+            return true;
     }
 
     // DEPOSIT OPERATIONS
@@ -444,7 +431,7 @@ public class Robot {
 
         return new SequentialAction(
                 claw.eject(true),
-                new SleepAction(0.1),
+                new SleepAction(0.3),
                 intermediateDepositPreset()
         );
     }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleop.tuning.color;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.lynx.LynxI2cDeviceSynch;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,12 +13,13 @@ import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 
 @TeleOp(group = "competition")
 @Config
-@Disabled
+//@Disabled
 public class ColorSensorI2C extends LinearOpMode {
     RevColorSensorV3 sensor;
     @Override
     public void runOpMode() throws InterruptedException {
-        sensor = hardwareMap.get(RevColorSensorV3.class, "Color");
+        sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensor");
+        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
         // Initialize your own robot class
         waitForStart();
         if (isStopRequested()) return;
