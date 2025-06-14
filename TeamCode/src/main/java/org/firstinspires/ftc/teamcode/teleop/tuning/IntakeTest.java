@@ -53,31 +53,13 @@ public class IntakeTest extends LinearOpMode {
             }
 
             if (gamepad1.right_bumper && !oldRBumper) {
-                if (robot.state != Levels.INTAKE_INTERMEDIATE) {
-                    actionsQueue.add(
-                            robot.teleIntakePreset(true)
-                    );
-                } else {
-                    actionsQueue.add(
-                            robot.intakeDrop(SampleColors.RED)
-                    );
-                }
+                robot.extension.runToPreset(Levels.INTAKE);
+                robot.arm.runToPreset(Levels.INTAKE);
+                robot.claw.startIntake();
             }
+
             oldRBumper = gamepad1.right_bumper;
 
-            TelemetryPacket packet = new TelemetryPacket();
-            List<Action> newActions = new ArrayList<>();
-            for (Action action : actionsQueue) {
-                action.preview(packet.fieldOverlay());
-                if (action.run(packet)) {
-                    newActions.add(action);
-                }
-            }
-            actionsQueue = newActions;
-            robot.lift.update();
-            telemetry.addData("queue", actionsQueue);
-            telemetry.addData("TIME TO ACTION", robot.timeToAction.time() - robot.afterAction.time());
-            telemetry.update();
         }
     }
 }
