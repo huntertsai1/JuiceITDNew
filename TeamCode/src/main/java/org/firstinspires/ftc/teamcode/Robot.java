@@ -314,11 +314,6 @@ public class Robot {
     }
 
     public void intermediatePreset() {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         arm.runToPreset(Levels.INTERMEDIATE);
         extension.runToPreset(Levels.INTERMEDIATE);
         lift.runToPreset(Levels.INTERMEDIATE);
@@ -431,7 +426,7 @@ public class Robot {
 
         return new SequentialAction(
                 claw.eject(true),
-                new SleepAction(0.3),
+                new SleepAction(0.5),
                 intermediateDepositPreset()
         );
     }
