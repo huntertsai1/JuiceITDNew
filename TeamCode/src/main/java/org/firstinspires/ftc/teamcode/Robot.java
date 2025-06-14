@@ -324,6 +324,7 @@ public class Robot {
         intaking = false;
         claw.stopIntake();
         intermediatePreset();
+        afterAction.reset();
     }
     public Action stopIntakeAction() {
         return new InstantAction(()->{
@@ -348,8 +349,8 @@ public class Robot {
                 }));
     }
 
-    private ElapsedTime colorTimeout = new ElapsedTime();
-    private ElapsedTime ejectTimeout = new ElapsedTime();
+    public ElapsedTime timeToAction = new ElapsedTime();
+    public ElapsedTime afterAction = new ElapsedTime();
     boolean timerStarted = false;
     boolean ejectStarted = false;
     public boolean autoStopIntakeUpdate(SampleColors... colors) {
@@ -357,6 +358,8 @@ public class Robot {
             if (r == 0) {
                 return true;
             } else if (r == 1) {
+                timeToAction.reset();
+                afterAction.reset();
                 stopIntake();
                 return false;
             }
