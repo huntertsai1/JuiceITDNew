@@ -28,6 +28,7 @@ import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @TeleOp(name="RED")
 @Config
@@ -285,7 +286,7 @@ public class RED extends LinearOpMode {
             telemetry.addData("LIFT TARGET ", robot.lift.target);
             telemetry.addData("LOOPTIME: ", frequency);
             telemetry.addData("queue", actionsQueue);
-            telemetry.addData("TIME TO ACTION", robot.timeToAction.time() - robot.afterAction.time());
+            telemetry.addData("TIME TO ACTION", robot.timeToAction.time(TimeUnit.MILLISECONDS) - robot.afterAction.time(TimeUnit.MILLISECONDS));
             telemetry.update();
         }
     }

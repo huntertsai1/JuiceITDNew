@@ -323,8 +323,8 @@ public class Robot {
     public void stopIntake() {
         intaking = false;
         claw.stopIntake();
-        intermediatePreset();
         afterAction.reset();
+        intermediatePreset();
     }
     public Action stopIntakeAction() {
         return new InstantAction(()->{
