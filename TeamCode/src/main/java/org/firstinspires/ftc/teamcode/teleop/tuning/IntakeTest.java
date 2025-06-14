@@ -37,6 +37,7 @@ public class IntakeTest extends LinearOpMode {
         robot = new Robot(hardwareMap, false);
         List<Action> actionsQueue = new ArrayList<>();
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+        boolean intaking = false;
 
         boolean oldRBumper = false;
 
@@ -56,6 +57,15 @@ public class IntakeTest extends LinearOpMode {
                 robot.extension.runToPreset(Levels.INTAKE);
                 robot.arm.runToPreset(Levels.INTAKE);
                 robot.claw.startIntake();
+                intaking = true;
+            }
+
+            if (robot.claw.smartStopDetect(SampleColors.YELLOW, SampleColors.RED) == 1 && intaking) {
+                robot.claw.stopIntake();
+                robot.arm.runToPreset(Levels.INTERMEDIATE);
+                robot.extension.runToPreset(Levels.INTERMEDIATE);
+                robot.lift.runToPreset(Levels.INTERMEDIATE);
+                intaking = false;
             }
 
             oldRBumper = gamepad1.right_bumper;
