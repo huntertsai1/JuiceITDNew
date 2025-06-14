@@ -10,6 +10,8 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
@@ -22,6 +24,7 @@ import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
+import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +33,27 @@ import java.util.List;
 @Config
 //@Disabled
 public class IntakeTest extends LinearOpMode {
-    Robot robot;
+    StepperServo ext1;
+    StepperServo ext2;
+    StepperServo arm;
+    StepperServo elbow;
+    ContinuousServo intake1;
+    ContinuousServo intake2;
+    BrushlandColorSensor sensor;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(hardwareMap, false);
-        List<Action> actionsQueue = new ArrayList<>();
+        ext1 = new StepperServo(0, "ext1", hardwareMap);
+        ext2 = new StepperServo(0, "ext2", hardwareMap);
+        arm = new StepperServo(0, "arm", hardwareMap);
+        elbow = new StepperServo(0, "elbow", hardwareMap);
+        intake1 = new ContinuousServo(0, "claw1", hardwareMap);
+        intake2 = new ContinuousServo(0, "claw2", hardwareMap);
+        sensor = new BrushlandColorSensor(0, "colorSensor", hardwareMap);
+
+        ext1.servo.setDirection(Servo.Direction.REVERSE);
+        ext2.servo.setDirection(Servo.Direction.REVERSE);
+        intake2.servo.setDirection(DcMotorSimple.Direction.REVERSE);
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
         boolean intaking = false;
 
@@ -54,17 +72,22 @@ public class IntakeTest extends LinearOpMode {
             }
 
             if (gamepad1.right_bumper && !oldRBumper) {
-                robot.extension.runToPreset(Levels.INTAKE);
-                robot.arm.runToPreset(Levels.INTAKE);
-                robot.claw.startIntake();
+                ext1.setAngle((float) 285);
+                ext2.setAngle((float) 285);
+                arm.setAngle((float) 170);
+                elbow.setAngle((float) 205);
+                intake1.setSpeed((float) 1);
+                intake2.setSpeed((float) 1);
                 intaking = true;
             }
 
-            if (robot.claw.smartStopDetect(SampleColors.YELLOW, SampleColors.RED) == 1 && intaking) {
-                robot.claw.stopIntake();
-                robot.arm.runToPreset(Levels.INTERMEDIATE);
-                robot.extension.runToPreset(Levels.INTERMEDIATE);
-                robot.lift.runToPreset(Levels.INTERMEDIATE);
+            if (sensor.getPin0() && intaking) {
+                intake1.setSpeed((float) 0);
+                intake2.setSpeed((float) 0);
+                arm.setAngle((float) 215);
+                elbow.setAngle((float) 173);
+                ext1.setAngle((float) 60);
+                ext2.setAngle((float) 60);
                 intaking = false;
             }
 
