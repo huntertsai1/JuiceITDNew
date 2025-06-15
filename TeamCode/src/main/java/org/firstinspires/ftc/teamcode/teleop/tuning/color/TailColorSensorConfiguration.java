@@ -11,7 +11,7 @@ public class TailColorSensorConfiguration extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         ColorRangefinder crf =
-                new ColorRangefinder(hardwareMap.get(RevColorSensorV3.class, "colorSensor"));
+                new ColorRangefinder(hardwareMap.get(RevColorSensorV3.class, "colorSensorTail"));
 
         /*
         Using this example configuration, you can detect all three sample colors based on which pin is reading true:
