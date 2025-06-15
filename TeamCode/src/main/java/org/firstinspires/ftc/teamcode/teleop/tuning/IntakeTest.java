@@ -28,6 +28,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @TeleOp(group = "competition")
 @Config
@@ -62,10 +63,12 @@ public class IntakeTest extends LinearOpMode {
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
         boolean oldRBumper = false;
+
         /**
          * 0 -> intaking, -1 -> primed for capture, 1 -> confirmed capture
          */
         int intakeStatus = 0;
+        ElapsedTime primeTimeout = new ElapsedTime();
 
         for (LynxModule module : allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
@@ -93,12 +96,14 @@ public class IntakeTest extends LinearOpMode {
             if (sensorHead.getPin0() && intakeStatus == 0) {
                 intake1.setSpeed((float) stopSpeed);
                 intake2.setSpeed((float) stopSpeed);
+
+                primeTimeout.reset();
                 intakeStatus = -1;
             } else if (intakeStatus == -1 && sensorTail.getPin0()) {
                 intake1.setSpeed((float) 0);
                 intake2.setSpeed((float) 0);
                 intakeStatus = 1;
-            } else if (!sensorHead.getPin0() && intakeStatus == -1) {
+            } else if (!sensorHead.getPin0() && intakeStatus == -1 && primeTimeout.time(TimeUnit.MILLISECONDS) > 750) {
                 intake1.setSpeed((float) 1);
                 intake2.setSpeed((float) 1);
                 intakeStatus = 0;
