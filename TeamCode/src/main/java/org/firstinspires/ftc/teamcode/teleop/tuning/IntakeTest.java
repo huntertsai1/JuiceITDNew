@@ -42,6 +42,9 @@ public class IntakeTest extends LinearOpMode {
     BrushlandColorSensor sensorHead;
     BrushlandColorSensor sensorTail;
 
+    public static double stopSpeed = 0.5;
+
+
     @Override
     public void runOpMode() throws InterruptedException {
         ext1 = new StepperServo(0, "ext1", hardwareMap);
@@ -83,12 +86,13 @@ public class IntakeTest extends LinearOpMode {
                 elbow.setAngle((float) 205);
                 intake1.setSpeed((float) 1);
                 intake2.setSpeed((float) 1);
+                intakeStatus = 0;
             }
 
             // YELLOW OR RED, check for only p1 for blue and yellow
             if (sensorHead.getPin0() && intakeStatus == 0) {
-                intake1.setSpeed((float) 0.3);
-                intake2.setSpeed((float) 0.3);
+                intake1.setSpeed((float) stopSpeed);
+                intake2.setSpeed((float) stopSpeed);
                 intakeStatus = -1;
             } else if (intakeStatus == -1 && sensorTail.getPin0()) {
                 intake1.setSpeed((float) 0);
@@ -102,7 +106,7 @@ public class IntakeTest extends LinearOpMode {
 
             oldRBumper = gamepad1.right_bumper;
 
-            System.out.println(sensorHead.getPin0() + ", " + sensorHead.getPin1() + ";   " + sensorTail.getPin0() + ", " + sensorTail.getPin1());
+            System.out.println(sensorHead.getPin0() + ", " + sensorHead.getPin1() + ";   " + sensorTail.getPin0() + ", " + sensorTail.getPin1() + ";   "+ intakeStatus);
 
         }
     }

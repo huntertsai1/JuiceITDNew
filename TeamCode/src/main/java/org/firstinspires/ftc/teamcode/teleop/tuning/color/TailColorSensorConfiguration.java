@@ -20,8 +20,8 @@ public class TailColorSensorConfiguration extends LinearOpMode {
         only pin1 --> in distance
         neither   --> no object
          */
-        crf.setPin0Digital(ColorRangefinder.DigitalMode.DISTANCE, 0, 35);
-        crf.setPin1Digital(ColorRangefinder.DigitalMode.DISTANCE, 0, 35);
+        crf.setPin0Digital(ColorRangefinder.DigitalMode.DISTANCE, 0, 30);
+        crf.setPin1Digital(ColorRangefinder.DigitalMode.DISTANCE, 0, 30);
 
         waitForStart();
 
