@@ -55,7 +55,6 @@ public class IntakeTest extends LinearOpMode {
         ext2.servo.setDirection(Servo.Direction.REVERSE);
         intake1.servo.setDirection(DcMotorSimple.Direction.REVERSE);
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
-        boolean intaking = false;
 
         boolean oldRBumper = false;
 
@@ -78,13 +77,11 @@ public class IntakeTest extends LinearOpMode {
                 elbow.setAngle((float) 205);
                 intake1.setSpeed((float) 1);
                 intake2.setSpeed((float) 1);
-                intaking = true;
             }
 
-            if (sensor.getPin0() && intaking) {
+            if (sensor.getPin0() || sensor.getPin1()) {
                 intake1.setSpeed((float) 0);
                 intake2.setSpeed((float) 0);
-                intaking = false;
             }
 
             oldRBumper = gamepad1.right_bumper;
