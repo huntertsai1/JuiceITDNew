@@ -102,7 +102,7 @@ public class IntakeTest extends LinearOpMode {
 
             oldRBumper = gamepad1.right_bumper;
 
-            System.out.println(sensorHead.getPin0() + ", " + sensorTail.getPin1() + ";   " + sensorTail.getPin0() + ", " + sensorTail.getPin1());
+            System.out.println(sensorHead.getPin0() + ", " + sensorHead.getPin1() + ";   " + sensorTail.getPin0() + ", " + sensorTail.getPin1());
 
         }
     }

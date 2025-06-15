@@ -28,9 +28,13 @@ public class ColorSensorI2C extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
             NormalizedRGBA color = sensor.getNormalizedColors();
-            telemetry.addData("r", color.red);
-            telemetry.addData("g", color.green);
-            telemetry.addData("b", color.blue);
+            telemetry.addData("rh", color.red);
+            telemetry.addData("gh", color.green);
+            telemetry.addData("bh", color.blue);
+            NormalizedRGBA color2 = sensor2.getNormalizedColors();
+            telemetry.addData("rt", color2.red);
+            telemetry.addData("gt", color2.green);
+            telemetry.addData("bt", color2.blue);
             telemetry.addData("distance head", sensor.getDistance(DistanceUnit.MM));
             telemetry.addData("distance tail", sensor2.getDistance(DistanceUnit.MM));
             telemetry.update();
