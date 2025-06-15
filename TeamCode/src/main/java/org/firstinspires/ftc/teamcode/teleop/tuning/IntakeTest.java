@@ -39,7 +39,8 @@ public class IntakeTest extends LinearOpMode {
     StepperServo elbow;
     ContinuousServo intake1;
     ContinuousServo intake2;
-    BrushlandColorSensor sensor;
+    BrushlandColorSensor sensorHead;
+    BrushlandColorSensor sensorTail;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,7 +50,8 @@ public class IntakeTest extends LinearOpMode {
         elbow = new StepperServo(0, "elbow", hardwareMap);
         intake1 = new ContinuousServo(0, "claw1", hardwareMap);
         intake2 = new ContinuousServo(0, "claw2", hardwareMap);
-        sensor = new BrushlandColorSensor(0, "colorSensor", hardwareMap);
+        sensorHead = new BrushlandColorSensor(0, "colorSensorHead", hardwareMap);
+        sensorTail = new BrushlandColorSensor(0, "colorSensorTail", hardwareMap);
 
         ext1.servo.setDirection(Servo.Direction.REVERSE);
         ext2.servo.setDirection(Servo.Direction.REVERSE);
@@ -57,6 +59,10 @@ public class IntakeTest extends LinearOpMode {
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
         boolean oldRBumper = false;
+        /**
+         * 0 -> intaking, -1 -> primed for capture, 1 -> confirmed capture
+         */
+        int intakeStatus = 0;
 
         for (LynxModule module : allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
@@ -79,14 +85,24 @@ public class IntakeTest extends LinearOpMode {
                 intake2.setSpeed((float) 1);
             }
 
-            if (sensor.getPin0() || sensor.getPin1()) {
+            // YELLOW OR RED, check for only p1 for blue and yellow
+            if (sensorHead.getPin0() && intakeStatus == 0) {
+                intake1.setSpeed((float) 0.3);
+                intake2.setSpeed((float) 0.3);
+                intakeStatus = -1;
+            } else if (intakeStatus == -1 && sensorTail.getPin0()) {
                 intake1.setSpeed((float) 0);
                 intake2.setSpeed((float) 0);
+                intakeStatus = 1;
+            } else if (!sensorHead.getPin0() && intakeStatus == -1) {
+                intake1.setSpeed((float) 1);
+                intake2.setSpeed((float) 1);
+                intakeStatus = 0;
             }
 
             oldRBumper = gamepad1.right_bumper;
 
-            System.out.println(sensor.getPin0() + ", " + sensor.getPin1());
+            System.out.println(sensorHead.getPin0() + ", " + sensorTail.getPin1() + ";   " + sensorTail.getPin0() + ", " + sensorTail.getPin1());
 
         }
     }

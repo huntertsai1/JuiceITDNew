@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.teleop.tuning.color;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchSimple;
@@ -12,9 +11,9 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 
 
-@TeleOp
+@TeleOp(name="HEAD COLOR CONFIG")
 @Config
-public class ColorSensorConfiguration extends LinearOpMode {
+public class HeadColorSensorConfiguration extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         ColorRangefinder crf =
