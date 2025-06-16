@@ -92,6 +92,8 @@ public class Claw {
             return 0;
         } else if (intakeStatus == -1) {
             return -1;
+        } else if (intakeStatus == 1) {
+            return 1;
         }
         return 0;
     }
