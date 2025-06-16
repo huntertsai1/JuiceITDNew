@@ -286,6 +286,7 @@ public class Robot {
                             lift.lift1.resetEncoder();
                             intaking = true;
                             state = Levels.INTAKE;
+                            claw.intakeStatus = 0;
                         }),
                         commands.stopIntake(SampleColors.YELLOW, alliance)
                 );

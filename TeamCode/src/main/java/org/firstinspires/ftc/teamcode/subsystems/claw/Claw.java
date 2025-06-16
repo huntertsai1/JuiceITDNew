@@ -43,11 +43,9 @@ public class Claw {
     }
 
     public void setPower(float p) {
-        if (power != p) {
-            servo1.servo.setPower(p);
-            servo2.servo.setPower(-p);
-            power = p;
-        }
+        servo1.servo.setPower(p);
+        servo2.servo.setPower(-p);
+        power = p;
     }
 
     public void startIntake() {
@@ -75,7 +73,7 @@ public class Claw {
      * @return 0: nothing in intake, 1: intaked targeted color, -1: head target detected (slow)
      */
 
-    int intakeStatus = 0;
+    public int intakeStatus = 0;
     ElapsedTime primeTimeout = new ElapsedTime();
     public int smartStopDetect(SampleColors... colors) {
         SampleColors s = detectSampleHead();
