@@ -16,23 +16,26 @@ import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class Claw {
     public ContinuousServo servo1;
     public ContinuousServo servo2;
-    BrushlandColorSensor colorSensor;
+    BrushlandColorSensor colorSensorHead;
+    BrushlandColorSensor colorSensorTail;
     float power = 0;
 
     ElapsedTime sensorTimeout;
 
-    public Claw(ContinuousServo s1, ContinuousServo s2, BrushlandColorSensor sensor) {
+    public Claw(ContinuousServo s1, ContinuousServo s2, BrushlandColorSensor sensorHead, BrushlandColorSensor sensorTail) {
         servo1 = s1;
         servo2 = s2;
 
         servo1.servo.setDirection(DcMotorSimple.Direction.REVERSE);
         servo2.servo.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        colorSensor = sensor;
+        colorSensorHead = sensorHead;
+        colorSensorTail = sensorTail;
 //        colorSensor.initialize();
 //        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
 
@@ -40,9 +43,11 @@ public class Claw {
     }
 
     public void setPower(float p) {
-        servo1.servo.setPower(p);
-        servo2.servo.setPower(-p);
-        power = p;
+        if (power != p) {
+            servo1.servo.setPower(p);
+            servo2.servo.setPower(-p);
+            power = p;
+        }
     }
 
     public void startIntake() {
@@ -53,8 +58,10 @@ public class Claw {
         setPower(0);
     }
 
+    public void slowIntake() {setPower(0.5F);}
+
     public void smartStopIntake(SampleColors... colors) {
-        SampleColors s = detectSample();
+        SampleColors s = detectSampleHead();
         if (Arrays.stream(colors).anyMatch(x -> x == s )) {
             stopIntake();
         } else if (s != null) {
@@ -65,15 +72,25 @@ public class Claw {
     /**
      *
      * @param colors colors that you want to stop the intake for
-     * @return 0: nothing in intake, 1: intaked targeted color, -1: intaked non-target (eject)
+     * @return 0: nothing in intake, 1: intaked targeted color, -1: head target detected (slow)
      */
 
+    int intakeStatus = 0;
+    ElapsedTime primeTimeout = new ElapsedTime();
     public int smartStopDetect(SampleColors... colors) {
-        SampleColors s = detectSample();
-        if (Arrays.stream(colors).anyMatch(x -> x == s )) {
-            return 1;
-        } else if (s != null) {
+        SampleColors s = detectSampleHead();
+        boolean isTarget = Arrays.stream(colors).anyMatch(x -> x == s );
+
+        if (isTarget && intakeStatus == 0) {
+            primeTimeout.reset();
+            intakeStatus = -1;
             return -1;
+        } else if (intakeStatus == -1 && detectSampleTail()) {
+            intakeStatus = 1;
+            return 1;
+        } else if (!isTarget && intakeStatus == -1 && primeTimeout.time(TimeUnit.MILLISECONDS) > 750) {
+            intakeStatus = 0;
+            return 0;
         }
         return 0;
     }
@@ -179,7 +196,7 @@ public class Claw {
         }
     }
 
-    public SampleColors detectSample() {
+    public SampleColors detectSampleHead() {
 //        float red = colorSensor.getNormalizedColors().red;
 //        float blue = colorSensor.getNormalizedColors().blue;
 //        float green = colorSensor.getNormalizedColors().green;
@@ -199,8 +216,8 @@ public class Claw {
 //        } else {
 //            return null;
 //        }
-        boolean p0 = colorSensor.getPin0();
-        boolean p1 = colorSensor.getPin1();
+        boolean p0 = colorSensorHead.getPin0();
+        boolean p1 = colorSensorHead.getPin1();
 
         if (p0 && p1) {
             return SampleColors.YELLOW;
@@ -211,5 +228,9 @@ public class Claw {
         }
 
         return null;
+    }
+
+    boolean detectSampleTail() {
+        return colorSensorTail.getPin0();
     }
 }

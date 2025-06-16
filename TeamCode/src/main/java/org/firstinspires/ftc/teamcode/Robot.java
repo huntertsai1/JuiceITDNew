@@ -356,12 +356,16 @@ public class Robot {
     public boolean autoStopIntakeUpdate(SampleColors... colors) {
         int r = claw.smartStopDetect(colors);
             if (r == 0) {
+                claw.startIntake();
                 return true;
             } else if (r == 1) {
                 timeToAction.reset();
                 afterAction.reset();
                 stopIntake();
                 return false;
+            } else if (r == -1) {
+                claw.slowIntake();
+                return true;
             }
             return true;
     }
