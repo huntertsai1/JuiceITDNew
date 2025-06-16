@@ -85,13 +85,14 @@ public class Robot {
         };
 
 //        RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
-        BrushlandColorSensor colorSensor = new BrushlandColorSensor(0, "colorSensor", map);
+        BrushlandColorSensor colorSensor1 = new BrushlandColorSensor(0, "colorSensorHead", map);
+        BrushlandColorSensor colorSensor2 = new BrushlandColorSensor(0, "colorSensorTail", map);
         // INIT SUBSYSTEMS
 
         this.lift = new Lift((Motor) components[4], (Motor) components[5], (Motor) components[6]);
         this.extension = new Extension((StepperServo) components[7], (StepperServo) components[8]);
         this.arm = new Arm((StepperServo) components[9], (StepperServo) components[10]);
-        this.claw = new Claw((ContinuousServo) components[11], (ContinuousServo) components[12], colorSensor);
+        this.claw = new Claw((ContinuousServo) components[11], (ContinuousServo) components[12], colorSensor1, colorSensor2);
         this.climbWinch = new ClimbWinch((ContinuousServo) components[13], (ContinuousServo) components[14]);
         this.sweeper = new Sweeper((StepperServo) components[15]);
 
