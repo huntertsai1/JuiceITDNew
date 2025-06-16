@@ -297,6 +297,7 @@ public class Robot {
                             arm.runToPreset(Levels.INTAKE);
                             lift.lift1.resetEncoder();
                             intaking = true;
+                            claw.intakeStatus = 0;
                             state = Levels.INTAKE;
                         }),
                         commands.stopIntake(alliance)
