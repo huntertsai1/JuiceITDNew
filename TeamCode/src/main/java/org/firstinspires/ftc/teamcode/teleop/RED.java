@@ -163,8 +163,8 @@ public class RED extends LinearOpMode {
             if (gamepad1.square && !oldSquare){
                 actionsQueue.add(
                         new ParallelAction(
-                                robot.sweeper.sweep(),
-                                robot.claw.ejectOps(true)
+                                robot.sweeper.sweep()
+//                                robot.claw.ejectOps(true)
                         )
                 );
             }
@@ -175,7 +175,7 @@ public class RED extends LinearOpMode {
                     actionsQueue.add(
                             new SequentialAction(
                                     new InstantAction(() -> {
-                                        robot.lift.runToPosition(100);
+//                                        robot.lift.runToPosition(100);
                                         robot.arm.runToPreset(Levels.HIGH_BASKET);
                                     }),
                                     new SleepAction(0.5),
