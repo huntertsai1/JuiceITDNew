@@ -280,6 +280,7 @@ public class RED extends LinearOpMode {
 
             telemetry.addData("MODE", robot.mode.toString());
             telemetry.addData("STATE: ", robot.state);
+            telemetry.addData("Sample Head ", robot.claw.detectSampleHead());
             telemetry.addData("COLOR ENABLED", robot.activateSensor);
             telemetry.addData("LIFT POWER", robot.lift.power1);
             telemetry.addData("LIFT ", robot.lift.getPos());

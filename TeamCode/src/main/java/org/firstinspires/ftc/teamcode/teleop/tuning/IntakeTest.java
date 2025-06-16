@@ -43,7 +43,7 @@ public class IntakeTest extends LinearOpMode {
     BrushlandColorSensor sensorHead;
     BrushlandColorSensor sensorTail;
 
-    public static double stopSpeed = 0.5;
+    public static double stopSpeed = 0.25;
 
 
     @Override
@@ -63,6 +63,7 @@ public class IntakeTest extends LinearOpMode {
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
         boolean oldRBumper = false;
+        boolean oldLBumper = false;
 
         /**
          * 0 -> intaking, -1 -> primed for capture, 1 -> confirmed capture
@@ -92,6 +93,12 @@ public class IntakeTest extends LinearOpMode {
                 intakeStatus = 0;
             }
 
+            if (gamepad1.left_bumper && !oldLBumper) {
+                intake1.setSpeed((float) -1);
+                intake2.setSpeed((float) -1);
+                intakeStatus = 0;
+            }
+
             // YELLOW OR RED, check for only p1 for blue and yellow
             if (sensorHead.getPin0() && intakeStatus == 0) {
                 intake1.setSpeed((float) stopSpeed);
@@ -110,8 +117,25 @@ public class IntakeTest extends LinearOpMode {
             }
 
             oldRBumper = gamepad1.right_bumper;
+            oldLBumper = gamepad1.left_bumper;
+
+            boolean p0 = sensorHead.getPin0();
+            boolean p1 = sensorHead.getPin1();
+            SampleColors s = null;
+
+            if (p0 && p1) {
+                s = SampleColors.YELLOW;
+            } else if (p0 && !p1) {
+                s = SampleColors.RED;
+            } else if (!p0 && p1) {
+                s = SampleColors.BLUE;
+            }
+
+            telemetry.addData("color", s);
 
             System.out.println(sensorHead.getPin0() + ", " + sensorHead.getPin1() + ";   " + sensorTail.getPin0() + ", " + sensorTail.getPin1() + ";   "+ intakeStatus);
+
+            telemetry.update();
 
         }
     }

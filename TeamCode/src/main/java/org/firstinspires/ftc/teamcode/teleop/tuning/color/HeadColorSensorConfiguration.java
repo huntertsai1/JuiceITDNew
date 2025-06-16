@@ -34,6 +34,8 @@ public class HeadColorSensorConfiguration extends LinearOpMode {
         crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, 55 / 360.0 * 255, 90 / 360.0 * 255); // yellow
         crf.setPin1DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 50); // 30mm or closer requirement
 
+        crf.setLedBrightness(100);
+
         waitForStart();
 
         stop();
