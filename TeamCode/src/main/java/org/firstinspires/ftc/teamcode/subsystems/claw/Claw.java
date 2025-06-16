@@ -90,6 +90,8 @@ public class Claw {
         } else if (!isTarget && intakeStatus == -1 && primeTimeout.time(TimeUnit.MILLISECONDS) > 750) {
             intakeStatus = 0;
             return 0;
+        } else if (intakeStatus == -1) {
+            return -1;
         }
         return 0;
     }
