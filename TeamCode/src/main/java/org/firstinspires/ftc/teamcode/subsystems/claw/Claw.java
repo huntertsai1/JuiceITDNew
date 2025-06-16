@@ -78,7 +78,7 @@ public class Claw {
     public int smartStopDetect(SampleColors... colors) {
         SampleColors s = detectSampleHead();
         boolean isTarget = Arrays.stream(colors).anyMatch(x -> x == s );
-        System.out.println("s: " + s + ";   isTarget: " + isTarget + ";  ");
+        System.out.println("s: " + s + ";   isTarget: " + isTarget + ";  Intake Status: " + + intakeStatus);
 
         if (isTarget && intakeStatus == 0) {
             primeTimeout.reset();
