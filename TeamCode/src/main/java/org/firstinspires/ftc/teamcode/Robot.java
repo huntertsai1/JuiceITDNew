@@ -357,6 +357,7 @@ public class Robot {
     boolean ejectStarted = false;
     public boolean autoStopIntakeUpdate(SampleColors... colors) {
         int r = claw.smartStopDetect(colors);
+        System.out.println("r: " + r);
             if (r == 0) {
                 claw.startIntake();
                 return true;
