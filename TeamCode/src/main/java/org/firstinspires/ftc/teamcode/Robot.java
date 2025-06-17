@@ -441,7 +441,7 @@ public class Robot {
 
         return new SequentialAction(
                 claw.eject(true),
-                new SleepAction(0.5),
+                new SleepAction(0.2),
                 intermediateDepositPreset()
         );
     }
