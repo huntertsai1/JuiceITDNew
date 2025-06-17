@@ -33,6 +33,8 @@ public class LEDTest extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested()) {
             blinky.setColor((float)COLOR / 1000);
 
+            blinky.update();
+
         }
     }
 }
