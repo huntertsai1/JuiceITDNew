@@ -43,7 +43,7 @@ public class Arm {
             setWristAngle(wristUp);
         } else if (level == Levels.HIGH_RUNG) {
             runToPosition(335);
-            setWristAngle(55);
+            setWristAngle(52);
         }
     }
 
