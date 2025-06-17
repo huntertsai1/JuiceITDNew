@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 @TeleOp(group = "competition")
 @Config
 public class LEDTest extends LinearOpMode {
-    public static double COLOR = 165;
+    public static double COLOR = 500;
 
     GoBildaLEDIndicator blinky;
 
@@ -31,7 +31,7 @@ public class LEDTest extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
-            blinky.setColor(GoBildaLEDIndicator.Colors.JOOS_ORANGE);
+            blinky.setColor((float)COLOR / 1000);
 
         }
     }
