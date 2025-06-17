@@ -137,7 +137,7 @@ public class Claw {
 
     public Action eject(boolean action) {
         return new SequentialAction(
-                new InstantAction(() -> setPower((float) -0.6)),
+                new InstantAction(() -> setPower((float) -0.4)),
                 new SleepAction(0.3),
                 new InstantAction(() -> setPower(0))
         );
