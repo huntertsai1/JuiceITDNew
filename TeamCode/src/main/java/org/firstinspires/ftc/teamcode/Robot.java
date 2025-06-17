@@ -412,7 +412,6 @@ public class Robot {
     }
     public Action highRung(boolean action) {
         return new ParallelAction(
-                commands.autoCenterSpecimen(),
                 new InstantAction(
                         () -> {
                             arm.runToPreset(Levels.HIGH_RUNG);
@@ -420,7 +419,14 @@ public class Robot {
                             lift.runToPreset(Levels.HIGH_RUNG);
 //                            claw.setStall(true);
                             state = Levels.HIGH_RUNG;
-                })
+                }),
+                new SequentialAction(
+                        new InstantAction(() -> claw.setPower(1)),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> claw.setPower(-0.2F)),
+                        new SleepAction(0.35),
+                        new InstantAction(() -> claw.setStall(true))
+                )
         );
     }
 

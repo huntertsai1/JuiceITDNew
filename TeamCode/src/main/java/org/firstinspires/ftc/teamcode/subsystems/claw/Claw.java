@@ -179,7 +179,7 @@ public class Claw {
      */
     public void setStall(boolean state) {
         if (state) {
-            setPower((float) 0.2);
+            setPower((float) 0.05);
         } else {
             setPower(0);
         }

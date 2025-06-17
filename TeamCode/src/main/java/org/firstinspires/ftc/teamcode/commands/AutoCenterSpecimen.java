@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class AutoCenterSpecimen implements Action {
     Robot robot;
     SampleColors[] colors;
+    int status = 0;
 
     public AutoCenterSpecimen(Robot r) {
         robot = r;
@@ -21,7 +22,7 @@ public class AutoCenterSpecimen implements Action {
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
         if (robot.claw.detectSampleTail()) {
-            robot.claw.setPower(-0.15F);
+            robot.claw.setPower(-0.1F);
             return true;
         } else {
             robot.claw.setStall(true);
