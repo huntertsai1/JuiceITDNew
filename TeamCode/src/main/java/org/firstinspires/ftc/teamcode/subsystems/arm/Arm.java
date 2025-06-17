@@ -8,7 +8,7 @@ public class Arm {
     StepperServo wrist;
 
     float target = 0;
-    float wristDown = 173;
+    float wristDown = 172;
     float wristUp = 0;
 
     public Arm(StepperServo s1, StepperServo s2) {
@@ -27,8 +27,8 @@ public class Arm {
             runToPosition(280);
             setWristAngle(wristDown);
         } else if (level == Levels.INTAKE) {
-            runToPosition(170);
-            setWristAngle(205);
+            runToPosition(172);
+            setWristAngle(204);
         } else if (level == Levels.INTAKE_INTERMEDIATE) {
             runToPosition(185);
             setWristAngle(wristDown);
