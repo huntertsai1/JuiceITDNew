@@ -45,14 +45,22 @@ public class PreMatch extends LinearOpMode {
             {new ParallelAction(
                 robot.sweeper.sweep(),
                 robot.claw.ejectOps(true)
-            ),new SleepAction(0.1)},
-            {new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry), new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry)},
+            ),new InstantAction(()->{robot.claw.stopIntake();})},
+            {new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry), new WinchTimeAction(robot.climbWinch, 1.75, 1, telemetry)},
             {new SequentialAction(robot.teleIntakePreset(true), robot.intakeDrop(SampleColors.RED)), robot.stopIntakeAction()},
             {robot.highBasketAction(), robot.outtakeSample(true)},
-            {new InstantAction(()->{robot.backLeft.setSpeed(1);}),new InstantAction(()->{robot.backLeft.setSpeed(0);})},
-            {new InstantAction(()->{robot.backRight.setSpeed(1);}),new InstantAction(()->{robot.backRight.setSpeed(0);})},
-            {new InstantAction(()->{robot.frontLeft.setSpeed(1);}),new InstantAction(()->{robot.frontLeft.setSpeed(0);})},
-            {new InstantAction(()->{robot.frontRight.setSpeed(1);}),new InstantAction(()->{robot.frontRight.setSpeed(1);})},
+            {new SequentialAction(new InstantAction(()->{gamepad1.rumble(1000);}), new SleepAction(1000),
+            new InstantAction(()->{
+                robot.backLeft.setSpeed(1);
+                robot.backRight.setSpeed(1);
+                robot.frontLeft.setSpeed(1);
+                robot.frontRight.setSpeed(1);})),
+            new InstantAction(()->{
+                robot.backLeft.setSpeed(0);
+                robot.backRight.setSpeed(0);
+                robot.frontLeft.setSpeed(0);
+                robot.frontRight.setSpeed(0);})},
+
 //            {new InstantAction(()->{backLeft.setSpeed(1);}), new InstantAction(()->{backLeft.setSpeed(0);})},
 //            {new InstantAction(()->{backRight.setSpeed(1);}),new InstantAction(()->{backRight.setSpeed(0);})},
 //            {new InstantAction(()->{frontLeft.setSpeed(1);}),new InstantAction(()->{frontLeft.setSpeed(0);})},
@@ -67,7 +75,6 @@ public class PreMatch extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested() && i<actions.length) {
             TelemetryPacket packet = new TelemetryPacket();
             if (gamepad1.cross && !oldCross) {
-               which = !which;
                run = true;
             }
             oldCross = gamepad1.cross;
@@ -79,17 +86,18 @@ public class PreMatch extends LinearOpMode {
                 } else {
                     actionsQueue.add(actions[i][1]);
                 }
+                which = !which;
                 run = false;
             }
             if (gamepad1.dpad_left && !oldDpadL){
                 i--;
-                which = false;
+                which = true;
             }
             oldDpadL = gamepad1.dpad_left;
 
             if (gamepad1.dpad_right && !oldDpadR){
                 i++;
-                which = false;
+                which = true;
             }
             oldDpadR = gamepad1.dpad_right;
 
