@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands.util;
 
 import com.acmerobotics.roadrunner.Action;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.AutoCenterSpecimen;
 import org.firstinspires.ftc.teamcode.commands.auton.PreloadEjectFailsafe;
 import org.firstinspires.ftc.teamcode.commands.StopIntake;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
@@ -17,6 +18,10 @@ public class CommandMaster {
 
     public Action stopIntake(SampleColors... colors) {
         return new StopIntake(robot, colors);
+    }
+
+    public Action autoCenterSpecimen() {
+        return new AutoCenterSpecimen(robot);
     }
 
     public Action preloadEjectFailSafe() {

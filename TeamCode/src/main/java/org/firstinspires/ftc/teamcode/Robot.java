@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
@@ -410,12 +411,16 @@ public class Robot {
         );
     }
     public Action highRung(boolean action) {
-        return new InstantAction( () ->
-        {arm.runToPreset(Levels.HIGH_RUNG);
-            extension.runToPreset(Levels.HIGH_RUNG);
-            lift.runToPreset(Levels.HIGH_RUNG);
-            claw.setStall(true);
-            state = Levels.HIGH_RUNG;}
+        return new ParallelAction(
+                commands.autoCenterSpecimen(),
+                new InstantAction(
+                        () -> {
+                            arm.runToPreset(Levels.HIGH_RUNG);
+                            extension.runToPreset(Levels.HIGH_RUNG);
+                            lift.runToPreset(Levels.HIGH_RUNG);
+//                            claw.setStall(true);
+                            state = Levels.HIGH_RUNG;
+                })
         );
     }
 

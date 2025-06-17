@@ -235,7 +235,7 @@ public class Claw {
         return null;
     }
 
-    boolean detectSampleTail() {
+    public boolean detectSampleTail() {
         return colorSensorTail.getPin0();
     }
 }
