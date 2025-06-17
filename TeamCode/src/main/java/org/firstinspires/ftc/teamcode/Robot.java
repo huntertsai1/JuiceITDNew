@@ -332,6 +332,7 @@ public class Robot {
     public Action stopIntakeAction() {
         return new InstantAction(()->{
             intaking = false;
+            claw.intakeStatus = 16236;
             claw.stopIntake();
             intermediatePreset();
         } );
@@ -370,6 +371,9 @@ public class Robot {
             } else if (r == -1) {
                 claw.slowIntake();
                 return true;
+            } else if (r == 16236) {
+                //troll status code
+                return false;
             }
             return true;
     }

@@ -56,7 +56,7 @@ public class Claw {
         setPower(0);
     }
 
-    public void slowIntake() {setPower(0.25F);}
+    public void slowIntake() {setPower(0.2F);}
 
     public void smartStopIntake(SampleColors... colors) {
         SampleColors s = detectSampleHead();
@@ -94,6 +94,8 @@ public class Claw {
             return -1;
         } else if (intakeStatus == 1) {
             return 1;
+        } else if (intakeStatus == 16236) {
+            return 16236;
         }
         return 0;
     }

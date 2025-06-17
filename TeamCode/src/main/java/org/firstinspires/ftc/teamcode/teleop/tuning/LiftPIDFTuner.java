@@ -23,8 +23,6 @@ public class LiftPIDFTuner extends OpMode {
 
     public static double p = 0.01, i = 0.00, d = 0.0005;
     public static double f = 0.125;
-    public double voltageCompensation;
-
     public static int target = 0;
 
     private DcMotorEx slides1;
@@ -45,8 +43,6 @@ public class LiftPIDFTuner extends OpMode {
         slides1.setDirection(DcMotorSimple.Direction.REVERSE);
         slides2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        voltageSensor = hardwareMap.voltageSensor.iterator().next();
-
         slides1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slides1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
@@ -61,12 +57,9 @@ public class LiftPIDFTuner extends OpMode {
 
         double ff = f;
 
-        voltageCompensation = 13.2 / voltageSensor.getVoltage();
-
-        double power1 = (pid1 + ff) * voltageCompensation;
+        double power1 = (pid1 + ff);
 
         telemetry.addData("POWER ", power1);
-        telemetry.addData("Voltage Compensation ", voltageCompensation);
 
         slides1.setPower(power1);
         slides2.setPower(power1);
