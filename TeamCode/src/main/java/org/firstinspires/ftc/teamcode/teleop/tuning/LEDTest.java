@@ -32,7 +32,7 @@ public class LEDTest extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
             blinky.setColor((float)COLOR / 1000);
-
+            blinky.setAnimation(GoBildaLEDIndicator.Animation.BLINK);
             blinky.update();
 
         }
