@@ -272,6 +272,7 @@ public class RED extends LinearOpMode {
             }
 
             robot.lift.update();
+            robot.blinky.update();
 
             double newTime = getRuntime();
             double loopTime = newTime-oldTime;

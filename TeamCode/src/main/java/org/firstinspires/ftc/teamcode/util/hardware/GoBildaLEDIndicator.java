@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.hardware.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -17,6 +18,7 @@ public class GoBildaLEDIndicator extends Component {
 
     private ElapsedTime elaspedTimeBlink = new ElapsedTime();
     private boolean blinkStat = false;
+    private int blips = 0;
 
 
     public GoBildaLEDIndicator(int port, String name, HardwareMap map) {
@@ -76,15 +78,43 @@ public class GoBildaLEDIndicator extends Component {
         color = (float) ((hsv[0] / (275/0.445)) + 0.277);
     }
 
+    public void setPreset(Levels level) {
+        if (level == Levels.INIT) {
+            setColor(Colors.JOOS_ORANGE);
+            setAnimation(Animation.SOLID);
+        } else if (level == Levels.INTAKE) {
+            // abstract out
+        } else if (level == Levels.INTAKE_INTERMEDIATE) {
+            // abstract out
+        } else if (level == Levels.INTERMEDIATE) {
+            // abstract out
+        } else if (level == Levels.LOW_BASKET) {
+            setColor(Colors.GREEN);
+            setAnimation(Animation.SLOW_BLINK);
+        } else if (level == Levels.HIGH_BASKET) {
+            setColor(Colors.GREEN);
+            setAnimation(Animation.BLINK);
+        } else if (level == Levels.HIGH_RUNG) {
+            setColor(Colors.GREEN);
+            setAnimation(Animation.BLINK);
+        }
+    }
+
     public void setAnimation(Animation a) {
         currentAnimation = a;
+        if (a == Animation.THREE_BLIPS) blips = 0;
+    }
+
+    public void set(Colors color, Animation animation) {
+        setAnimation(animation);
+        setColor(color);
     }
 
     public void update() {
         if (currentAnimation == Animation.SOLID) {
             led.setPosition(color);
         } else if (currentAnimation == Animation.BLINK) {
-            if (elaspedTimeBlink.time(TimeUnit.MILLISECONDS) >= 250) {
+            if (elaspedTimeBlink.time(TimeUnit.MILLISECONDS) >= 150) {
                 if (blinkStat) {
                     led.setPosition(0);
                     blinkStat = !blinkStat;
@@ -107,6 +137,23 @@ public class GoBildaLEDIndicator extends Component {
                     elaspedTimeBlink.reset();
                 }
             }
+        } else if (currentAnimation == Animation.THREE_BLIPS) {
+            if (blips < 4) {
+                if (elaspedTimeBlink.time(TimeUnit.MILLISECONDS) >= 150) {
+                    if (blinkStat) {
+                        led.setPosition(0);
+                        blinkStat = !blinkStat;
+                        elaspedTimeBlink.reset();
+                    } else {
+                        led.setPosition(color);
+                        blinkStat = !blinkStat;
+                        elaspedTimeBlink.reset();
+                        blips += 1;
+                    }
+                }
+            } else {
+                led.setPosition(0);
+            }
         }
     }
 
@@ -128,6 +175,7 @@ public class GoBildaLEDIndicator extends Component {
     public enum Animation {
         SOLID,
         BLINK,
-        SLOW_BLINK
+        SLOW_BLINK,
+        THREE_BLIPS
     }
 }

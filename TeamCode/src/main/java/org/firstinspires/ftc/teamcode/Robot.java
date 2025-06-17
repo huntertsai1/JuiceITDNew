@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 import org.firstinspires.ftc.teamcode.util.hardware.Component;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
+import org.firstinspires.ftc.teamcode.util.hardware.GoBildaLEDIndicator;
 import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
@@ -56,6 +57,7 @@ public class Robot {
     public Motor backRight;
     public Motor frontLeft;
     public Motor frontRight;
+    public GoBildaLEDIndicator blinky;
 
     public Robot(HardwareMap map, boolean auton){
         this.auton = auton;
@@ -88,6 +90,7 @@ public class Robot {
 //        RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
         BrushlandColorSensor colorSensor1 = new BrushlandColorSensor(0, "colorSensorHead", map);
         BrushlandColorSensor colorSensor2 = new BrushlandColorSensor(0, "colorSensorTail", map);
+        blinky = new GoBildaLEDIndicator(0, "blinky", map);
         // INIT SUBSYSTEMS
 
         this.lift = new Lift((Motor) components[4], (Motor) components[5], (Motor) components[6]);
@@ -126,6 +129,7 @@ public class Robot {
         lift.runToPreset(Levels.INIT);
         extension.runToPreset(Levels.INIT);
         sweeper.setPosition(92);
+        blinky.setPreset(Levels.INIT);
     }
 
     public Action autoSpecimen (boolean action) {
@@ -268,6 +272,11 @@ public class Robot {
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
                     extension.runToPreset(Levels.INTAKE);
+                    if (mode == Gamepiece.SAMPLE) {
+                        blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                    } else {
+                        blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                    }
                 }),
                 new SleepAction(0.1),
                 new InstantAction(() -> {
@@ -288,6 +297,7 @@ public class Robot {
                             intaking = true;
                             state = Levels.INTAKE;
                             claw.intakeStatus = 0;
+                            blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.BLINK);
                         }),
                         commands.stopIntake(SampleColors.YELLOW, alliance)
                 );
@@ -300,6 +310,7 @@ public class Robot {
                             intaking = true;
                             claw.intakeStatus = 0;
                             state = Levels.INTAKE;
+                            blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.BLINK);
                         }),
                         commands.stopIntake(alliance)
                 );
@@ -312,6 +323,11 @@ public class Robot {
                         lift.lift1.resetEncoder();
                         intaking = true;
                         state = Levels.INTAKE;
+                        if (mode == Gamepiece.SAMPLE) {
+                            blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.BLINK);
+                        } else {
+                            blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.BLINK);
+                        }
                     })
             );
         }
@@ -329,6 +345,7 @@ public class Robot {
         claw.stopIntake();
         afterAction.reset();
         intermediatePreset();
+        blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.THREE_BLIPS);
     }
     public Action stopIntakeAction() {
         return new InstantAction(()->{
@@ -336,6 +353,7 @@ public class Robot {
             claw.intakeStatus = 16236;
             claw.stopIntake();
             intermediatePreset();
+            blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.THREE_BLIPS);
         } );
     }
 
@@ -345,6 +363,7 @@ public class Robot {
             intaking = false;
             claw.stopIntake();
             lift.runToPreset(Levels.INTERMEDIATE);
+            blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.THREE_BLIPS);
         } ),
                 new SleepAction(0.1),
                 new InstantAction(() -> {
@@ -363,6 +382,11 @@ public class Robot {
         System.out.println("r: " + r);
             if (r == 0) {
                 claw.startIntake();
+                if (mode == Gamepiece.SAMPLE) {
+                    blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                } else {
+                    blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                }
                 return true;
             } else if (r == 1) {
                 timeToAction.reset();
@@ -371,6 +395,7 @@ public class Robot {
                 return false;
             } else if (r == -1) {
                 claw.slowIntake();
+                blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
                 return true;
             } else if (r == 16236) {
                 //troll status code
@@ -386,6 +411,7 @@ public class Robot {
             extension.runToPreset(Levels.LOW_BASKET);
             lift.runToPreset(Levels.LOW_BASKET);
             state = Levels.LOW_BASKET;
+            blinky.setPreset(Levels.LOW_BASKET);
         });
     }
     public Action highBasketAction() {
@@ -394,6 +420,7 @@ public class Robot {
             extension.runToPreset(Levels.HIGH_BASKET);
             lift.runToPreset(Levels.HIGH_BASKET);
             state = Levels.HIGH_BASKET;
+            blinky.setPreset(Levels.HIGH_BASKET);
         });
     }
     public Action autoHighBasketAction() {
@@ -419,6 +446,7 @@ public class Robot {
                             lift.runToPreset(Levels.HIGH_RUNG);
 //                            claw.setStall(true);
                             state = Levels.HIGH_RUNG;
+                            blinky.setPreset(Levels.HIGH_RUNG);
                 }),
                 new SequentialAction(
                         new InstantAction(() -> claw.setPower(1)),
@@ -449,7 +477,7 @@ public class Robot {
 
     // OUTTAKE
     public Action outtakeSample(boolean action) {
-
+        blinky.set(GoBildaLEDIndicator.Colors.OFF, GoBildaLEDIndicator.Animation.SOLID);
         return new SequentialAction(
                 claw.eject(true),
                 new SleepAction(0.14),
