@@ -289,7 +289,7 @@ public class Testing extends LinearOpMode {
             oldTime = newTime;
 
             telemetry.addData("head color", robot.claw.detectSampleHead());
-            telemetry.addData("tail distance", robot.claw.detectSampleTail());
+            telemetry.addData("tail distance", robot.claw.colorSensorTail.getPin0Analog());
             telemetry.addData("LOOPTIME: ", frequency);
             telemetry.addData("queue", actionsQueue);
             telemetry.addData("TIME TO ACTION", robot.timeToAction.time(TimeUnit.MILLISECONDS) - robot.afterAction.time(TimeUnit.MILLISECONDS));
