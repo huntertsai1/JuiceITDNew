@@ -312,11 +312,6 @@ public class Robot {
                             claw.intakeStatus = 0;
                             blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.BLINK);
                         }),
-                        new SleepAction(0.2),
-                        new InstantAction(() -> {
-                            claw.sussyIntake = true;
-                            sussyIntakeTimeoutStarted = false;
-                        }),
                         commands.stopIntake(SampleColors.YELLOW, alliance)
                 );
             } else {
@@ -329,11 +324,6 @@ public class Robot {
                             claw.intakeStatus = 0;
                             state = Levels.INTAKE;
                             blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.BLINK);
-                        }),
-                        new SleepAction(0.2),
-                        new InstantAction(() -> {
-                            claw.sussyIntake = true;
-                            sussyIntakeTimeoutStarted = false;
                         }),
                         commands.stopIntake(alliance)
                 );
@@ -398,64 +388,27 @@ public class Robot {
 
     public ElapsedTime timeToAction = new ElapsedTime();
     public ElapsedTime afterAction = new ElapsedTime();
-    public ElapsedTime sussyIntakeTimeout = new ElapsedTime();
-    boolean sussyIntakeTimeoutStarted = false;
     boolean timerStarted = false;
     boolean ejectStarted = false;
     public boolean autoStopIntakeUpdate(SampleColors... colors) {
         int r = claw.smartStopDetect(colors);
         System.out.println("r: " + r);
-            if (r == 0) {
-                claw.startIntake();
-                if (mode == Gamepiece.SAMPLE) {
-                    blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.SLOW_BLINK);
-                } else {
-                    blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.SLOW_BLINK);
-                }
-                return true;
-            } else if (r == 1) {
-                timeToAction.reset();
-                afterAction.reset();
-                claw.setPower(0);
-                if (!claw.sussyIntake) {
-                    stopIntake();
-                    return false;
-                } else if (!sussyIntakeTimeoutStarted) {
-                    teleIntakePreset();
-                    sussyIntakeTimeout.reset();
-                    sussyIntakeTimeoutStarted = true;
-                    return true;
-                } else if (sussyIntakeTimeout.time() <= 0.1) {
-                    return true;
-                } else if (!claw.detectSampleTail()) {
-                    sussyIntakeTimeoutStarted = false;
-                    claw.startIntake();
-                    arm.runToPreset(Levels.INTAKE);
-                    lift.lift1.resetEncoder();
-                    intaking = true;
-                    claw.intakeStatus = 0;
-                    claw.sussyIntake = true;
-                    state = Levels.INTAKE;
-                    if (mode == Gamepiece.SAMPLE) {
-                        blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.BLINK);
-                    } else {
-                        blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.BLINK);
-                    }
-                    return true;
-                } else {
-                    sussyIntakeTimeoutStarted = false;
-                    stopIntake();
-                    return false;
-                }
-            } else if (r == -1) {
-                claw.slowIntake();
-                blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.SLOW_BLINK);
-                return true;
-            } else if (r == 16236) {
-                //troll status code
-                return false;
-            }
+        if (r == 0) {
+            claw.startIntake();
             return true;
+        } else if (r == 1) {
+            timeToAction.reset();
+            afterAction.reset();
+            stopIntake();
+            return false;
+        } else if (r == -1) {
+            claw.slowIntake();
+            return true;
+        } else if (r == 16236) {
+            //troll status code
+            return false;
+        }
+        return true;
     }
 
     // DEPOSIT OPERATIONS

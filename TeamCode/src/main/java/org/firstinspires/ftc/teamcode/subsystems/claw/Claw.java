@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems.claw;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -14,13 +15,15 @@ import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+@Config
 public class Claw {
     public ContinuousServo servo1;
     public ContinuousServo servo2;
     public BrushlandColorSensor colorSensorHead;
     public BrushlandColorSensor colorSensorTail;
+
+    public static double TAIL_SENSOR_THRESHOLD = 9;
     float power = 0;
-    public boolean sussyIntake = false;
 
     ElapsedTime sensorTimeout;
 
@@ -233,6 +236,6 @@ public class Claw {
     }
 
     public boolean detectSampleTail() {
-        return colorSensorTail.getPin0Analog() < 15;
+        return colorSensorTail.isDebouncedBelowThreshold(TAIL_SENSOR_THRESHOLD, 30);
     }
 }
