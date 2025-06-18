@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@TeleOp(name="RED")
+@TeleOp(name="TESTING")
 @Config
 public class Testing extends LinearOpMode {
     double oldTime = 0;
