@@ -75,7 +75,7 @@ public class Testing extends LinearOpMode {
         PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(0,0,0));
         List<Action> actionsQueue = new ArrayList<>();
         TeleAutoCycle.depoTargetX = 9;
-        robot.activateSensor = false;
+        robot.activateSensor = true;
 //        sensor = new BrushlandColorSensor(0, "colorSensorHead", hardwareMap);
 //        sensor2 = new BrushlandColorSensor(0, "colorSensorTail", hardwareMap, true);
 //        sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensorHead");
@@ -169,6 +169,11 @@ public class Testing extends LinearOpMode {
                 robot.toggleGamepiece();
             }
             oldTriangle = gamepad1.triangle;
+
+            if (gamepad1.circle && !oldCircle){
+                robot.toggleColorSensor();
+            }
+            oldCircle = gamepad1.circle;
 
             if (gamepad1.square && !oldSquare){
                 actionsQueue.add(
