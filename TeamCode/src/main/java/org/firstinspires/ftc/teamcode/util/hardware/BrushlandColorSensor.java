@@ -33,6 +33,27 @@ public class BrushlandColorSensor extends Component {
         return filteredVoltage;
     }
 
+    private long belowThresholdStartTime = -1;
+    private boolean debouncedBelow = false;
+
+    public boolean isDebouncedBelowThreshold(double threshold, long minDurationMs) {
+        double value = getPin0Analog();  // filtered version
+
+        long now = System.currentTimeMillis();
+        if (value < threshold) {
+            if (belowThresholdStartTime == -1) {
+                belowThresholdStartTime = now;
+            } else if (now - belowThresholdStartTime >= minDurationMs) {
+                debouncedBelow = true;
+            }
+        } else {
+            belowThresholdStartTime = -1;
+            debouncedBelow = false;
+        }
+
+        return debouncedBelow;
+    }
+
     public boolean getPin1() {
         return pin1.getState();
     }

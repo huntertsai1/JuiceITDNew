@@ -236,6 +236,6 @@ public class Claw {
     }
 
     public boolean detectSampleTail() {
-        return colorSensorTail.getPin0Analog() < TAIL_SENSOR_THRESHOLD;
+        return colorSensorTail.isDebouncedBelowThreshold(TAIL_SENSOR_THRESHOLD, 30);
     }
 }
