@@ -31,7 +31,8 @@ public class Lift {
     public ElapsedTime timer = new ElapsedTime();
     public boolean goingDown = false;
     public boolean spiked = false;
-
+    public double MAX = 1550;
+    public int HIGH_BASKET = 1450;
     public Lift(Motor l1, Motor l2, Motor l3) {
         this.lift1 = l1;
         this.lift2 = l2;
@@ -102,7 +103,7 @@ public class Lift {
         } else if (level == Levels.LOW_BASKET) {
             runToPosition(800);
         } else if (level == Levels.HIGH_BASKET) {
-            runToPosition(1450);
+            runToPosition(HIGH_BASKET);
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(0);
         } else if (level == Levels.HIGH_RUNG) {

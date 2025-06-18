@@ -110,12 +110,13 @@ public class Robot {
     }
 
     // STATE MANAGEMENT AND TOGGLES
-    public void toggleGamepiece() {
+    public Gamepiece toggleGamepiece() {
         if (mode == Gamepiece.SAMPLE) {
             mode = Gamepiece.SPECIMEN;
         } else {
             mode = Gamepiece.SAMPLE;
         }
+        return mode;
     }
 
     public void toggleColorSensor() {
