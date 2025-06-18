@@ -154,11 +154,11 @@ public class RED extends LinearOpMode {
             }
             oldTriangle = gamepad1.triangle;
 
-            if (gamepad1.circle && !oldCircle){
-                robot.toggleColorSensor();
-
-            }
-            oldCircle = gamepad1.circle;
+//            if (gamepad1.circle && !oldCircle){
+//                robot.toggleColorSensor();
+//
+//            }
+//            oldCircle = gamepad1.circle;
 
             if (gamepad1.square && !oldSquare){
                 actionsQueue.add(
@@ -206,35 +206,36 @@ public class RED extends LinearOpMode {
             }
             oldSquare2 = gamepad2.square;
 
-            if (gamepad1.dpad_up && !oldDpadUp){
-                autoWinches = 1;
-                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry), new InstantAction(()->{autoWinches = 0;})));
-            }
-            else if (gamepad1.dpad_down && !oldDpadDown){
-                autoWinches = 1;
-                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 4, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
-            }
-            if (autoWinches == 0 || autoWinches == 2) {
-                if (gamepad1.dpad_right || gamepad2.dpad_down) {
-                    robot.climbWinch.setPower(-1);
-                } else if (gamepad1.dpad_left || gamepad2.dpad_up) {
-                    robot.climbWinch.setPower(1);
-                }else {
-                    if (autoWinches == 0){
-                        robot.climbWinch.setPower(0);
-                    }else{
-                        robot.climbWinch.setPower(f);
-                    }
-                }
-                if (gamepad2.dpad_right){
-                    robot.climbWinch.servo1.setSpeed(1);
-                }else if (gamepad2.dpad_left){
-                    robot.climbWinch.servo2.setSpeed(1);
-                }
-            }
-            oldDpadUp = gamepad1.dpad_up;
-            oldDpadDown = gamepad1.dpad_down;
+//            if (gamepad1.dpad_up && !oldDpadUp){
+//                autoWinches = 1;
+//                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry), new InstantAction(()->{autoWinches = 0;})));
+//            }
+//            else if (gamepad1.dpad_down && !oldDpadDown){
+//                autoWinches = 1;
+//                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 4, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
+//            }
+//            if (autoWinches == 0 || autoWinches == 2) {
+//                if (gamepad1.dpad_right || gamepad2.dpad_down) {
+//                    robot.climbWinch.setPower(-1);
+//                } else if (gamepad1.dpad_left || gamepad2.dpad_up) {
+//                    robot.climbWinch.setPower(1);
+//                }else {
+//                    if (autoWinches == 0){
+//                        robot.climbWinch.setPower(0);
+//                    }else{
+//                        robot.climbWinch.setPower(f);
+//                    }
+//                }
+//                if (gamepad2.dpad_right){
+//                    robot.climbWinch.servo1.setSpeed(1);
+//                }else if (gamepad2.dpad_left){
+//                    robot.climbWinch.servo2.setSpeed(1);
+//                }
+//            }
+//            oldDpadUp = gamepad1.dpad_up;
+//            oldDpadDown = gamepad1.dpad_down;
 
+            //delete depad, opt -> opt to enable winch l/r and rumble, nonopt, sample 1 buzz, spec 2 buzz, dpad u/d high basket, dpad l/r intake dynamic length when in intake state, leftdpad high basket/rung, right dpad outtake and x and nothing in spec
             //lift resetting stuff
             if (gamepad2.cross && !oldCross2){
                 liftReset = !liftReset;
