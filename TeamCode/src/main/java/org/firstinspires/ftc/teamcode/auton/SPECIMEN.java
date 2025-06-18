@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.auton;
 
+import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.NullAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -159,6 +161,10 @@ public class SPECIMEN extends LinearOpMode {
                             intakeSpec2.build(),
                             robot.autoSpecIntakeINITAL(true),
                             new SleepAction(intakeWait),
+                            !robot.claw.detectSampleTail() ? new SequentialAction(
+                                    robot.autoSpecIntakeINITAL(true),
+                                    new SleepAction(intakeWait)
+                            ) : new NullAction(),
                             new ParallelAction(
                                     robot.highRungAuto(true),
                                     depositSpec2.build()
