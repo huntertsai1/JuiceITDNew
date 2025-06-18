@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleop.tuning.color;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -19,7 +18,7 @@ public class ColorSensorDigital extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
-            telemetry.addData("p0", sensor.getPin0());
+            telemetry.addData("p0", sensor.getPin0Digital());
             telemetry.addData("p1", sensor.getPin1());
             telemetry.update();
         }

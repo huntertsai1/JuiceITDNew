@@ -87,7 +87,7 @@ public class Robot {
 
 //        RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
         BrushlandColorSensor colorSensor1 = new BrushlandColorSensor(0, "colorSensorHead", map);
-        BrushlandColorSensor colorSensor2 = new BrushlandColorSensor(0, "colorSensorTail", map);
+        BrushlandColorSensor colorSensor2 = new BrushlandColorSensor(0, "colorSensorTail", map, true);
         // INIT SUBSYSTEMS
 
         this.lift = new Lift((Motor) components[4], (Motor) components[5], (Motor) components[6]);

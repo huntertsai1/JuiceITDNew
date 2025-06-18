@@ -1,42 +1,51 @@
 package org.firstinspires.ftc.teamcode.util.hardware;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class BrushlandColorSensor extends Component {
     DigitalChannel pin0;
     DigitalChannel pin1;
+    AnalogInput pin0a;
     public BrushlandColorSensor(int port, String name, HardwareMap map) {
         super(port, name);
         pin0 = map.digitalChannel.get(name + "p0");
         pin1 = map.digitalChannel.get(name + "p1");
     }
 
-    public boolean getPin0() {
+    public BrushlandColorSensor(int port, String name, HardwareMap map, boolean analog) {
+        super(port, name);
+        pin0a = map.analogInput.get(name + "p0");
+        pin1 = map.digitalChannel.get(name + "p1");
+    }
+
+    public boolean getPin0Digital() {
         return pin0.getState();
     }
+    public double getPin0Analog() {return pin0a.getVoltage() / 3.3 * 100;}
 
     public boolean getPin1() {
         return pin1.getState();
     }
 
     public boolean getBoth() {
-        return getPin0() && getPin1();
+        return getPin0Digital() && getPin1();
     }
 
     public boolean getEither() {
-        return getPin0() || getPin1();
+        return getPin0Digital() || getPin1();
     }
 
     public boolean getNeither() {
-        return !getPin0() && !getPin1();
+        return !getPin0Digital() && !getPin1();
     }
 
     public boolean onlyPin0() {
-        return getPin0() && !getPin1();
+        return getPin0Digital() && !getPin1();
     }
 
     public boolean onlyPin1() {
-        return getPin1() && !getPin0();
+        return getPin1() && !getPin0Digital();
     }
 }

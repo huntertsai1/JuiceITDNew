@@ -4,13 +4,9 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.qualcomm.hardware.lynx.LynxI2cDeviceSynch;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
@@ -21,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class Claw {
     public ContinuousServo servo1;
     public ContinuousServo servo2;
-    BrushlandColorSensor colorSensorHead;
-    BrushlandColorSensor colorSensorTail;
+    public BrushlandColorSensor colorSensorHead;
+    public BrushlandColorSensor colorSensorTail;
     float power = 0;
 
     ElapsedTime sensorTimeout;
@@ -221,7 +217,7 @@ public class Claw {
 //        } else {
 //            return null;
 //        }
-        boolean p0 = colorSensorHead.getPin0();
+        boolean p0 = colorSensorHead.getPin0Digital();
         boolean p1 = colorSensorHead.getPin1();
 
         if (p0 && p1) {
@@ -236,6 +232,6 @@ public class Claw {
     }
 
     public boolean detectSampleTail() {
-        return colorSensorTail.getPin0();
+        return colorSensorTail.getPin0Analog() < 15;
     }
 }
