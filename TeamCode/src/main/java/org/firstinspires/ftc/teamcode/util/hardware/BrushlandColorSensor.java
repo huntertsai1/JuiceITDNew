@@ -1,13 +1,17 @@
 package org.firstinspires.ftc.teamcode.util.hardware;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+@Config
 public class BrushlandColorSensor extends Component {
     DigitalChannel pin0;
     DigitalChannel pin1;
     AnalogInput pin0a;
+    private double filteredVoltage = 0;
+    public static double alpha = 0.2;  // adjust for desired responsiveness
     public BrushlandColorSensor(int port, String name, HardwareMap map) {
         super(port, name);
         pin0 = map.digitalChannel.get(name + "p0");
@@ -23,7 +27,11 @@ public class BrushlandColorSensor extends Component {
     public boolean getPin0Digital() {
         return pin0.getState();
     }
-    public double getPin0Analog() {return pin0a.getVoltage() / 3.3 * 100;}
+    public double getPin0Analog() {
+        double raw = pin0a.getVoltage() / 3.3 * 100;
+        filteredVoltage = alpha * raw + (1 - alpha) * filteredVoltage;
+        return filteredVoltage;
+    }
 
     public boolean getPin1() {
         return pin1.getState();
