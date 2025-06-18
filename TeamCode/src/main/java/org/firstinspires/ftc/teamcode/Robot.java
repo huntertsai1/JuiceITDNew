@@ -89,7 +89,7 @@ public class Robot {
 
 //        RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
         BrushlandColorSensor colorSensor1 = new BrushlandColorSensor(0, "colorSensorHead", map);
-        BrushlandColorSensor colorSensor2 = new BrushlandColorSensor(0, "colorSensorTail", map);
+        BrushlandColorSensor colorSensor2 = new BrushlandColorSensor(0, "colorSensorTail", map, true);
         blinky = new GoBildaLEDIndicator(0, "blinky", map);
         // INIT SUBSYSTEMS
 
@@ -287,6 +287,18 @@ public class Robot {
         );
     }
 
+    public void teleIntakePreset() {
+        lift.runToPreset(Levels.INTAKE);
+        extension.runToPreset(Levels.INTAKE);
+        if (mode == Gamepiece.SAMPLE) {
+            blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+        } else {
+            blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+        }
+        arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
+        state = Levels.INTAKE_INTERMEDIATE;
+    }
+
     public Action intakeDrop(SampleColors alliance) {
         if (activateSensor) {
             if (mode == Gamepiece.SAMPLE) {
@@ -300,6 +312,11 @@ public class Robot {
                             claw.intakeStatus = 0;
                             blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.BLINK);
                         }),
+                        new SleepAction(0.2),
+                        new InstantAction(() -> {
+                            claw.sussyIntake = true;
+                            sussyIntakeTimeoutStarted = false;
+                        }),
                         commands.stopIntake(SampleColors.YELLOW, alliance)
                 );
             } else {
@@ -312,6 +329,11 @@ public class Robot {
                             claw.intakeStatus = 0;
                             state = Levels.INTAKE;
                             blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.BLINK);
+                        }),
+                        new SleepAction(0.2),
+                        new InstantAction(() -> {
+                            claw.sussyIntake = true;
+                            sussyIntakeTimeoutStarted = false;
                         }),
                         commands.stopIntake(alliance)
                 );
@@ -346,7 +368,7 @@ public class Robot {
         claw.stopIntake();
         afterAction.reset();
         intermediatePreset();
-        blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.THREE_BLIPS);
+        blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.THREE_BLIPS);
     }
     public Action stopIntakeAction() {
         return new InstantAction(()->{
@@ -354,7 +376,7 @@ public class Robot {
             claw.intakeStatus = 16236;
             claw.stopIntake();
             intermediatePreset();
-            blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.THREE_BLIPS);
+            blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.THREE_BLIPS);
         } );
     }
 
@@ -364,7 +386,7 @@ public class Robot {
             intaking = false;
             claw.stopIntake();
             lift.runToPreset(Levels.INTERMEDIATE);
-            blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.THREE_BLIPS);
+            blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.THREE_BLIPS);
         } ),
                 new SleepAction(0.1),
                 new InstantAction(() -> {
@@ -376,6 +398,8 @@ public class Robot {
 
     public ElapsedTime timeToAction = new ElapsedTime();
     public ElapsedTime afterAction = new ElapsedTime();
+    public ElapsedTime sussyIntakeTimeout = new ElapsedTime();
+    boolean sussyIntakeTimeoutStarted = false;
     boolean timerStarted = false;
     boolean ejectStarted = false;
     public boolean autoStopIntakeUpdate(SampleColors... colors) {
@@ -392,11 +416,40 @@ public class Robot {
             } else if (r == 1) {
                 timeToAction.reset();
                 afterAction.reset();
-                stopIntake();
-                return false;
+                claw.setPower(0);
+                if (!claw.sussyIntake) {
+                    stopIntake();
+                    return false;
+                } else if (!sussyIntakeTimeoutStarted) {
+                    teleIntakePreset();
+                    sussyIntakeTimeout.reset();
+                    sussyIntakeTimeoutStarted = true;
+                    return true;
+                } else if (sussyIntakeTimeout.time() <= 0.1) {
+                    return true;
+                } else if (!claw.detectSampleTail()) {
+                    sussyIntakeTimeoutStarted = false;
+                    claw.startIntake();
+                    arm.runToPreset(Levels.INTAKE);
+                    lift.lift1.resetEncoder();
+                    intaking = true;
+                    claw.intakeStatus = 0;
+                    claw.sussyIntake = true;
+                    state = Levels.INTAKE;
+                    if (mode == Gamepiece.SAMPLE) {
+                        blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.BLINK);
+                    } else {
+                        blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.BLINK);
+                    }
+                    return true;
+                } else {
+                    sussyIntakeTimeoutStarted = false;
+                    stopIntake();
+                    return false;
+                }
             } else if (r == -1) {
                 claw.slowIntake();
-                blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.SLOW_BLINK);
                 return true;
             } else if (r == 16236) {
                 //troll status code
