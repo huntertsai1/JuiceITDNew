@@ -19,6 +19,8 @@ public class Claw {
     public ContinuousServo servo2;
     public BrushlandColorSensor colorSensorHead;
     public BrushlandColorSensor colorSensorTail;
+
+    public static double TAIL_SENSOR_THRESHOLD = 9;
     float power = 0;
 
     ElapsedTime sensorTimeout;
@@ -232,6 +234,6 @@ public class Claw {
     }
 
     public boolean detectSampleTail() {
-        return colorSensorTail.getPin0Analog() < 15;
+        return colorSensorTail.getPin0Analog() < TAIL_SENSOR_THRESHOLD;
     }
 }
