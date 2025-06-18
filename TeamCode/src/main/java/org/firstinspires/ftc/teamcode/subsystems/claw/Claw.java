@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems.claw;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+@Config
 public class Claw {
     public ContinuousServo servo1;
     public ContinuousServo servo2;
