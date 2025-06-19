@@ -77,17 +77,17 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(22, -49), Math.toRadians(-45));
+                .strafeToLinearHeading(new Vector2d(20, -46), Math.toRadians(-45));
 
         TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(5, -31, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         TrajectoryActionBuilder intakeSpec3 = depositSpec2.endTrajectory().fresh() //TODO: Same for 3,4,5 consider offsetting for accuracy
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -99,7 +99,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec4 = depositSpec3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -111,7 +111,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec5 = depositSpec4.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -172,34 +172,34 @@ public class SPECIMEN extends LinearOpMode {
                                         robot.highRungAuto(true),
                                         depositSpec3.build()
                                 ),
-                            robot.autoSpecimen(true)
-//
-//                            //SPEC4
-//                                new ParallelAction(
-//                                        intakeSpec4.build(),
-//                                        robot.autoSpecIntake(true)
-//                                ),
-//                            new SleepAction(intakeWait),
-//                                new ParallelAction(
-//                                        robot.highRungAuto(true),
-//                                        depositSpec4.build()
-//                                ),
-//                            robot.autoSpecimen(true),
-//
-//                            //SPEC5
-//                                new ParallelAction(
-//                                        intakeSpec5.build(),
-//                                        robot.autoSpecIntake(true)
-//                                ),
-//                            new SleepAction(intakeWait),
-//                                new ParallelAction(
-//                                        robot.highRungAuto(true),
-//                                        depositSpec5.build()
-//                                ),
-//                            robot.autoSpecimen(true),
-//
-//                            //PARK
-//                            park.build()
+                            robot.autoSpecimen(true),
+
+                            //SPEC4
+                                new ParallelAction(
+                                        intakeSpec4.build(),
+                                        robot.autoSpecIntake(true)
+                                ),
+                            new SleepAction(0.3),
+                                new ParallelAction(
+                                        robot.highRungAuto(true),
+                                        depositSpec4.build()
+                                ),
+                            robot.autoSpecimen(true),
+
+                            //SPEC5
+                                new ParallelAction(
+                                        intakeSpec5.build(),
+                                        robot.autoSpecIntake(true)
+                                ),
+                            new SleepAction(0.3),
+                                new ParallelAction(
+                                        robot.highRungAuto(true),
+                                        depositSpec5.build()
+                                ),
+                            robot.autoSpecimen(true),
+
+                            //PARK
+                            park.build()
 
                         ),
                         new LoopAction(() -> {
