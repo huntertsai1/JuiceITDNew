@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import java.util.ArrayDeque;
+
 @Config
 public class BrushlandColorSensor extends Component {
     DigitalChannel pin0;
@@ -52,6 +54,36 @@ public class BrushlandColorSensor extends Component {
         }
 
         return debouncedBelow;
+    }
+
+    private static class TimedReading {
+        long timestamp;
+        boolean below;
+        TimedReading(long t, boolean b) { timestamp = t; below = b; }
+    }
+
+    private ArrayDeque<TimedReading> signalWindow = new ArrayDeque<>();
+    public static long windowDurationMs = 40;
+    public static double belowThresholdRatio = 0.7;
+
+    public boolean rollingWindowBelow(double threshold) {
+        long now = System.currentTimeMillis();
+        boolean isBelow = getPin0Analog() < threshold;
+        signalWindow.addLast(new TimedReading(now, isBelow));
+
+        // Remove old entries outside the window
+        while (!signalWindow.isEmpty() && now - signalWindow.peekFirst().timestamp > windowDurationMs) {
+            signalWindow.pollFirst();
+        }
+
+        // Count how many readings are below threshold
+        int total = signalWindow.size();
+        int belowCount = 0;
+        for (TimedReading r : signalWindow) {
+            if (r.below) belowCount++;
+        }
+
+        return total >= 3 && ((double) belowCount / total) >= belowThresholdRatio;
     }
 
     public boolean getPin1() {
