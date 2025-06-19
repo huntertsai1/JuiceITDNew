@@ -154,7 +154,7 @@ public class Robot {
                 }),
                 new SleepAction(0.2),
                 new InstantAction(() -> {
-                    extension.runToPosition(260);
+                    extension.runToPosition(270);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
@@ -164,16 +164,8 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(1.3),
                 new InstantAction(() -> {
-                    extension.runToPosition(280);
+                    extension.runToPosition(285);
                     lift.lift1.resetEncoder();
-                }),
-                new SleepAction(1),
-                new InstantAction(() -> {
-                    claw.setPower(0.4F);
-                }),
-                new SleepAction(0.05),
-                new InstantAction(() -> {
-                    claw.setPower(0);
                 })
                 );
     }
@@ -469,18 +461,26 @@ public class Robot {
     public Action highRungAuto(boolean action) {
         return new ParallelAction(
                 new SequentialAction(
+                new InstantAction( () -> claw.setPower(-0.3F)
+                ),
                 new InstantAction( () ->
                     {
                         extension.runToPreset(Levels.HIGH_RUNG);
                         arm.runToPreset(Levels.HIGH_RUNG);
-                        claw.setStall(true);
                     }
                 ),
                 new SleepAction(0.2),
                 new InstantAction(() -> {
+                    claw.setStall(true);
                     lift.runToPreset(Levels.HIGH_RUNG);
                     state = Levels.HIGH_RUNG;
-                }))
+                    }
+//                ),
+//                new SleepAction(0.1),
+//                new InstantAction(() -> {
+//                    claw.setStall(true);
+//                }
+                ))
         );
     }
 
