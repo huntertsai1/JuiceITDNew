@@ -33,33 +33,24 @@ public class SPECIMEN extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double HPDeposit = -52; // TODO: tune these variables
-        double spikeBack = -14;
+        double HPDeposit = -48; // TODO: tune these variables
+        double spikeBack = -16;
 
         double veloLim = 50.0;
         double accelUpperLim = 50.0;
         double accelLowerLim = -30.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
-                .lineToY(-32,
+                .lineToY(-31,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(22, -42, Math.toRadians(-90)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(28, -46, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(34, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
 
-                .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
-
-                .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit,
-                        new TranslationalVelConstraint(120.0),
-                        new ProfileAccelConstraint(-120.0, 120.0))
-
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(60, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(48, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -67,7 +58,16 @@ public class SPECIMEN extends LinearOpMode {
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(60, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(44, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(56, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0))
+
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(52, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(64, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
@@ -213,6 +213,7 @@ public class SPECIMEN extends LinearOpMode {
                                 module.clearBulkCache();
                             }
                             robot.lift.update();
+                            robot.blinky.update();
                         }, this::isStopRequested)
 //                        , new WinchTimeAction(robot.climbWinch, 1.3, -1, telemetry)
                 )
