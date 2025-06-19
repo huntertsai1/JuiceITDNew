@@ -33,15 +33,15 @@ public class SPECIMEN extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double HPDeposit = -51; // TODO: tune these variables
-        double spikeBack = -16;
+        double HPDeposit = -52; // TODO: tune these variables
+        double spikeBack = -14;
 
         double veloLim = 50.0;
         double accelUpperLim = 50.0;
         double accelLowerLim = -30.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
-                .lineToY(-30,
+                .lineToY(-32,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -59,7 +59,7 @@ public class SPECIMEN extends LinearOpMode {
 
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(46, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(60, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -67,8 +67,8 @@ public class SPECIMEN extends LinearOpMode {
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(55, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(61.5, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(60, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(64, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -139,7 +139,6 @@ public class SPECIMEN extends LinearOpMode {
                 new ParallelAction(
                         new SequentialAction(
                                 //PRELOAD
-
                             new ParallelAction(
                                     preload.build(),
                                     robot.highRungAuto(true)

@@ -126,37 +126,10 @@ public class Robot {
 //AUTO OPERATIONS
 
     public void initSubsystems(){
-        //new InstantAction(() -> claw.setPower(1)),
-        //                new SleepAction(0.05),
-        //                new InstantAction(() -> claw.setPower(0)),
-        //                new SleepAction(0.5),
-        //                new InstantAction(() -> claw.setPower(-0.4F)),
-        //                new SleepAction(0.05),
-        //                new InstantAction(() -> claw.setStall(true))
         arm.runToPreset(Levels.INIT);
         lift.runToPreset(Levels.INIT);
         extension.runToPreset(Levels.INIT);
         sweeper.setPosition(92);
-        blinky.set(GoBildaLEDIndicator.Colors.JOOS_ORANGE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
-        claw.setPower(1);
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        claw.setPower(0);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        claw.setPower(-0.4F);
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        claw.setStall(true);
     }
 
     public Action autoSpecimen (boolean action) {
