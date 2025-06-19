@@ -81,7 +81,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(3, -29, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(3, -31, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -151,22 +151,16 @@ public class SPECIMEN extends LinearOpMode {
                                             new SleepAction(0.2),
                                             robot.commands.preloadEjectFailSafe()
                                     )
-                            )
-
-//                            //SPEC2
-//
-//                            intakeSpec2.build(),
-//                            robot.autoSpecIntakeINITAL(true),
-//                            new SleepAction(intakeWait),
-//                            !robot.claw.detectSampleTail() ? new SequentialAction(
-//                                    robot.autoSpecIntakeINITAL(true),
-//                                    new SleepAction(intakeWait)
-//                            ) : new NullAction(),
-//                            new ParallelAction(
-//                                    robot.highRungAuto(true),
-//                                    depositSpec2.build()
-//                            ),
-//                            robot.autoSpecimen(true),
+                            ),
+                            //SPEC2
+                            intakeSpec2.build(),
+                            robot.autoSpecIntake(true),
+                            new SleepAction(2),
+                                new ParallelAction(
+                                    robot.highRungAuto(true),
+                                    depositSpec2.build()
+                            ),
+                            robot.autoSpecimen(true)
 //
 //                            //SPEC3
 //                                new ParallelAction(

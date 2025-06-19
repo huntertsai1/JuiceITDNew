@@ -130,7 +130,7 @@ public class Robot {
         lift.runToPreset(Levels.INIT);
         extension.runToPreset(Levels.INIT);
         sweeper.setPosition(92);
-        blinky.set(GoBildaLEDIndicator.Colors.JOOS_ORANGE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+        blinky.set(GoBildaLEDIndicator.Colors.JOOS_ORANGE, GoBildaLEDIndicator.Animation.SOLID);
     }
 
     public Action autoSpecimen (boolean action) {
@@ -147,26 +147,6 @@ public class Robot {
         );
     }
 
-    public Action autoSpecIntakeINITAL(boolean action) {
-        return new SequentialAction(
-                new InstantAction(() -> {
-                    lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(190);
-                }),
-                new SleepAction(0.3),
-                new InstantAction(()->{
-                    arm.runToPreset(Levels.INTAKE);
-                    claw.startIntake();
-                    intaking = true;
-                    state = Levels.INTAKE;}),
-                new SleepAction(1.2),
-                new InstantAction(() -> {
-                    extension.runToPosition(260);
-                    lift.lift1.resetEncoder();
-                })
-        );
-    }
-
     public Action autoSpecIntake(boolean action) {
         return new SequentialAction(
                 new InstantAction(() -> {
@@ -174,7 +154,7 @@ public class Robot {
                 }),
                 new SleepAction(0.2),
                 new InstantAction(() -> {
-                    extension.runToPosition(190);
+                    extension.runToPosition(260);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
@@ -184,10 +164,18 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(1.3),
                 new InstantAction(() -> {
-                    extension.runToPosition(260);
+                    extension.runToPosition(280);
                     lift.lift1.resetEncoder();
+                }),
+                new SleepAction(1),
+                new InstantAction(() -> {
+                    claw.setPower(0.4F);
+                }),
+                new SleepAction(0.05),
+                new InstantAction(() -> {
+                    claw.setPower(0);
                 })
-        );
+                );
     }
 
     public Action autoTeleIntakePrime() {
