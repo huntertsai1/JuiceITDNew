@@ -466,6 +466,18 @@ public class Robot {
         );
     }
 
+    public Action autoCenterSpecimen(boolean action) {
+        return new SequentialAction(
+                new InstantAction(() -> claw.setPower(1)),
+                new SleepAction(0.05),
+                new InstantAction(() -> claw.setPower(0)),
+                new SleepAction(0.5),
+                new InstantAction(() -> claw.setPower(-0.4F)),
+                new SleepAction(0.05),
+                new InstantAction(() -> claw.setStall(true))
+        );
+    }
+
     public Action highRungAuto(boolean action) {
         return new ParallelAction(
                 new SequentialAction(
@@ -480,17 +492,7 @@ public class Robot {
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.HIGH_RUNG);
                     state = Levels.HIGH_RUNG;
-                })
-        ),
-                new SequentialAction(
-                        new InstantAction(() -> claw.setPower(1)),
-                        new SleepAction(0.05),
-                        new InstantAction(() -> claw.setPower(0)),
-                        new SleepAction(0.5),
-                        new InstantAction(() -> claw.setPower(-0.4F)),
-                        new SleepAction(0.05),
-                        new InstantAction(() -> claw.setStall(true))
-                )
+                }))
         );
     }
 

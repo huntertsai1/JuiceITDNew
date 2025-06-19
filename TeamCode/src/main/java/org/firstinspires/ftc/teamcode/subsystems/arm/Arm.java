@@ -24,8 +24,8 @@ public class Arm {
 
     public void runToPreset(Levels level) {
         if (level == Levels.INIT) {
-            runToPosition(280);
-            setWristAngle(wristDown);
+            runToPosition(300);
+            setWristAngle(55);
         } else if (level == Levels.INTAKE) {
             runToPosition(172);
             setWristAngle(204);

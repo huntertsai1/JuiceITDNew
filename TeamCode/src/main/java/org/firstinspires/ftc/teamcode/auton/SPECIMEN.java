@@ -35,14 +35,13 @@ public class SPECIMEN extends LinearOpMode {
 
         double HPDeposit = -51; // TODO: tune these variables
         double spikeBack = -16;
-        double intakeWait = 0.3;
 
-        double veloLim = 60.0;  // TODO: 50.0, 50.0, -30.0
-        double accelUpperLim = 60.0;
-        double accelLowerLim = -40.0;
+        double veloLim = 50.0;
+        double accelUpperLim = 50.0;
+        double accelLowerLim = -30.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
-                .lineToY(-28,
+                .lineToY(-30,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
