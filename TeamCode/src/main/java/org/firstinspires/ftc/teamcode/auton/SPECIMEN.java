@@ -68,7 +68,7 @@ public class SPECIMEN extends LinearOpMode {
 
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(44, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(65, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(66.5, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -77,11 +77,11 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(20, -46), Math.toRadians(-45));
+                .strafeToLinearHeading(new Vector2d(22, -48), Math.toRadians(-45));
 
         TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(5, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(2, -30, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -93,7 +93,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec3 = intakeSpec3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(0, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(0, -30, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -105,7 +105,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec4 = intakeSpec4.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-3, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(-2, -30, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -117,7 +117,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec5 = intakeSpec5.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-6, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(-5, -30, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -155,7 +155,7 @@ public class SPECIMEN extends LinearOpMode {
                             //SPEC2
                             intakeSpec2.build(),
                             robot.autoSpecIntake(true),
-                            new SleepAction(0.3),
+                            new SleepAction(0.2),
                                 new ParallelAction(
                                     robot.highRungAuto(true),
                                     depositSpec2.build()
@@ -167,7 +167,7 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec3.build(),
                                         robot.autoSpecIntake(true)
                                 ),
-                            new SleepAction(0.3),
+                            new SleepAction(0.2),
                                 new ParallelAction(
                                         robot.highRungAuto(true),
                                         depositSpec3.build()
@@ -179,7 +179,7 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec4.build(),
                                         robot.autoSpecIntake(true)
                                 ),
-                            new SleepAction(0.3),
+                            new SleepAction(0.2),
                                 new ParallelAction(
                                         robot.highRungAuto(true),
                                         depositSpec4.build()
@@ -191,7 +191,7 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec5.build(),
                                         robot.autoSpecIntake(true)
                                 ),
-                            new SleepAction(0.3),
+                            new SleepAction(0.2),
                                 new ParallelAction(
                                         robot.highRungAuto(true),
                                         depositSpec5.build()
