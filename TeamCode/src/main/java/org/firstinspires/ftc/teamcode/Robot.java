@@ -451,15 +451,16 @@ public class Robot {
                             arm.runToPreset(Levels.HIGH_RUNG);
                             extension.runToPreset(Levels.HIGH_RUNG);
                             lift.runToPreset(Levels.HIGH_RUNG);
-//                            claw.setStall(true);
                             state = Levels.HIGH_RUNG;
                             blinky.setPreset(Levels.HIGH_RUNG);
                 }),
                 new SequentialAction(
                         new InstantAction(() -> claw.setPower(1)),
-                        new SleepAction(0.1),
-                        new InstantAction(() -> claw.setPower(-0.2F)),
-                        new SleepAction(0.35),
+                        new SleepAction(0.05),
+                        new InstantAction(() -> claw.setPower(0)),
+                        new SleepAction(0.5),
+                        new InstantAction(() -> claw.setPower(-0.4F)),
+                        new SleepAction(0.05),
                         new InstantAction(() -> claw.setStall(true))
                 )
         );
@@ -483,9 +484,11 @@ public class Robot {
         ),
                 new SequentialAction(
                         new InstantAction(() -> claw.setPower(1)),
-                        new SleepAction(0.1),
-                        new InstantAction(() -> claw.setPower(-0.2F)),
-                        new SleepAction(0.35),
+                        new SleepAction(0.05),
+                        new InstantAction(() -> claw.setPower(0)),
+                        new SleepAction(0.5),
+                        new InstantAction(() -> claw.setPower(-0.4F)),
+                        new SleepAction(0.05),
                         new InstantAction(() -> claw.setStall(true))
                 )
         );

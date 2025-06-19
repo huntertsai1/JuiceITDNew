@@ -107,7 +107,7 @@ public class Lift {
         } else if (level == Levels.LOW_RUNG) {
             runToPosition(0);
         } else if (level == Levels.HIGH_RUNG) {
-            runToPosition(578);
+            runToPosition(640);
         } else if (level == Levels.CLIMB_EXTENDED) {
             runToPosition(0);
         } else if (level == Levels.CLIMB_RETRACTED) {
