@@ -108,7 +108,7 @@ public class Testing extends LinearOpMode {
                     );
                 } else {
                     actionsQueue.add(
-                            robot.intakeDrop(SampleColors.RED)
+                            robot.intakeDrop(SampleColors.RED, gamepad1)
                     );
                 }
             }

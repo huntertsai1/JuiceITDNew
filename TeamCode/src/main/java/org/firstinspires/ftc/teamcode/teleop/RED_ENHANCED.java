@@ -85,7 +85,7 @@ public class RED_ENHANCED extends LinearOpMode {
                     );
                 } else {
                     actionsQueue.add(
-                            robot.intakeDrop(SampleColors.RED)
+                            robot.intakeDrop(SampleColors.RED, gamepad1)
                     );
                 }
             }

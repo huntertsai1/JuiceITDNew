@@ -83,7 +83,6 @@ public class RED extends LinearOpMode {
 
         waitForStart();
         if (isStopRequested()) return;
-        robot.blinky.set(robot.color, robot.animation);
         while (opModeIsActive() && !isStopRequested()) {
             for (LynxModule module : allHubs) {
                 module.clearBulkCache();
@@ -98,7 +97,7 @@ public class RED extends LinearOpMode {
                     );
                 } else {
                     actionsQueue.add(
-                            robot.intakeDrop(SampleColors.RED)
+                            robot.intakeDrop(SampleColors.RED, gamepad1)
                     );
                 }
             }
@@ -119,10 +118,18 @@ public class RED extends LinearOpMode {
                 if (robot.mode == Robot.Gamepiece.SAMPLE) {
                     actionsQueue.add(robot.outtakeSample(true));
                 } else if (robot.mode == Robot.Gamepiece.SPECIMEN && driverMode == DRIVER_MODE.HUMAN){
+                    robot.blinky.set(GoBildaLEDIndicator.Colors.RED, GoBildaLEDIndicator.Animation.BLINK);
                     currentAutomation = new TeleAutoCycle(drive, robot, gamepad1);
                     actionsQueue.add(
                             new SequentialAction(
-                                    new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
+                                    new InstantAction(() -> {
+                                        driverMode = DRIVER_MODE.AUTO;
+                                        if (robot.mode == Robot.Gamepiece.SAMPLE) {
+                                            robot.blinky.set(GoBildaLEDIndicator.Colors.JOOS_ORANGE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                                        } else {
+                                            robot.blinky.set(GoBildaLEDIndicator.Colors.VIOLET, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                                        }
+                                    }),
                                     currentAutomation,
                                     new InstantAction(() -> {
                                         currentAutomation = null;
@@ -151,9 +158,9 @@ public class RED extends LinearOpMode {
             if (gamepad1.options && !oldOptions){
                 options = !options;
                 if (options){
-                    robot.animation = GoBildaLEDIndicator.Animation.OFFSET_SLOW_BLINK_RED;
+                    robot.blinky.setAnimation(GoBildaLEDIndicator.Animation.OFFSET_SLOW_BLINK_RED);
                 }else{
-                    robot.animation = GoBildaLEDIndicator.Animation.SLOW_BLINK;
+                    robot.blinky.setAnimation(GoBildaLEDIndicator.Animation.SLOW_BLINK);
                 }
                 gamepad1.rumble(250);
             }

@@ -23,7 +23,7 @@ public class Claw {
     public BrushlandColorSensor colorSensorTail;
 
     public static double TAIL_SENSOR_THRESHOLD = 7;
-    public static double SLOW_SPEED = 0.16;
+    public static double SLOW_SPEED = 0.19;
     float power = 0;
 
     ElapsedTime sensorTimeout;
@@ -102,7 +102,7 @@ public class Claw {
     }
 
     public void eject() {
-        setPower((float) -0.4);
+        setPower((float) -0.3);
         try {
             Thread.sleep(500);
             setPower(0);
