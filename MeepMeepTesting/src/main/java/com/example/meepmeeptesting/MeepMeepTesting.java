@@ -16,36 +16,70 @@ public class MeepMeepTesting {
         MeepMeep meepMeep = new MeepMeep(800);
         Pose2d startPose = new Pose2d(6, -62, Math.toRadians(-90));
 
-        double depositX = -54;
-        double depositY = -50;
+        double HPDeposit = -51;
+        double spikeBack = -20;
         double waits = 0.2;
         double intakeWait = 0.3;
-        double depoTargetX = 9;
 
-        double veloLim = 60.0;
-        double accelUpperLim = 60.0;
-        double accelLowerLim = -40.0;
+        double veloLim = 50.0;
+        double accelUpperLim = 50;
+        double accelLowerLim = -30.0;
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setDimensions(12.5, 17.5)
-                .setConstraints(84, 84, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(120, 120, Math.toRadians(180), Math.toRadians(180), 12)
                 .build();
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(7, -32, Math.toRadians(-90)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(6, -61.8, Math.toRadians(-90)))
+                // preload
+                .lineToY(-28,
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
 
-                // Automated cycling
+                //spikes
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(28, -46, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
 
-                    .setTangent(Math.toRadians(-90))
-                    .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
-                            new TranslationalVelConstraint(veloLim),
-                            new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+                .splineToLinearHeading(new Pose2d(48, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
-                        .setTangent(Math.toRadians(180))
-                        .splineToLinearHeading(new Pose2d(depoTargetX, -29, Math.toRadians(-92)), Math.toRadians(90),
-                                new TranslationalVelConstraint(veloLim),
-                                new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0))
+
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(44, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(56, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0))
+
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(52, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(64, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0))
+
+
+//                // Automated cycling
+//
+//                    .setTangent(Math.toRadians(-90))
+//                    .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
+//                            new TranslationalVelConstraint(veloLim),
+//                            new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+//
+//                        .setTangent(Math.toRadians(180))
+//                        .splineToLinearHeading(new Pose2d(depoTargetX, -29, Math.toRadians(-92)), Math.toRadians(90),
+//                                new TranslationalVelConstraint(veloLim),
+//                                new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
 
 //                //preload
 //                .setTangent(Math.toRadians(160))

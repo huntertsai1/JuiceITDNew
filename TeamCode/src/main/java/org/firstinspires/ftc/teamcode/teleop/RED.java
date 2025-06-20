@@ -55,10 +55,16 @@ public class RED extends LinearOpMode {
     boolean oldCircle2 = false;
     boolean liftReset = false;
     boolean oldCross2 = false;
+    boolean oldDpadRight = false;
+    boolean oldOptions = false;
+
     double oldTrigger = 0;
     double oldRtrigger = 0.0;
+    int LIFT_INCREMENT = 100;
+    float EXT_INCREMENT = 10;
     int autoWinches = 0;
     float f = 0.1f;
+    boolean options = false;
     WinchTimeAction curW;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -107,14 +113,7 @@ public class RED extends LinearOpMode {
             }
             oldRtrigger = gamepad1.right_trigger;
 
-            if (gamepad1.left_bumper && !oldLBumper) {
-                if (robot.mode == Robot.Gamepiece.SAMPLE){
-                    actionsQueue.add(robot.highBasketAction());
-                }else{
-                    actionsQueue.add(robot.highRung(true));
-                }
-            }
-            oldLBumper = gamepad1.left_bumper;
+
             if (gamepad1.cross &&!oldCross) {
                 if (robot.mode == Robot.Gamepiece.SAMPLE) {
                     actionsQueue.add(robot.outtakeSample(true));
@@ -148,17 +147,102 @@ public class RED extends LinearOpMode {
 //                );
 //            }
 //            oldDpadLeft = gamepad1.dpad_left;
+            if (gamepad1.options && !oldOptions){
+                options = !options;
+                gamepad1.rumble(250);
+            }
+            oldOptions = gamepad1.options;
 
             if (gamepad1.triangle && !oldTriangle){
-                robot.toggleGamepiece();
+                if (robot.toggleGamepiece() == Robot.Gamepiece.SPECIMEN){
+                    gamepad1.rumbleBlips(2);
+                }else{
+                    gamepad1.rumble(250);
+                }
             }
             oldTriangle = gamepad1.triangle;
 
-            if (gamepad1.circle && !oldCircle){
-                robot.toggleColorSensor();
+            if (options){
+                if (gamepad1.dpad_up && !oldDpadUp){
+                    autoWinches = 1;
+                    actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry), new InstantAction(()->{autoWinches = 0;})));
+                }
+                else if (gamepad1.dpad_down && !oldDpadDown){
+                    autoWinches = 1;
+                    actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 4, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
+                }
+                if (autoWinches == 0 || autoWinches == 2) {
+                    if (gamepad1.dpad_left || gamepad2.dpad_down) {
+                        robot.climbWinch.setPower(-1);
+                    } else if (gamepad1.dpad_right || gamepad2.dpad_up) {
+                        robot.climbWinch.setPower(1);
+                    }else {
+                        if (autoWinches == 0){
+                            robot.climbWinch.setPower(0);
+                        }else{
+                            robot.climbWinch.setPower(f);
+                        }
+                    }
+                    if (gamepad2.dpad_right){
+                        robot.climbWinch.servo1.setSpeed(1);
+                    }else if (gamepad2.dpad_left){
+                        robot.climbWinch.servo2.setSpeed(1);
+                    }
+                }
+                oldDpadUp = gamepad1.dpad_up;
+                oldDpadDown = gamepad1.dpad_down;
 
+                if ((gamepad1.left_bumper && !oldLBumper)) {
+                    if (robot.mode == Robot.Gamepiece.SAMPLE){
+                        actionsQueue.add(robot.highBasketAction());
+                    }else{
+                        actionsQueue.add(robot.highRung(true));
+                    }
+                }
+                oldLBumper = gamepad1.left_bumper;
+            }else{
+                if (robot.state == Levels.HIGH_BASKET && gamepad1.dpad_up && !oldDpadUp) {
+                    if (robot.lift.getPos() + LIFT_INCREMENT < robot.lift.MAX){
+                        robot.lift.runToPosition(robot.lift.getPos() + LIFT_INCREMENT);
+                        robot.lift.HIGH_BASKET += LIFT_INCREMENT;
+                    }
+                } else if (robot.state == Levels.HIGH_BASKET && gamepad1.dpad_down && !oldDpadDown) {
+                    robot.lift.runToPosition(robot.lift.getPos() - LIFT_INCREMENT);
+                    robot.lift.HIGH_BASKET -= LIFT_INCREMENT;
+                }
+                oldDpadUp = gamepad1.dpad_up;
+                oldDpadDown = gamepad1.dpad_down;
+
+                if (robot.state == Levels.INTAKE_INTERMEDIATE || robot.state == Levels.INTAKE){
+                    if (gamepad1.dpad_right && !oldDpadRight && robot.extension.getPosition() + EXT_INCREMENT < robot.extension.high){
+                        robot.extension.runToPosition(robot.extension.getPosition() + EXT_INCREMENT);
+                    }
+                    else if (gamepad1.dpad_left && !oldDpadLeft && robot.extension.getPosition() -EXT_INCREMENT > robot.extension.low){
+                        robot.extension.runToPosition(robot.extension.getPosition() - EXT_INCREMENT);
+                    }
+                }
+                else {
+                    if ((gamepad1.left_bumper && !oldLBumper) || (gamepad1.dpad_left && !oldDpadLeft)) {
+                        if (robot.mode == Robot.Gamepiece.SAMPLE){
+                            actionsQueue.add(robot.highBasketAction());
+                        }else{
+                            actionsQueue.add(robot.highRung(true));
+                        }
+                    }
+                    if(gamepad1.dpad_right && !oldDpadRight){
+                        actionsQueue.add(robot.outtakeSample(true));
+                    }
+                }
+                oldLBumper = gamepad1.left_bumper;
+                oldDpadRight = gamepad1.dpad_right;
+                oldDpadLeft = gamepad1.dpad_left;
             }
-            oldCircle = gamepad1.circle;
+
+//            if (gamepad1.circle && !oldCircle){
+//                robot.toggleColorSensor();
+//
+//            }
+//            oldCircle = gamepad1.circle;
 
             if (gamepad1.square && !oldSquare){
                 actionsQueue.add(
@@ -206,36 +290,9 @@ public class RED extends LinearOpMode {
             }
             oldSquare2 = gamepad2.square;
 
-            if (gamepad1.dpad_up && !oldDpadUp){
-                autoWinches = 1;
-                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry), new InstantAction(()->{autoWinches = 0;})));
-            }
-            else if (gamepad1.dpad_down && !oldDpadDown){
-                autoWinches = 1;
-                actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 4, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
-            }
-            if (autoWinches == 0 || autoWinches == 2) {
-                if (gamepad1.dpad_right || gamepad2.dpad_down) {
-                    robot.climbWinch.setPower(-1);
-                } else if (gamepad1.dpad_left || gamepad2.dpad_up) {
-                    robot.climbWinch.setPower(1);
-                }else {
-                    if (autoWinches == 0){
-                        robot.climbWinch.setPower(0);
-                    }else{
-                        robot.climbWinch.setPower(f);
-                    }
-                }
-                if (gamepad2.dpad_right){
-                    robot.climbWinch.servo1.setSpeed(1);
-                }else if (gamepad2.dpad_left){
-                    robot.climbWinch.servo2.setSpeed(1);
-                }
-            }
-            oldDpadUp = gamepad1.dpad_up;
-            oldDpadDown = gamepad1.dpad_down;
 
             //lift resetting stuff
+
             if (gamepad2.cross && !oldCross2){
                 liftReset = !liftReset;
             }

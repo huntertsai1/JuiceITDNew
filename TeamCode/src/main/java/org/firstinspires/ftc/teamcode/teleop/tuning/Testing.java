@@ -29,19 +29,20 @@ import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
+import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@TeleOp(name="RED")
+@TeleOp(name="TESTING")
 @Config
 public class Testing extends LinearOpMode {
     double oldTime = 0;
     AllianceColor allianceColor = AllianceColor.RED;
 
     RevColorSensorV3 sensor;
-    RevColorSensorV3 sensor2;
+    BrushlandColorSensor sensor2;
 
     // STATES
     boolean manualExtension = false;
@@ -69,16 +70,19 @@ public class Testing extends LinearOpMode {
     WinchTimeAction curW;
     @Override
     public void runOpMode() throws InterruptedException {
+        sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensorHead");
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Robot robot = new Robot(hardwareMap, false);
         PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(0,0,0));
         List<Action> actionsQueue = new ArrayList<>();
         TeleAutoCycle.depoTargetX = 9;
-        robot.activateSensor = false;
-        sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensorHead");
-        sensor2 = hardwareMap.get(RevColorSensorV3.class, "colorSensorTail");
-        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
-        ((LynxI2cDeviceSynch) sensor2.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
+        robot.activateSensor = true;
+//        sensor = new BrushlandColorSensor(0, "colorSensorHead", hardwareMap);
+//        sensor2 = new BrushlandColorSensor(0, "colorSensorTail", hardwareMap, true);
+//        sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensorHead");
+//        sensor2 = hardwareMap.get(RevColorSensorV3.class, "colorSensorTail");
+//        ((LynxI2cDeviceSynch) sensor.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
+//        ((LynxI2cDeviceSynch) sensor2.getDeviceClient()).setBusSpeed(LynxI2cDeviceSynch.BusSpeed.FAST_400K);
 
 
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
@@ -166,6 +170,11 @@ public class Testing extends LinearOpMode {
                 robot.toggleGamepiece();
             }
             oldTriangle = gamepad1.triangle;
+
+            if (gamepad1.circle && !oldCircle){
+                robot.toggleColorSensor();
+            }
+            oldCircle = gamepad1.circle;
 
             if (gamepad1.square && !oldSquare){
                 actionsQueue.add(
@@ -285,16 +294,13 @@ public class Testing extends LinearOpMode {
             double frequency = 1/loopTime;
             oldTime = newTime;
 
+//            telemetry.addData("head color", robot.claw.detectSampleHead());
             NormalizedRGBA color = sensor.getNormalizedColors();
             telemetry.addData("rh", color.red);
             telemetry.addData("gh", color.green);
             telemetry.addData("bh", color.blue);
-            NormalizedRGBA color2 = sensor2.getNormalizedColors();
-            telemetry.addData("rt", color2.red);
-            telemetry.addData("gt", color2.green);
-            telemetry.addData("bt", color2.blue);
-            telemetry.addData("distance head", sensor.getDistance(DistanceUnit.MM));
-            telemetry.addData("distance tail", sensor2.getDistance(DistanceUnit.MM));
+            telemetry.addData("distance h", sensor.getDistance(DistanceUnit.MM));
+            telemetry.addData("tail distance", robot.claw.colorSensorTail.getPin0Analog());
             telemetry.addData("LOOPTIME: ", frequency);
             telemetry.addData("queue", actionsQueue);
             telemetry.addData("TIME TO ACTION", robot.timeToAction.time(TimeUnit.MILLISECONDS) - robot.afterAction.time(TimeUnit.MILLISECONDS));

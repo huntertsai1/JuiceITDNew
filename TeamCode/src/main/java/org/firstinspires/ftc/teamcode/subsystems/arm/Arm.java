@@ -24,17 +24,17 @@ public class Arm {
 
     public void runToPreset(Levels level) {
         if (level == Levels.INIT) {
-            runToPosition(280);
-            setWristAngle(wristDown);
+            runToPosition(350);
+            setWristAngle(55);
         } else if (level == Levels.INTAKE) {
-            runToPosition(172);
-            setWristAngle(204);
+            runToPosition(170);
+            setWristAngle(200);
         } else if (level == Levels.INTAKE_INTERMEDIATE) {
             runToPosition(185);
             setWristAngle(wristDown);
         } else if (level == Levels.INTERMEDIATE) {
-            runToPosition(215);
-            setWristAngle(wristDown);
+            runToPosition(210);
+            setWristAngle(75);
         } else if (level == Levels.LOW_BASKET) {
             runToPosition(322);
             setWristAngle(wristUp);
@@ -42,8 +42,8 @@ public class Arm {
             runToPosition(322);
             setWristAngle(wristUp);
         } else if (level == Levels.HIGH_RUNG) {
-            runToPosition(335);
-            setWristAngle(52);
+            runToPosition(355);
+            setWristAngle(55);
         }
     }
 

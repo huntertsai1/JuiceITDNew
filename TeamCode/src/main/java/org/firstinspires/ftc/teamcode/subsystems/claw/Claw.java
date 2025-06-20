@@ -1,16 +1,13 @@
 package org.firstinspires.ftc.teamcode.subsystems.claw;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.qualcomm.hardware.lynx.LynxI2cDeviceSynch;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.util.hardware.BrushlandColorSensor;
 import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
@@ -18,11 +15,14 @@ import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+@Config
 public class Claw {
     public ContinuousServo servo1;
     public ContinuousServo servo2;
-    BrushlandColorSensor colorSensorHead;
-    BrushlandColorSensor colorSensorTail;
+    public BrushlandColorSensor colorSensorHead;
+    public BrushlandColorSensor colorSensorTail;
+
+    public static double TAIL_SENSOR_THRESHOLD = 9;
     float power = 0;
 
     ElapsedTime sensorTimeout;
@@ -179,7 +179,7 @@ public class Claw {
      */
     public void setStall(boolean state) {
         if (state) {
-            setPower((float) 0.05);
+            setPower((float) 0.03);
         } else {
             setPower(0);
         }
@@ -221,7 +221,7 @@ public class Claw {
 //        } else {
 //            return null;
 //        }
-        boolean p0 = colorSensorHead.getPin0();
+        boolean p0 = colorSensorHead.getPin0Digital();
         boolean p1 = colorSensorHead.getPin1();
 
         if (p0 && p1) {
@@ -236,6 +236,7 @@ public class Claw {
     }
 
     public boolean detectSampleTail() {
-        return colorSensorTail.getPin0();
+        return colorSensorTail.rollingWindowBelow(TAIL_SENSOR_THRESHOLD);
+//        return colorSensorTail.getPin0Analog() < TAIL_SENSOR_THRESHOLD;
     }
 }

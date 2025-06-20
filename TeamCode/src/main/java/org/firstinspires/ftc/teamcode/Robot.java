@@ -89,7 +89,7 @@ public class Robot {
 
 //        RevColorSensorV3 colorSensor = map.get(RevColorSensorV3.class, "colorSensor");
         BrushlandColorSensor colorSensor1 = new BrushlandColorSensor(0, "colorSensorHead", map);
-        BrushlandColorSensor colorSensor2 = new BrushlandColorSensor(0, "colorSensorTail", map);
+        BrushlandColorSensor colorSensor2 = new BrushlandColorSensor(0, "colorSensorTail", map, true);
         blinky = new GoBildaLEDIndicator(0, "blinky", map);
         // INIT SUBSYSTEMS
 
@@ -110,12 +110,13 @@ public class Robot {
     }
 
     // STATE MANAGEMENT AND TOGGLES
-    public void toggleGamepiece() {
+    public Gamepiece toggleGamepiece() {
         if (mode == Gamepiece.SAMPLE) {
             mode = Gamepiece.SPECIMEN;
         } else {
             mode = Gamepiece.SAMPLE;
         }
+        return mode;
     }
 
     public void toggleColorSensor() {
@@ -129,7 +130,7 @@ public class Robot {
         lift.runToPreset(Levels.INIT);
         extension.runToPreset(Levels.INIT);
         sweeper.setPosition(92);
-        blinky.setPreset(Levels.INIT);
+        blinky.set(GoBildaLEDIndicator.Colors.JOOS_ORANGE, GoBildaLEDIndicator.Animation.SOLID);
     }
 
     public Action autoSpecimen (boolean action) {
@@ -146,26 +147,6 @@ public class Robot {
         );
     }
 
-    public Action autoSpecIntakeINITAL(boolean action) {
-        return new SequentialAction(
-                new InstantAction(() -> {
-                    lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(190);
-                }),
-                new SleepAction(0.3),
-                new InstantAction(()->{
-                    arm.runToPreset(Levels.INTAKE);
-                    claw.startIntake();
-                    intaking = true;
-                    state = Levels.INTAKE;}),
-                new SleepAction(1.2),
-                new InstantAction(() -> {
-                    extension.runToPosition(260);
-                    lift.lift1.resetEncoder();
-                })
-        );
-    }
-
     public Action autoSpecIntake(boolean action) {
         return new SequentialAction(
                 new InstantAction(() -> {
@@ -173,7 +154,7 @@ public class Robot {
                 }),
                 new SleepAction(0.2),
                 new InstantAction(() -> {
-                    extension.runToPosition(190);
+                    extension.runToPosition(240);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
@@ -181,12 +162,12 @@ public class Robot {
                     claw.startIntake();
                     intaking = true;
                     state = Levels.INTAKE;}),
-                new SleepAction(1.3),
+                new SleepAction(1.5),
                 new InstantAction(() -> {
-                    extension.runToPosition(260);
+                    extension.runToPosition(280);
                     lift.lift1.resetEncoder();
                 })
-        );
+                );
     }
 
     public Action autoTeleIntakePrime() {
@@ -309,6 +290,18 @@ public class Robot {
         );
     }
 
+    public void teleIntakePreset() {
+        lift.runToPreset(Levels.INTAKE);
+        extension.runToPreset(Levels.INTAKE);
+        if (mode == Gamepiece.SAMPLE) {
+            blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+        } else {
+            blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+        }
+        arm.runToPreset(Levels.INTAKE_INTERMEDIATE);
+        state = Levels.INTAKE_INTERMEDIATE;
+    }
+
     public Action intakeDrop(SampleColors alliance) {
         if (activateSensor) {
             if (mode == Gamepiece.SAMPLE) {
@@ -368,7 +361,7 @@ public class Robot {
         claw.stopIntake();
         afterAction.reset();
         intermediatePreset();
-        blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.THREE_BLIPS);
+        blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.THREE_BLIPS);
     }
     public Action stopIntakeAction() {
         return new InstantAction(()->{
@@ -376,7 +369,7 @@ public class Robot {
             claw.intakeStatus = 16236;
             claw.stopIntake();
             intermediatePreset();
-            blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.THREE_BLIPS);
+            blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.THREE_BLIPS);
         } );
     }
 
@@ -386,7 +379,7 @@ public class Robot {
             intaking = false;
             claw.stopIntake();
             lift.runToPreset(Levels.INTERMEDIATE);
-            blinky.set(GoBildaLEDIndicator.Colors.GREEN, GoBildaLEDIndicator.Animation.THREE_BLIPS);
+            blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.THREE_BLIPS);
         } ),
                 new SleepAction(0.1),
                 new InstantAction(() -> {
@@ -403,28 +396,22 @@ public class Robot {
     public boolean autoStopIntakeUpdate(SampleColors... colors) {
         int r = claw.smartStopDetect(colors);
         System.out.println("r: " + r);
-            if (r == 0) {
-                claw.startIntake();
-                if (mode == Gamepiece.SAMPLE) {
-                    blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.SLOW_BLINK);
-                } else {
-                    blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.SLOW_BLINK);
-                }
-                return true;
-            } else if (r == 1) {
-                timeToAction.reset();
-                afterAction.reset();
-                stopIntake();
-                return false;
-            } else if (r == -1) {
-                claw.slowIntake();
-                blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
-                return true;
-            } else if (r == 16236) {
-                //troll status code
-                return false;
-            }
+        if (r == 0) {
+            claw.startIntake();
             return true;
+        } else if (r == 1) {
+            timeToAction.reset();
+            afterAction.reset();
+            stopIntake();
+            return false;
+        } else if (r == -1) {
+            claw.slowIntake();
+            return true;
+        } else if (r == 16236) {
+            //troll status code
+            return false;
+        }
+        return true;
     }
 
     // DEPOSIT OPERATIONS
@@ -467,34 +454,56 @@ public class Robot {
                             arm.runToPreset(Levels.HIGH_RUNG);
                             extension.runToPreset(Levels.HIGH_RUNG);
                             lift.runToPreset(Levels.HIGH_RUNG);
-//                            claw.setStall(true);
                             state = Levels.HIGH_RUNG;
                             blinky.setPreset(Levels.HIGH_RUNG);
                 }),
                 new SequentialAction(
                         new InstantAction(() -> claw.setPower(1)),
-                        new SleepAction(0.1),
-                        new InstantAction(() -> claw.setPower(-0.2F)),
-                        new SleepAction(0.35),
+                        new SleepAction(0.05),
+                        new InstantAction(() -> claw.setPower(0)),
+                        new SleepAction(0.5),
+                        new InstantAction(() -> claw.setPower(-0.4F)),
+                        new SleepAction(0.05),
                         new InstantAction(() -> claw.setStall(true))
                 )
         );
     }
 
-    public Action highRungAuto(boolean action) {
+    public Action autoCenterSpecimen(boolean action) {
         return new SequentialAction(
+                new InstantAction(() -> claw.setPower(1)),
+                new SleepAction(0.05),
+                new InstantAction(() -> claw.setPower(0)),
+                new SleepAction(0.5),
+                new InstantAction(() -> claw.setPower(-0.4F)),
+                new SleepAction(0.05),
+                new InstantAction(() -> claw.setStall(true))
+        );
+    }
+
+    public Action highRungAuto(boolean action) {
+        return new ParallelAction(
+                new SequentialAction(
+                new InstantAction( () -> claw.setPower(-0.3F)
+                ),
                 new InstantAction( () ->
                     {
                         extension.runToPreset(Levels.HIGH_RUNG);
                         arm.runToPreset(Levels.HIGH_RUNG);
-                        claw.setStall(true);
                     }
                 ),
                 new SleepAction(0.2),
                 new InstantAction(() -> {
+                    claw.setStall(true);
                     lift.runToPreset(Levels.HIGH_RUNG);
                     state = Levels.HIGH_RUNG;
-                })
+                    }
+//                ),
+//                new SleepAction(0.1),
+//                new InstantAction(() -> {
+//                    claw.setStall(true);
+//                }
+                ))
         );
     }
 
