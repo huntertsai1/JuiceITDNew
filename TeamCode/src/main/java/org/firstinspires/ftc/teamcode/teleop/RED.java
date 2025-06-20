@@ -83,7 +83,7 @@ public class RED extends LinearOpMode {
 
         waitForStart();
         if (isStopRequested()) return;
-
+        robot.blinky.set(robot.color, robot.animation);
         while (opModeIsActive() && !isStopRequested()) {
             for (LynxModule module : allHubs) {
                 module.clearBulkCache();
@@ -183,6 +183,7 @@ public class RED extends LinearOpMode {
                     } else if (gamepad1.dpad_right || gamepad2.dpad_up) {
                         robot.climbWinch.setPower(1);
                     }else {
+                        robot.climbWinch.setPower(0);
                         if (autoWinches != 0){
 //                            robot.climbWinch.setPower(0);
 //                        }else{

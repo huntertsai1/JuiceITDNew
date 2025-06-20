@@ -59,7 +59,7 @@ public class Robot {
     public Motor frontRight;
     public GoBildaLEDIndicator blinky;
     public GoBildaLEDIndicator.Colors color = GoBildaLEDIndicator.Colors.YELLOW;
-    public GoBildaLEDIndicator.Animation animation = GoBildaLEDIndicator.Animation.SOLID;
+    public GoBildaLEDIndicator.Animation animation = GoBildaLEDIndicator.Animation.SLOW_BLINK;
     public Robot(HardwareMap map, boolean auton){
         this.auton = auton;
 

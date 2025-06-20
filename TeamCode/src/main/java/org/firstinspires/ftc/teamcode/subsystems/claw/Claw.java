@@ -22,7 +22,8 @@ public class Claw {
     public BrushlandColorSensor colorSensorHead;
     public BrushlandColorSensor colorSensorTail;
 
-    public static double TAIL_SENSOR_THRESHOLD = 9;
+    public static double TAIL_SENSOR_THRESHOLD = 7;
+    public static float SLOW_SPEED = 0;
     float power = 0;
 
     ElapsedTime sensorTimeout;
@@ -56,7 +57,7 @@ public class Claw {
         setPower(0);
     }
 
-    public void slowIntake() {setPower(0.2F);}
+    public void slowIntake() {setPower(SLOW_SPEED);}
 
     public void smartStopIntake(SampleColors... colors) {
         SampleColors s = detectSampleHead();
@@ -236,7 +237,7 @@ public class Claw {
     }
 
     public boolean detectSampleTail() {
-        return colorSensorTail.rollingWindowBelow(TAIL_SENSOR_THRESHOLD);
-//        return colorSensorTail.getPin0Analog() < TAIL_SENSOR_THRESHOLD;
+//        return colorSensorTail.rollingWindowBelow(TAIL_SENSOR_THRESHOLD);
+        return colorSensorTail.getPin0Analog() < TAIL_SENSOR_THRESHOLD;
     }
 }
