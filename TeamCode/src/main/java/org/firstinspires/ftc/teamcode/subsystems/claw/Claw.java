@@ -102,7 +102,7 @@ public class Claw {
     }
 
     public void eject() {
-        setPower((float) -0.3);
+        setPower((float) -0.25);
         try {
             Thread.sleep(500);
             setPower(0);

@@ -31,8 +31,8 @@ public class Lift {
     public ElapsedTime timer = new ElapsedTime();
     public boolean goingDown = false;
     public boolean spiked = false;
-    public double MAX = 1550;
-    public int HIGH_BASKET = 1450;
+    public double MAX = 1520;
+    public int HIGH_BASKET = 1460;
     public Lift(Motor l1, Motor l2, Motor l3) {
         this.lift1 = l1;
         this.lift2 = l2;

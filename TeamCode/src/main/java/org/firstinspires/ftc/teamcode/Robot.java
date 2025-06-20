@@ -405,7 +405,7 @@ public class Robot {
         } else if (r == 1) {
             timeToAction.reset();
             afterAction.reset();
-            gamepad.rumble(150);
+            gamepad.rumble(250);
             stopIntake();
             return false;
         } else if (r == -1) {
