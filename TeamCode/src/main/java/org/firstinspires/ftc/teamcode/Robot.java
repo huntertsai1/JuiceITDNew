@@ -216,6 +216,26 @@ public class Robot {
         );
     }
 
+    public ElapsedTime actionRunning = new ElapsedTime();
+    public boolean bucketAutoStopIntakeUpdate() {
+        int r = claw.smartStopDetect(SampleColors.YELLOW);
+        actionRunning.seconds();
+        if (r == 0) {
+            claw.startIntake();
+            return true;
+        } else if (r == 1) {
+            stopIntake();
+            return false;
+        } else if (r == -1) {
+            claw.slowIntake();
+            return true;
+        } else if (r == 16236) {
+            //troll status code
+            return false;
+        }
+        return true;
+    }
+
     public Action autoBucketIntake (boolean action) {
         return new SequentialAction(
                 new InstantAction(() -> {
@@ -236,7 +256,10 @@ public class Robot {
                 new SleepAction(1),
                 new InstantAction(() -> {
                     extension.runToPosition(285);
-                })
+                    intaking = true;
+                    state = Levels.INTAKE;
+                    claw.intakeStatus = 0;
+                }),commands.stopIntake(SampleColors.YELLOW)
         );
     }
 

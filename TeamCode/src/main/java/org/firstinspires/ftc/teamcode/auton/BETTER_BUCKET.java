@@ -37,9 +37,18 @@ public class BETTER_BUCKET extends LinearOpMode {
         double depositWait = 1.2;
         double intakeWait = 0.9;
 
+        double subSampleX = -6;
+        double subSampleY = -12;
+
         double veloLim = 60.0;
         double accelUpperLim = 60.0;
         double accelLowerLim = -40.0;
+
+        boolean oldDpadUp = false;
+        boolean oldDpadDown = false;
+        boolean oldDpadLeft = false;
+        boolean oldDpadRight = false;
+        boolean oldCircle = false;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 //preload
@@ -83,7 +92,17 @@ public class BETTER_BUCKET extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(40)), Math.toRadians(268))
                 .waitSeconds(depositWait);
 
-        TrajectoryActionBuilder subDrive = deposit3.endTrajectory().fresh()
+        TrajectoryActionBuilder intake4 = deposit3.endTrajectory().fresh()
+                // sub intake
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(subSampleX-20, subSampleY, Math.toRadians(40)), Math.toRadians(0));
+
+        TrajectoryActionBuilder deposit4 = intake4.endTrajectory().fresh()
+                // depo 4
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(40)), Math.toRadians(268));
+
+        TrajectoryActionBuilder subDrive = deposit3.endTrajectory().fresh() // CHANGE TO DEPOSIT4 TO DRIVE BACK TO PARK AFTER SUB INTAKE + DEPO
                 //ascent zone park
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(-48, -11, Math.toRadians(0)), Math.toRadians(0))
@@ -95,7 +114,26 @@ public class BETTER_BUCKET extends LinearOpMode {
         for (LynxModule module : allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
+        while (gamepad1.circle == false){
+            if (gamepad1.dpad_down && !oldDpadDown) {
+                subSampleY -= 1;
+            }
+            if (gamepad1.dpad_up && !oldDpadUp) {
+                subSampleY += 1;
+            }
+            if (gamepad1.dpad_left && !oldDpadLeft) {
+                subSampleX -= 1;
+            }
+            if (gamepad1.dpad_right && !oldDpadRight) {
+                subSampleX += 1;
+            }
+            oldDpadUp = gamepad1.dpad_up;
+            oldDpadDown = gamepad1.dpad_down;
+            oldDpadLeft = gamepad1.dpad_left;
+            oldDpadRight = gamepad1.dpad_right;
+        }
 
+        gamepad1.circle = false;
         waitForStart();
 
         if (isStopRequested()) return;
@@ -120,7 +158,6 @@ public class BETTER_BUCKET extends LinearOpMode {
                                         deposit1.build()
                                 ),
                                 robot.outtakeSample(true),
-
                                 spike2.build(),
 
                                 robot.autoBucketIntake(true),
@@ -135,7 +172,7 @@ public class BETTER_BUCKET extends LinearOpMode {
 
                                 spike3.build(),
 
-                                robot.autoBucketIntakeTHIRD(true),
+                                robot.autoBucketIntake(true),
                                 new SleepAction(1),
 
                                 new InstantAction(() -> robot.claw.setPower(0)),
@@ -144,12 +181,25 @@ public class BETTER_BUCKET extends LinearOpMode {
                                         deposit3.build()
                                 ),
                                 robot.outtakeSample(true),
+
+                                intake4.build(),
+
+                                robot.autoBucketIntake(true),
+                                new SleepAction(1),
+
+                                new InstantAction(() -> robot.claw.setPower(0)),
+                                new ParallelAction(
+                                        robot.autoHighBasketAction(),
+                                        deposit4.build()
+                                ),
+                                robot.outtakeSample(true),
+
                                 new SleepAction(1),
                                 subDrive.build(),
                                 robot.sweeper.sweep(),
                                 new SleepAction(1),
                                 robot.sweeper.sweep()
-                                ),
+                        ),
                         new LoopAction(() -> {
                             for (LynxModule module : allHubs) {
                                 module.clearBulkCache();
