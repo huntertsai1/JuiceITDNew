@@ -13,7 +13,7 @@ public class Extension {
     float target = 0;
 
     public int high = 285;
-
+    public boolean nextShort = false;
     public Extension(StepperServo s1, StepperServo s2) {
         servo1 = s1;
         servo2 = s2;
@@ -33,7 +33,13 @@ public class Extension {
         if (level == Levels.INIT) {
             runToPosition(low);
         } else if (level == Levels.INTAKE) {
-            runToPosition(high);
+            if (nextShort){
+                runToPosition(200);
+                nextShort = false;
+            }
+            else{
+                runToPosition(high);
+            }
         } else if (level == Levels.INTERMEDIATE) {
             runToPosition(low);
         } else if (level == Levels.LOW_BASKET) {
