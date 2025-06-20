@@ -360,7 +360,6 @@ public class RED extends LinearOpMode {
             telemetry.addData("queue", actionsQueue);
             telemetry.addData("TIME TO ACTION", robot.timeToAction.time(TimeUnit.MILLISECONDS) - robot.afterAction.time(TimeUnit.MILLISECONDS));
             telemetry.update();
-            Thread.sleep(1000);
         }
     }
     enum DRIVER_MODE {
