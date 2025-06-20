@@ -70,7 +70,7 @@ public class Testing extends LinearOpMode {
     WinchTimeAction curW;
     @Override
     public void runOpMode() throws InterruptedException {
-//        sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensorHead");
+        sensor = hardwareMap.get(RevColorSensorV3.class, "colorSensorHead");
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Robot robot = new Robot(hardwareMap, false);
         PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(0,0,0));
@@ -295,11 +295,11 @@ public class Testing extends LinearOpMode {
             oldTime = newTime;
 
 //            telemetry.addData("head color", robot.claw.detectSampleHead());
-//            NormalizedRGBA color = sensor.getNormalizedColors();
-//            telemetry.addData("rh", color.red);
-//            telemetry.addData("gh", color.green);
-//            telemetry.addData("bh", color.blue);
-//            telemetry.addData("distance h", sensor.getDistance(DistanceUnit.MM));
+            NormalizedRGBA color = sensor.getNormalizedColors();
+            telemetry.addData("rh", color.red);
+            telemetry.addData("gh", color.green);
+            telemetry.addData("bh", color.blue);
+            telemetry.addData("distance h", sensor.getDistance(DistanceUnit.MM));
             telemetry.addData("tail distance", robot.claw.colorSensorTail.getPin0Analog());
             telemetry.addData("LOOPTIME: ", frequency);
             telemetry.addData("queue", actionsQueue);
