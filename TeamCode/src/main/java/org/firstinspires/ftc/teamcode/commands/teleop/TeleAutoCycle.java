@@ -35,7 +35,7 @@ public class TeleAutoCycle extends CancellableAction {
     Action depoPath;
     Action intakePath;
     Action fullPath;
-    Pose2d primePos = new Pose2d(20, -47, Math.toRadians(-45));
+    Pose2d primePos = new Pose2d(18, -45, Math.toRadians(-45));
     public TeleAutoCycle(PinpointDrive drive, Robot robot, Gamepad gamepad) {
         this.drive = drive;
         this.robot = robot;
@@ -56,13 +56,13 @@ public class TeleAutoCycle extends CancellableAction {
 
             depoPath = drive.actionBuilder(primePos)
                     .setTangent(Math.toRadians(180))
-                    .splineToLinearHeading(new Pose2d(depoTargetX, -29, Math.toRadians(-92)), Math.toRadians(90),
+                    .splineToLinearHeading(new Pose2d(depoTargetX, -31, Math.toRadians(-92)), Math.toRadians(90),
                             new TranslationalVelConstraint(veloLim),
                             new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                     .build();
-            intakePath = drive.actionBuilder(new Pose2d(depoTargetX, -30, Math.toRadians(-92)))
+            intakePath = drive.actionBuilder(new Pose2d(depoTargetX, -31, Math.toRadians(-92)))
                     .setTangent(Math.toRadians(-90))
-                    .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
+                    .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(-45)), Math.toRadians(0),
                             new TranslationalVelConstraint(veloLim),
                             new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                     .build();

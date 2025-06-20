@@ -143,20 +143,6 @@ public class RED extends LinearOpMode {
             }
             oldCross = gamepad1.cross;
 
-//            if (gamepad1.dpad_left && !oldDpadLeft && driverMode == DRIVER_MODE.HUMAN) {
-//                currentAutomation = new TeleRelocToHP(drive, robot);
-//                actionsQueue.add(
-//                        new SequentialAction(
-//                                new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
-//                                currentAutomation,
-//                                new InstantAction(() -> {
-//                                    currentAutomation = null;
-//                                    driverMode = DRIVER_MODE.HUMAN;
-//                                })
-//                        )
-//                );
-//            }
-//            oldDpadLeft = gamepad1.dpad_left;
             if (gamepad1.options && !oldOptions){
                 options = !options;
                 if (options){
@@ -223,6 +209,19 @@ public class RED extends LinearOpMode {
                 }
                 oldCircle = gamepad1.circle;
             }else{
+                if (gamepad1.circle && !oldCircle && driverMode == DRIVER_MODE.HUMAN && robot.mode == Robot.Gamepiece.SPECIMEN) {
+                    currentAutomation = new TeleRelocToHP(drive, robot);
+                    actionsQueue.add(
+                            new SequentialAction(
+                                    new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
+                                    currentAutomation,
+                                    new InstantAction(() -> {
+                                        currentAutomation = null;
+                                        driverMode = DRIVER_MODE.HUMAN;
+                                    })
+                            )
+                    );
+                }
                 if (gamepad1.circle && !oldCircle && robot.mode == Robot.Gamepiece.SAMPLE){
                     actionsQueue.add(
                             new SequentialAction(
