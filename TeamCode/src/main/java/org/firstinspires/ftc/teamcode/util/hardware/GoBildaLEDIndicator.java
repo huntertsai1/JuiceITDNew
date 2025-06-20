@@ -33,7 +33,7 @@ public class GoBildaLEDIndicator extends Component {
                 color = 0;
                 break;
             case RED:
-                color = (float) 0.277;
+                color = (float) 0.279;
                 break;
             case ORANGE:
                 color = (float) 0.333;

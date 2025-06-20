@@ -146,9 +146,13 @@ public class RED extends LinearOpMode {
             if (gamepad1.options && !oldOptions){
                 options = !options;
                 if (options){
-                    robot.blinky.setAnimation(GoBildaLEDIndicator.Animation.OFFSET_SLOW_BLINK_RED);
+                    robot.blinky.set(GoBildaLEDIndicator.Colors.RED, GoBildaLEDIndicator.Animation.SLOW_BLINK);
                 }else{
-                    robot.blinky.setAnimation(GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                    if (robot.mode == Robot.Gamepiece.SPECIMEN) {
+                        robot.blinky.set(GoBildaLEDIndicator.Colors.VIOLET, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                    } else {
+                        robot.blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                    }
                 }
                 gamepad1.rumble(250);
             }
@@ -211,6 +215,7 @@ public class RED extends LinearOpMode {
             }else{
                 if (gamepad1.circle && !oldCircle && driverMode == DRIVER_MODE.HUMAN && robot.mode == Robot.Gamepiece.SPECIMEN) {
                     currentAutomation = new TeleRelocToHP(drive, robot);
+                    robot.blinky.set(GoBildaLEDIndicator.Colors.RED, GoBildaLEDIndicator.Animation.BLINK);
                     actionsQueue.add(
                             new SequentialAction(
                                     new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),

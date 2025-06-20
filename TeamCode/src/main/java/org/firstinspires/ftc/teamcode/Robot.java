@@ -114,7 +114,7 @@ public class Robot {
     public Gamepiece toggleGamepiece() {
         if (mode == Gamepiece.SAMPLE) {
             mode = Gamepiece.SPECIMEN;
-            blinky.set(GoBildaLEDIndicator.Colors.JOOS_ORANGE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+            blinky.set(GoBildaLEDIndicator.Colors.VIOLET, GoBildaLEDIndicator.Animation.SLOW_BLINK);
         } else {
             mode = Gamepiece.SAMPLE;
             blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
