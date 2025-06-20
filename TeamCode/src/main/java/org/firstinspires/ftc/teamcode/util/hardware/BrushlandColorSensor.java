@@ -13,7 +13,7 @@ public class BrushlandColorSensor extends Component {
     DigitalChannel pin1;
     AnalogInput pin0a;
     private double filteredVoltage = 0;
-    public static double alpha = 0.6;  // adjust for desired responsiveness
+    public static double alpha = 0.7;  // adjust for desired responsiveness
     public BrushlandColorSensor(int port, String name, HardwareMap map) {
         super(port, name);
         pin0 = map.digitalChannel.get(name + "p0");
