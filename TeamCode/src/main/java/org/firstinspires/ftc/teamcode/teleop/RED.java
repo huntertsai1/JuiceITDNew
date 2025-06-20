@@ -284,7 +284,9 @@ public class RED extends LinearOpMode {
 //            }
 //            oldCircle = gamepad1.circle;
 
-            if (gamepad1.square && !oldSquare){
+            if (robot.state == Levels.HIGH_RUNG && gamepad1.square && !oldSquare) {
+                actionsQueue.add(robot.autoCenterSpecimen(true));
+            } else if (gamepad1.square && !oldSquare){
                 actionsQueue.add(
                         new ParallelAction(
                                 robot.sweeper.sweep(),
