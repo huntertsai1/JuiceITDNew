@@ -18,7 +18,7 @@ public class GoBildaLEDIndicator extends Component {
 
     private ElapsedTime elaspedTimeBlink = new ElapsedTime();
     private boolean blinkStat = false;
-    private boolean colorStat = false;
+    private int colorAlt = 0;
     private int blips = 0;
 
 
@@ -140,21 +140,23 @@ public class GoBildaLEDIndicator extends Component {
             }
         } else if (currentAnimation == Animation.OFFSET_SLOW_BLINK_RED) {
             if (elaspedTimeBlink.time(TimeUnit.MILLISECONDS) >= 500) {
-                if (blinkStat) {
-                    led.setPosition(0);
-                    blinkStat = !blinkStat;
-                    elaspedTimeBlink.reset();
-                } else {
-                    if (colorStat){
-                        led.setPosition(0.277);
-
-                    }else {
-                        led.setPosition(color);
-                    }
-                    colorStat = !colorStat;
-                    blinkStat = !blinkStat;
-                    elaspedTimeBlink.reset();
-                }
+               if (colorAlt == 0) {
+                   led.setPosition(color);
+                   colorAlt = 1;
+                   elaspedTimeBlink.reset();
+               } else if (colorAlt == 1) {
+                   led.setPosition(0);
+                   elaspedTimeBlink.reset();
+                   colorAlt = 2;
+               } else if (colorAlt == 2) {
+                   led.setPosition(0.277);
+                   colorAlt = 3;
+                   elaspedTimeBlink.reset();
+               } else {
+                   led.setPosition(0);
+                   colorAlt = 0;
+                   elaspedTimeBlink.reset();
+               }
             }
         } else if (currentAnimation == Animation.THREE_BLIPS) {
             if (blips < 4) {

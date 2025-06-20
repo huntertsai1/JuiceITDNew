@@ -74,6 +74,8 @@ public class RED extends LinearOpMode {
         PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(0,0,0));
         List<Action> actionsQueue = new ArrayList<>();
         TeleAutoCycle.depoTargetX = 9;
+        robot.blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+        robot.sweeper.setPosition(92);
 
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 

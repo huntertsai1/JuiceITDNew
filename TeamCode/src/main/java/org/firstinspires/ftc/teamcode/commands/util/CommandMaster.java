@@ -19,7 +19,7 @@ public class CommandMaster {
     //REGISTER COMMANDS HERE
 
     public Action stopIntake(Gamepad gamepad, SampleColors... colors) {
-        return new StopIntake(robot, colors);
+        return new StopIntake(robot, gamepad, colors);
     }
 
     public Action stopIntake(SampleColors... colors) {
