@@ -23,7 +23,7 @@ public class Claw {
     public BrushlandColorSensor colorSensorTail;
 
     public static double TAIL_SENSOR_THRESHOLD = 7;
-    public static float SLOW_SPEED = 0;
+    public static double SLOW_SPEED = 0.16;
     float power = 0;
 
     ElapsedTime sensorTimeout;
@@ -57,7 +57,7 @@ public class Claw {
         setPower(0);
     }
 
-    public void slowIntake() {setPower(SLOW_SPEED);}
+    public void slowIntake() {setPower((float)SLOW_SPEED);}
 
     public void smartStopIntake(SampleColors... colors) {
         SampleColors s = detectSampleHead();
