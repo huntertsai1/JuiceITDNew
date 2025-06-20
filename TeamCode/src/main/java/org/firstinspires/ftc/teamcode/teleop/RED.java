@@ -223,6 +223,20 @@ public class RED extends LinearOpMode {
                 }
                 oldCircle = gamepad1.circle;
             }else{
+                if (gamepad1.circle && !oldCircle && robot.mode == Robot.Gamepiece.SAMPLE){
+                    actionsQueue.add(
+                            new SequentialAction(
+                                    new InstantAction(() -> {
+                                        robot.arm.runToPreset(Levels.EJECT);
+                                    }),
+                                    new SleepAction(0.5),
+                                    robot.claw.eject(true),
+                                    new SleepAction(0.5),
+                                    robot.stopIntakeAction()
+                            )
+                    );
+                }
+                oldCircle = gamepad1.circle;
                 if (robot.state == Levels.HIGH_BASKET && gamepad1.dpad_up && !oldDpadUp) {
                     if (robot.lift.getPos() + LIFT_INCREMENT < robot.lift.MAX){
                         robot.lift.runToPosition(robot.lift.getPos() + LIFT_INCREMENT);
@@ -282,8 +296,7 @@ public class RED extends LinearOpMode {
                     actionsQueue.add(
                             new SequentialAction(
                                     new InstantAction(() -> {
-//                                        robot.lift.runToPosition(100);
-                                        robot.arm.runToPreset(Levels.HIGH_BASKET);
+                                        robot.arm.runToPreset(Levels.EJECT);
                                     }),
                                     new SleepAction(0.5),
                                     robot.claw.eject(true),
