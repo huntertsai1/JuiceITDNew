@@ -294,7 +294,7 @@ public class Testing extends LinearOpMode {
             double frequency = 1/loopTime;
             oldTime = newTime;
 
-//            telemetry.addData("head color", robot.claw.detectSampleHead());
+            telemetry.addData("head color", robot.claw.detectSampleHead());
             NormalizedRGBA color = sensor.getNormalizedColors();
             telemetry.addData("rh", color.red);
             telemetry.addData("gh", color.green);
