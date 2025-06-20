@@ -114,7 +114,7 @@ public class Robot {
     public Gamepiece toggleGamepiece() {
         if (mode == Gamepiece.SAMPLE) {
             mode = Gamepiece.SPECIMEN;
-            color = GoBildaLEDIndicator.Colors.INDIGO;
+            color = GoBildaLEDIndicator.Colors.BLUE;
         } else {
             mode = Gamepiece.SAMPLE;
             color = GoBildaLEDIndicator.Colors.YELLOW;

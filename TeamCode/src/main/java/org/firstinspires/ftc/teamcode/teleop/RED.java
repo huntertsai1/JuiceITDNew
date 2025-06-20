@@ -151,9 +151,9 @@ public class RED extends LinearOpMode {
             if (gamepad1.options && !oldOptions){
                 options = !options;
                 if (options){
-                    robot.animation = GoBildaLEDIndicator.Animation.SLOW_BLINK;
+                    robot.animation = GoBildaLEDIndicator.Animation.OFFSET_SLOW_BLINK_RED;
                 }else{
-                    robot.animation = GoBildaLEDIndicator.Animation.SOLID;
+                    robot.animation = GoBildaLEDIndicator.Animation.SLOW_BLINK;
                 }
                 gamepad1.rumble(250);
             }
