@@ -187,9 +187,9 @@ public class RED extends LinearOpMode {
 //                    actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 4, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
 //                }
                 //if (autoWinches == 0 || autoWinches == 2) {
-                    if (gamepad1.dpad_left || gamepad2.dpad_down) {
+                    if (gamepad1.dpad_right || gamepad2.dpad_down) {
                         robot.climbWinch.setPower(-1);
-                    } else if (gamepad1.dpad_right || gamepad2.dpad_up) {
+                    } else if (gamepad1.dpad_left || gamepad2.dpad_up) {
                         robot.climbWinch.setPower(1);
                     }else {
                         robot.climbWinch.setPower(0);

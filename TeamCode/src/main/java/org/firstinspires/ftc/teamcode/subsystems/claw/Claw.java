@@ -22,8 +22,8 @@ public class Claw {
     public BrushlandColorSensor colorSensorHead;
     public BrushlandColorSensor colorSensorTail;
 
-    public static double TAIL_SENSOR_THRESHOLD = 7;
-    public static double SLOW_SPEED = 0.19;
+    public static double TAIL_SENSOR_THRESHOLD = 8;
+    public static double SLOW_SPEED = 0.17;
     float power = 0;
 
     ElapsedTime sensorTimeout;
