@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.AllianceColor;
 import org.firstinspires.ftc.teamcode.util.enums.Levels;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
+import org.firstinspires.ftc.teamcode.util.hardware.GoBildaLEDIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class RED extends LinearOpMode {
     double oldTrigger = 0;
     double oldRtrigger = 0.0;
     int LIFT_INCREMENT = 100;
-    float EXT_INCREMENT = 10;
+    float EXT_INCREMENT = 20;
     int autoWinches = 0;
     float f = 0.1f;
     boolean options = false;
@@ -149,6 +150,11 @@ public class RED extends LinearOpMode {
 //            oldDpadLeft = gamepad1.dpad_left;
             if (gamepad1.options && !oldOptions){
                 options = !options;
+                if (options){
+                    robot.animation = GoBildaLEDIndicator.Animation.SLOW_BLINK;
+                }else{
+                    robot.animation = GoBildaLEDIndicator.Animation.SOLID;
+                }
                 gamepad1.rumble(250);
             }
             oldOptions = gamepad1.options;
@@ -163,23 +169,23 @@ public class RED extends LinearOpMode {
             oldTriangle = gamepad1.triangle;
 
             if (options){
-                if (gamepad1.dpad_up && !oldDpadUp){
-                    autoWinches = 1;
-                    actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry), new InstantAction(()->{autoWinches = 0;})));
-                }
-                else if (gamepad1.dpad_down && !oldDpadDown){
-                    autoWinches = 1;
-                    actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 4, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
-                }
-                if (autoWinches == 0 || autoWinches == 2) {
+//                if (gamepad1.dpad_up && !oldDpadUp){
+//                    autoWinches = 1;
+//                    actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry), new InstantAction(()->{autoWinches = 0;})));
+//                }
+//                else if (gamepad1.dpad_down && !oldDpadDown){
+//                    autoWinches = 1;
+//                    actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 4, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
+//                }
+                //if (autoWinches == 0 || autoWinches == 2) {
                     if (gamepad1.dpad_left || gamepad2.dpad_down) {
                         robot.climbWinch.setPower(-1);
                     } else if (gamepad1.dpad_right || gamepad2.dpad_up) {
                         robot.climbWinch.setPower(1);
                     }else {
-                        if (autoWinches == 0){
-                            robot.climbWinch.setPower(0);
-                        }else{
+                        if (autoWinches != 0){
+//                            robot.climbWinch.setPower(0);
+//                        }else{
                             robot.climbWinch.setPower(f);
                         }
                     }
@@ -188,7 +194,7 @@ public class RED extends LinearOpMode {
                     }else if (gamepad2.dpad_left){
                         robot.climbWinch.servo2.setSpeed(1);
                     }
-                }
+
                 oldDpadUp = gamepad1.dpad_up;
                 oldDpadDown = gamepad1.dpad_down;
 
@@ -200,6 +206,12 @@ public class RED extends LinearOpMode {
                     }
                 }
                 oldLBumper = gamepad1.left_bumper;
+
+                if (gamepad1.circle && !oldCircle){
+                    robot.climbWinch.setPower(f);
+                    autoWinches = 1;
+                }
+                oldCircle = gamepad1.circle;
             }else{
                 if (robot.state == Levels.HIGH_BASKET && gamepad1.dpad_up && !oldDpadUp) {
                     if (robot.lift.getPos() + LIFT_INCREMENT < robot.lift.MAX){
@@ -247,7 +259,8 @@ public class RED extends LinearOpMode {
             if (gamepad1.square && !oldSquare){
                 actionsQueue.add(
                         new ParallelAction(
-                                robot.sweeper.sweep()
+                                robot.sweeper.sweep(),
+                                new InstantAction(()->{robot.extension.nextShort = true;})
 //                                robot.claw.ejectOps(true)
                         )
                 );
