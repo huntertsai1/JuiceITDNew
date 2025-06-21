@@ -310,7 +310,7 @@ public class Robot {
             if (mode == Gamepiece.SAMPLE) {
                 return new SequentialAction(
                         new InstantAction(() -> {
-                            claw.startIntake();
+                            claw.slowIntake();
                             arm.runToPreset(Levels.INTAKE);
                             lift.lift1.resetEncoder();
                             intaking = true;
@@ -323,7 +323,7 @@ public class Robot {
             } else {
                 return new SequentialAction(
                         new InstantAction(() -> {
-                            claw.startIntake();
+                            claw.slowIntake();
                             arm.runToPreset(Levels.INTAKE);
                             lift.lift1.resetEncoder();
                             intaking = true;
