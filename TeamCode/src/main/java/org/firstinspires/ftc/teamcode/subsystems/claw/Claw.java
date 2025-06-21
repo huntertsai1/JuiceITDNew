@@ -88,7 +88,7 @@ public class Claw {
         } else if (intakeStatus == 0 && detectSampleTail()) {
             intakeStatus = 1;
             return 1;
-        } else if ((isTarget || s == null) && intakeStatus == -1 && primeTimeout.time(TimeUnit.MILLISECONDS) > 750) {
+        } else if ((isTarget || s == null) && intakeStatus == -1 && primeTimeout.time(TimeUnit.MILLISECONDS) > 500) {
             intakeStatus = 0;
             return 0;
         } else if (intakeStatus == -1) {

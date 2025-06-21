@@ -315,7 +315,7 @@ public class Robot {
         } else {
             return new SequentialAction(
                     new InstantAction(() -> {
-                        claw.eject();
+                        claw.startIntake();
                         arm.runToPreset(Levels.INTAKE);
                         lift.lift1.resetEncoder();
                         intaking = true;
