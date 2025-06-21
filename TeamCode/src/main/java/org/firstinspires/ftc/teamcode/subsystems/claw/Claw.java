@@ -101,6 +101,18 @@ public class Claw {
         return 0;
     }
 
+    public int smartStopDetectFAIL(boolean disableColorSensor, SampleColors... colors) {
+        if (detectSampleTail()) {
+            intakeStatus = 1;
+            return 1;
+        } else if (intakeStatus == 1) {
+            return 1;
+        } else if (intakeStatus == 16236) {
+            return 16236;
+        }
+        return 0;
+    }
+
 //    public void eject() {
 //        setPower((float) -0.25);
 //        try {

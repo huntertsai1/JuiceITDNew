@@ -375,7 +375,12 @@ public class Robot {
     boolean timerStarted = false;
     boolean ejectStarted = false;
     public boolean autoStopIntakeUpdate(Gamepad gamepad, SampleColors... colors) {
-        int r = claw.smartStopDetect(colors);
+        int r;
+        if (activateSensor) {
+            r = claw.smartStopDetect(colors);
+        } else {
+            r = claw.smartStopDetectFAIL(false, colors);
+        }
         System.out.println("r: " + r);
         if (r == 0) {
             claw.startIntake();

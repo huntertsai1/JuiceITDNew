@@ -294,11 +294,11 @@ public class RED extends LinearOpMode {
                 oldDpadLeft = gamepad1.dpad_left;
             }
 
-//            if (gamepad1.circle && !oldCircle){
-//                robot.toggleColorSensor();
-//
-//            }
-//            oldCircle = gamepad1.circle;
+            if (gamepad2.circle && !oldCircle2){
+                robot.toggleColorSensor();
+
+            }
+            oldCircle2 = gamepad2.circle;
 
             if (robot.state == Levels.HIGH_RUNG && gamepad1.square && !oldSquare) {
                 actionsQueue.add(robot.autoCenterSpecimen(true));
