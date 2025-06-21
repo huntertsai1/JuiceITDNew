@@ -136,7 +136,7 @@ public class RED extends LinearOpMode {
             if (gamepad1.cross &&!oldCross) {
                 if (robot.mode == Robot.Gamepiece.SAMPLE) {
                     actionsQueue.add(robot.outtakeSample(true));
-                } else if (robot.mode == Robot.Gamepiece.SPECIMEN && driverMode == DRIVER_MODE.HUMAN){
+                } else if (robot.mode == Robot.Gamepiece.SPECIMEN && driverMode == DRIVER_MODE.AUTO){
                     robot.blinky.set(GoBildaLEDIndicator.Colors.RED, GoBildaLEDIndicator.Animation.BLINK);
                     currentAutomation = new TeleAutoCycle(drive, robot, gamepad1);
                     actionsQueue.add(
@@ -152,7 +152,7 @@ public class RED extends LinearOpMode {
                                     currentAutomation,
                                     new InstantAction(() -> {
                                         currentAutomation = null;
-                                        driverMode = DRIVER_MODE.HUMAN;
+//                                        driverMode = DRIVER_MODE.HUMAN;
                                     })
                             )
                     );
@@ -240,7 +240,7 @@ public class RED extends LinearOpMode {
                                     currentAutomation,
                                     new InstantAction(() -> {
                                         currentAutomation = null;
-                                        driverMode = DRIVER_MODE.HUMAN;
+//                                        driverMode = DRIVER_MODE.HUMAN;
                                     })
                             )
                     );
