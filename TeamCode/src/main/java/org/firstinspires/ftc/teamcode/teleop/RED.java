@@ -57,6 +57,7 @@ public class RED extends LinearOpMode {
     boolean oldCross2 = false;
     boolean oldDpadRight = false;
     boolean oldOptions = false;
+    boolean oldOptions2 = false;
 
     double oldTrigger = 0;
     double oldRtrigger = 0.0;
@@ -159,7 +160,7 @@ public class RED extends LinearOpMode {
             }
             oldCross = gamepad1.cross;
 
-            if (gamepad1.options && !oldOptions){
+            if ((gamepad1.options && !oldOptions) || (gamepad2.options && !oldOptions2)){
                 options = !options;
                 if (options){
                     robot.blinky.set(GoBildaLEDIndicator.Colors.RED, GoBildaLEDIndicator.Animation.SLOW_BLINK);
@@ -173,6 +174,7 @@ public class RED extends LinearOpMode {
                 gamepad1.rumble(250);
             }
             oldOptions = gamepad1.options;
+            oldOptions2 = gamepad2.options;
 
             if (gamepad1.triangle && !oldTriangle){
                 if (robot.toggleGamepiece() == Robot.Gamepiece.SPECIMEN){
