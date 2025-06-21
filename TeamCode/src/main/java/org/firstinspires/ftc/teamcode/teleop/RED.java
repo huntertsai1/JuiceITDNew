@@ -338,8 +338,7 @@ public class RED extends LinearOpMode {
                 actionsQueue.add(
                         new SequentialAction(
                                 new InstantAction(() -> {
-                                    robot.lift.runToPosition(100);
-                                    robot.arm.runToPreset(Levels.HIGH_BASKET);
+                                    robot.arm.runToPreset(Levels.EJECT);
                                 }),
                                 new SleepAction(0.5),
                                 robot.claw.ejectSample(true),
