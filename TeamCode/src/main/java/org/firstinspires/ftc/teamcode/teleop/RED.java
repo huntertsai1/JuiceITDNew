@@ -13,9 +13,7 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.commands.teleop.TeleAutoCycle;
@@ -252,7 +250,7 @@ public class RED extends LinearOpMode {
                                         robot.arm.runToPreset(Levels.EJECT);
                                     }),
                                     new SleepAction(0.5),
-                                    robot.claw.eject(true),
+                                    robot.claw.ejectSample(true),
                                     new SleepAction(0.5),
                                     robot.stopIntakeAction()
                             )
@@ -323,7 +321,7 @@ public class RED extends LinearOpMode {
                                         robot.arm.runToPreset(Levels.EJECT);
                                     }),
                                     new SleepAction(0.5),
-                                    robot.claw.eject(true),
+                                    robot.claw.ejectSample(true),
                                     new SleepAction(0.5),
                                     robot.stopIntakeAction()
                             )
@@ -342,7 +340,7 @@ public class RED extends LinearOpMode {
                                     robot.arm.runToPreset(Levels.HIGH_BASKET);
                                 }),
                                 new SleepAction(0.5),
-                                robot.claw.eject(true),
+                                robot.claw.ejectSample(true),
                                 new SleepAction(0.5),
                                 robot.stopIntakeAction()
                         )

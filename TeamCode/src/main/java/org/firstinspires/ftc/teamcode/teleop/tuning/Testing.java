@@ -10,20 +10,16 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.qualcomm.hardware.lynx.LynxI2cDeviceSynch;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.commands.teleop.TeleAutoCycle;
-import org.firstinspires.ftc.teamcode.commands.teleop.TeleRelocToHP;
 import org.firstinspires.ftc.teamcode.commands.util.CancellableAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.util.enums.AllianceColor;
@@ -195,7 +191,7 @@ public class Testing extends LinearOpMode {
                                         robot.arm.runToPreset(Levels.HIGH_BASKET);
                                     }),
                                     new SleepAction(0.5),
-                                    robot.claw.eject(true),
+                                    robot.claw.ejectSample(true),
                                     new SleepAction(0.5),
                                     robot.stopIntakeAction()
                             )
@@ -214,7 +210,7 @@ public class Testing extends LinearOpMode {
                                     robot.arm.runToPreset(Levels.HIGH_BASKET);
                                 }),
                                 new SleepAction(0.5),
-                                robot.claw.eject(true),
+                                robot.claw.ejectSample(true),
                                 new SleepAction(0.5),
                                 robot.stopIntakeAction()
                         )

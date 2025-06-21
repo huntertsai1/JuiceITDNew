@@ -171,7 +171,7 @@ public class RED_ENHANCED extends LinearOpMode {
                                         robot.arm.runToPreset(Levels.HIGH_BASKET);
                                     }),
                                     new SleepAction(0.5),
-                                    robot.claw.eject(true),
+                                    robot.claw.ejectSample(true),
                                     new SleepAction(0.5),
                                     robot.stopIntakeAction()
                             )
@@ -190,7 +190,7 @@ public class RED_ENHANCED extends LinearOpMode {
                                     robot.arm.runToPreset(Levels.HIGH_BASKET);
                                 }),
                                 new SleepAction(0.5),
-                                robot.claw.eject(true),
+                                robot.claw.ejectSample(true),
                                 new SleepAction(0.5),
                                 robot.stopIntakeAction()
                         )

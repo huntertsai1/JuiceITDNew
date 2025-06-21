@@ -492,7 +492,7 @@ public class Robot {
     public Action outtakeSample(boolean action) {
         //blinky.set(GoBildaLEDIndicator.Colors.OFF, GoBildaLEDIndicator.Animation.SOLID);
         return new SequentialAction(
-                claw.eject(true),
+                claw.ejectSample(true),
                 new SleepAction(0.14),
                 intermediateDepositPreset()
         );
