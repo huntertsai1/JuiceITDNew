@@ -81,14 +81,14 @@ public class Claw {
         boolean isTarget = Arrays.stream(colors).anyMatch(x -> x == s );
         System.out.println("s: " + s + ";   isTarget: " + isTarget + ";  Intake Status: " + + intakeStatus);
 
-        if (isTarget && intakeStatus == 0) {
+        if (!isTarget && intakeStatus == 0) {
             primeTimeout.reset();
             intakeStatus = -1;
             return -1;
-        } else if (intakeStatus == -1 && detectSampleTail()) {
+        } else if (intakeStatus != -1 && detectSampleTail()) {
             intakeStatus = 1;
             return 1;
-        } else if (!isTarget && intakeStatus == -1 && primeTimeout.time(TimeUnit.MILLISECONDS) > 750) {
+        } else if (isTarget && intakeStatus == -1 && primeTimeout.time(TimeUnit.MILLISECONDS) > 750) {
             intakeStatus = 0;
             return 0;
         } else if (intakeStatus == -1) {

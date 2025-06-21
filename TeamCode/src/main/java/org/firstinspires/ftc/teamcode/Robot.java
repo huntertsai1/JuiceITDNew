@@ -205,13 +205,13 @@ public class Robot {
         int r = claw.smartStopDetect(SampleColors.YELLOW);
         actionRunning.seconds();
         if (r == 0) {
-            claw.startIntake();
+            claw.slowIntake();
             return true;
         } else if (r == 1) {
             stopIntake();
             return false;
         } else if (r == -1) {
-            claw.slowIntake();
+            claw.startIntake();
             return true;
         } else if (r == 16236) {
             //troll status code
