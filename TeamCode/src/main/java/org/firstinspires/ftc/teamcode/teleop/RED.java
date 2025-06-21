@@ -13,9 +13,7 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.commands.teleop.TeleAutoCycle;
@@ -36,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class RED extends LinearOpMode {
     double oldTime = 0;
     AllianceColor allianceColor = AllianceColor.RED;
+    SampleColors allianceSample = SampleColors.RED;
 
     // STATES
     boolean manualExtension = false;
@@ -74,6 +73,8 @@ public class RED extends LinearOpMode {
         PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(0,0,0));
         List<Action> actionsQueue = new ArrayList<>();
         TeleAutoCycle.depoTargetX = 9;
+        robot.blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+        robot.sweeper.setPosition(92);
 
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
@@ -81,9 +82,25 @@ public class RED extends LinearOpMode {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
 
+        while (opModeInInit() && !isStopRequested()) {
+            if (gamepad1.square) {
+                allianceColor = AllianceColor.RED;
+                allianceSample = SampleColors.RED;
+                gamepad1.rumbleBlips(1);
+                gamepad1.setLedColor(255, 0, 0, 500);
+            } else if (gamepad1.circle) {
+                allianceColor = AllianceColor.BLUE;
+                allianceSample = SampleColors.BLUE;
+                gamepad1.rumbleBlips(1);
+                gamepad1.setLedColor(0, 0, 255, 500);
+            }
+
+            telemetry.addData("SELECTED COLOR: ", allianceColor);
+            telemetry.update();
+        }
+
         waitForStart();
         if (isStopRequested()) return;
-        robot.blinky.set(robot.color, robot.animation);
         while (opModeIsActive() && !isStopRequested()) {
             for (LynxModule module : allHubs) {
                 module.clearBulkCache();
@@ -98,7 +115,7 @@ public class RED extends LinearOpMode {
                     );
                 } else {
                     actionsQueue.add(
-                            robot.intakeDrop(SampleColors.RED)
+                            robot.intakeDrop(allianceSample, gamepad1)
                     );
                 }
             }
@@ -119,10 +136,18 @@ public class RED extends LinearOpMode {
                 if (robot.mode == Robot.Gamepiece.SAMPLE) {
                     actionsQueue.add(robot.outtakeSample(true));
                 } else if (robot.mode == Robot.Gamepiece.SPECIMEN && driverMode == DRIVER_MODE.HUMAN){
+                    robot.blinky.set(GoBildaLEDIndicator.Colors.RED, GoBildaLEDIndicator.Animation.BLINK);
                     currentAutomation = new TeleAutoCycle(drive, robot, gamepad1);
                     actionsQueue.add(
                             new SequentialAction(
-                                    new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
+                                    new InstantAction(() -> {
+                                        driverMode = DRIVER_MODE.AUTO;
+                                        if (robot.mode == Robot.Gamepiece.SAMPLE) {
+                                            robot.blinky.set(GoBildaLEDIndicator.Colors.JOOS_ORANGE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                                        } else {
+                                            robot.blinky.set(GoBildaLEDIndicator.Colors.VIOLET, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                                        }
+                                    }),
                                     currentAutomation,
                                     new InstantAction(() -> {
                                         currentAutomation = null;
@@ -134,26 +159,16 @@ public class RED extends LinearOpMode {
             }
             oldCross = gamepad1.cross;
 
-//            if (gamepad1.dpad_left && !oldDpadLeft && driverMode == DRIVER_MODE.HUMAN) {
-//                currentAutomation = new TeleRelocToHP(drive, robot);
-//                actionsQueue.add(
-//                        new SequentialAction(
-//                                new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
-//                                currentAutomation,
-//                                new InstantAction(() -> {
-//                                    currentAutomation = null;
-//                                    driverMode = DRIVER_MODE.HUMAN;
-//                                })
-//                        )
-//                );
-//            }
-//            oldDpadLeft = gamepad1.dpad_left;
             if (gamepad1.options && !oldOptions){
                 options = !options;
                 if (options){
-                    robot.animation = GoBildaLEDIndicator.Animation.OFFSET_SLOW_BLINK_RED;
+                    robot.blinky.set(GoBildaLEDIndicator.Colors.RED, GoBildaLEDIndicator.Animation.SLOW_BLINK);
                 }else{
-                    robot.animation = GoBildaLEDIndicator.Animation.SLOW_BLINK;
+                    if (robot.mode == Robot.Gamepiece.SPECIMEN) {
+                        robot.blinky.set(GoBildaLEDIndicator.Colors.VIOLET, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                    } else {
+                        robot.blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
+                    }
                 }
                 gamepad1.rumble(250);
             }
@@ -178,9 +193,9 @@ public class RED extends LinearOpMode {
 //                    actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 4, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
 //                }
                 //if (autoWinches == 0 || autoWinches == 2) {
-                    if (gamepad1.dpad_left || gamepad2.dpad_down) {
+                    if (gamepad1.dpad_right || gamepad2.dpad_down) {
                         robot.climbWinch.setPower(-1);
-                    } else if (gamepad1.dpad_right || gamepad2.dpad_up) {
+                    } else if (gamepad1.dpad_left || gamepad2.dpad_up) {
                         robot.climbWinch.setPower(1);
                     }else {
                         robot.climbWinch.setPower(0);
@@ -214,6 +229,34 @@ public class RED extends LinearOpMode {
                 }
                 oldCircle = gamepad1.circle;
             }else{
+                if (gamepad1.circle && !oldCircle && driverMode == DRIVER_MODE.HUMAN && robot.mode == Robot.Gamepiece.SPECIMEN) {
+                    currentAutomation = new TeleRelocToHP(drive, robot);
+                    robot.blinky.set(GoBildaLEDIndicator.Colors.RED, GoBildaLEDIndicator.Animation.BLINK);
+                    actionsQueue.add(
+                            new SequentialAction(
+                                    new InstantAction(() -> driverMode = DRIVER_MODE.AUTO),
+                                    currentAutomation,
+                                    new InstantAction(() -> {
+                                        currentAutomation = null;
+                                        driverMode = DRIVER_MODE.HUMAN;
+                                    })
+                            )
+                    );
+                }
+                if (gamepad1.circle && !oldCircle && robot.mode == Robot.Gamepiece.SAMPLE){
+                    actionsQueue.add(
+                            new SequentialAction(
+                                    new InstantAction(() -> {
+                                        robot.arm.runToPreset(Levels.EJECT);
+                                    }),
+                                    new SleepAction(0.5),
+                                    robot.claw.ejectSample(true),
+                                    new SleepAction(0.5),
+                                    robot.stopIntakeAction()
+                            )
+                    );
+                }
+                oldCircle = gamepad1.circle;
                 if (robot.state == Levels.HIGH_BASKET && gamepad1.dpad_up && !oldDpadUp) {
                     if (robot.lift.getPos() + LIFT_INCREMENT < robot.lift.MAX){
                         robot.lift.runToPosition(robot.lift.getPos() + LIFT_INCREMENT);
@@ -257,7 +300,9 @@ public class RED extends LinearOpMode {
 //            }
 //            oldCircle = gamepad1.circle;
 
-            if (gamepad1.square && !oldSquare){
+            if (robot.state == Levels.HIGH_RUNG && gamepad1.square && !oldSquare) {
+                actionsQueue.add(robot.autoCenterSpecimen(true));
+            } else if (gamepad1.square && !oldSquare){
                 actionsQueue.add(
                         new ParallelAction(
                                 robot.sweeper.sweep(),
@@ -273,11 +318,10 @@ public class RED extends LinearOpMode {
                     actionsQueue.add(
                             new SequentialAction(
                                     new InstantAction(() -> {
-//                                        robot.lift.runToPosition(100);
-                                        robot.arm.runToPreset(Levels.HIGH_BASKET);
+                                        robot.arm.runToPreset(Levels.EJECT);
                                     }),
                                     new SleepAction(0.5),
-                                    robot.claw.eject(true),
+                                    robot.claw.ejectSample(true),
                                     new SleepAction(0.5),
                                     robot.stopIntakeAction()
                             )
@@ -296,7 +340,7 @@ public class RED extends LinearOpMode {
                                     robot.arm.runToPreset(Levels.HIGH_BASKET);
                                 }),
                                 new SleepAction(0.5),
-                                robot.claw.eject(true),
+                                robot.claw.ejectSample(true),
                                 new SleepAction(0.5),
                                 robot.stopIntakeAction()
                         )

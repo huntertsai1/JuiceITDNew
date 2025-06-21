@@ -7,9 +7,8 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.commands.util.CommandMaster;
@@ -28,8 +27,6 @@ import org.firstinspires.ftc.teamcode.util.hardware.GoBildaLEDIndicator;
 import org.firstinspires.ftc.teamcode.util.hardware.Motor;
 import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
-
-import java.util.concurrent.TimeUnit;
 
 public class Robot {
 
@@ -58,8 +55,7 @@ public class Robot {
     public Motor frontLeft;
     public Motor frontRight;
     public GoBildaLEDIndicator blinky;
-    public GoBildaLEDIndicator.Colors color = GoBildaLEDIndicator.Colors.YELLOW;
-    public GoBildaLEDIndicator.Animation animation = GoBildaLEDIndicator.Animation.SLOW_BLINK;
+
     public Robot(HardwareMap map, boolean auton){
         this.auton = auton;
 
@@ -114,12 +110,11 @@ public class Robot {
     public Gamepiece toggleGamepiece() {
         if (mode == Gamepiece.SAMPLE) {
             mode = Gamepiece.SPECIMEN;
-            color = GoBildaLEDIndicator.Colors.BLUE;
+            blinky.set(GoBildaLEDIndicator.Colors.VIOLET, GoBildaLEDIndicator.Animation.SLOW_BLINK);
         } else {
             mode = Gamepiece.SAMPLE;
-            color = GoBildaLEDIndicator.Colors.YELLOW;
+            blinky.set(GoBildaLEDIndicator.Colors.BLUE, GoBildaLEDIndicator.Animation.SLOW_BLINK);
         }
-        blinky.set(color, animation);
         return mode;
     }
 
@@ -163,7 +158,7 @@ public class Robot {
                 new SleepAction(0.3),
                 new InstantAction(()->{
                     arm.runToPreset(Levels.INTAKE);
-                    claw.startIntake();
+                    claw.eject();
                     intaking = true;
                     state = Levels.INTAKE;}),
                 new SleepAction(1.5),
@@ -186,7 +181,7 @@ public class Robot {
                 new SleepAction(0.3),
                 new InstantAction(()->{
                     arm.runToPreset(Levels.INTAKE);
-                    claw.startIntake();
+                    claw.eject();
                     intaking = true;
                     state = Levels.INTAKE;})
         );
@@ -202,24 +197,6 @@ public class Robot {
     }
 
     public ElapsedTime actionRunning = new ElapsedTime();
-    public boolean bucketAutoStopIntakeUpdate() {
-        int r = claw.smartStopDetect(SampleColors.YELLOW);
-        actionRunning.seconds();
-        if (r == 0) {
-            claw.startIntake();
-            return true;
-        } else if (r == 1) {
-            stopIntake();
-            return false;
-        } else if (r == -1) {
-            claw.slowIntake();
-            return true;
-        } else if (r == 16236) {
-            //troll status code
-            return false;
-        }
-        return true;
-    }
 
     public Action autoBucketIntake (boolean action) {
         return new SequentialAction(
@@ -306,7 +283,7 @@ public class Robot {
         state = Levels.INTAKE_INTERMEDIATE;
     }
 
-    public Action intakeDrop(SampleColors alliance) {
+    public Action intakeDrop(SampleColors alliance, Gamepad gamepad) {
         if (activateSensor) {
             if (mode == Gamepiece.SAMPLE) {
                 return new SequentialAction(
@@ -319,7 +296,7 @@ public class Robot {
                             claw.intakeStatus = 0;
                             //blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.BLINK);
                         }),
-                        commands.stopIntake(SampleColors.YELLOW, alliance)
+                        commands.stopIntake(gamepad, SampleColors.YELLOW, alliance)
                 );
             } else {
                 return new SequentialAction(
@@ -332,7 +309,7 @@ public class Robot {
                             state = Levels.INTAKE;
 //                            blinky.set(GoBildaLEDIndicator.Colors.INDIGO, GoBildaLEDIndicator.Animation.BLINK);
                         }),
-                        commands.stopIntake(alliance)
+                        commands.stopIntake(gamepad, alliance)
                 );
             }
         } else {
@@ -397,7 +374,7 @@ public class Robot {
     public ElapsedTime afterAction = new ElapsedTime();
     boolean timerStarted = false;
     boolean ejectStarted = false;
-    public boolean autoStopIntakeUpdate(SampleColors... colors) {
+    public boolean autoStopIntakeUpdate(Gamepad gamepad, SampleColors... colors) {
         int r = claw.smartStopDetect(colors);
         System.out.println("r: " + r);
         if (r == 0) {
@@ -406,10 +383,11 @@ public class Robot {
         } else if (r == 1) {
             timeToAction.reset();
             afterAction.reset();
+            gamepad.rumble(250);
             stopIntake();
             return false;
         } else if (r == -1) {
-            claw.slowIntake();
+            claw.eject();
             return true;
         } else if (r == 16236) {
             //troll status code
@@ -487,7 +465,6 @@ public class Robot {
 
     public Action highRungAuto(boolean action) {
         return new ParallelAction(
-                new SequentialAction(
                 new InstantAction( () -> claw.setPower(-0.3F)
                 ),
                 new InstantAction( () ->
@@ -507,7 +484,7 @@ public class Robot {
 //                new InstantAction(() -> {
 //                    claw.setStall(true);
 //                }
-                ))
+                )
         );
     }
 
@@ -515,7 +492,7 @@ public class Robot {
     public Action outtakeSample(boolean action) {
         //blinky.set(GoBildaLEDIndicator.Colors.OFF, GoBildaLEDIndicator.Animation.SOLID);
         return new SequentialAction(
-                claw.eject(true),
+                claw.ejectSample(true),
                 new SleepAction(0.14),
                 intermediateDepositPreset()
         );
@@ -548,7 +525,7 @@ public class Robot {
                 new InstantAction(()->{
                     arm.runToPreset(Levels.INTAKE);
                     lift.lift1.resetEncoder();
-                    claw.startIntake();
+                    claw.eject();
                     intaking = true;
                     state = Levels.INTAKE;})
         );

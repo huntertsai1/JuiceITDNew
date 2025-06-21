@@ -16,5 +16,6 @@ public enum Levels {
     ASCENDING,
     CLIMB_L2,
     CLIMB_L3,
-    INTAKE_INTERMEDIATE
+    INTAKE_INTERMEDIATE,
+    EJECT
 }

@@ -22,8 +22,8 @@ public class Claw {
     public BrushlandColorSensor colorSensorHead;
     public BrushlandColorSensor colorSensorTail;
 
-    public static double TAIL_SENSOR_THRESHOLD = 7;
-    public static float SLOW_SPEED = 0;
+    public static double TAIL_SENSOR_THRESHOLD = 8;
+    public static double SLOW_SPEED = 0.2;
     float power = 0;
 
     ElapsedTime sensorTimeout;
@@ -49,7 +49,7 @@ public class Claw {
         power = p;
     }
 
-    public void startIntake() {
+    public void eject() {
         setPower(1);
     }
 
@@ -57,7 +57,7 @@ public class Claw {
         setPower(0);
     }
 
-    public void slowIntake() {setPower(SLOW_SPEED);}
+    public void startIntake() {setPower((float)SLOW_SPEED);}
 
     public void smartStopIntake(SampleColors... colors) {
         SampleColors s = detectSampleHead();
@@ -81,14 +81,14 @@ public class Claw {
         boolean isTarget = Arrays.stream(colors).anyMatch(x -> x == s );
         System.out.println("s: " + s + ";   isTarget: " + isTarget + ";  Intake Status: " + + intakeStatus);
 
-        if (isTarget && intakeStatus == 0) {
+        if (!isTarget && s != null && intakeStatus == 0) {
             primeTimeout.reset();
             intakeStatus = -1;
             return -1;
-        } else if (intakeStatus == -1 && detectSampleTail()) {
+        } else if (intakeStatus == 0 && detectSampleTail()) {
             intakeStatus = 1;
             return 1;
-        } else if (!isTarget && intakeStatus == -1 && primeTimeout.time(TimeUnit.MILLISECONDS) > 750) {
+        } else if ((isTarget || s == null) && intakeStatus == -1 && primeTimeout.time(TimeUnit.MILLISECONDS) > 500) {
             intakeStatus = 0;
             return 0;
         } else if (intakeStatus == -1) {
@@ -101,15 +101,15 @@ public class Claw {
         return 0;
     }
 
-    public void eject() {
-        setPower((float) -0.4);
-        try {
-            Thread.sleep(500);
-            setPower(0);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public void eject() {
+//        setPower((float) -0.25);
+//        try {
+//            Thread.sleep(500);
+//            setPower(0);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void ejectOps() {
         setPower((float) -0.4);
@@ -136,7 +136,7 @@ public class Claw {
         );
     }
 
-    public Action eject(boolean action) {
+    public Action ejectSample(boolean action) {
         return new SequentialAction(
                 new InstantAction(() -> setPower((float) -0.4)),
                 new SleepAction(0.3),

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.commands.util;
 
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.Gamepad;
+
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.AutoCenterSpecimen;
 import org.firstinspires.ftc.teamcode.commands.auton.PreloadEjectFailsafe;
@@ -15,6 +17,10 @@ public class CommandMaster {
     }
 
     //REGISTER COMMANDS HERE
+
+    public Action stopIntake(Gamepad gamepad, SampleColors... colors) {
+        return new StopIntake(robot, gamepad, colors);
+    }
 
     public Action stopIntake(SampleColors... colors) {
         return new StopIntake(robot, colors);

@@ -27,7 +27,7 @@ public class Arm {
             runToPosition(350);
             setWristAngle(55);
         } else if (level == Levels.INTAKE) {
-            runToPosition(170);
+            runToPosition(172);
             setWristAngle(200);
         } else if (level == Levels.INTAKE_INTERMEDIATE) {
             runToPosition(185);
@@ -36,14 +36,17 @@ public class Arm {
             runToPosition(210);
             setWristAngle(75);
         } else if (level == Levels.LOW_BASKET) {
-            runToPosition(322);
+            runToPosition(340);
             setWristAngle(wristUp);
         } else if (level == Levels.HIGH_BASKET) {
-            runToPosition(322);
+            runToPosition(340);
             setWristAngle(wristUp);
         } else if (level == Levels.HIGH_RUNG) {
             runToPosition(355);
             setWristAngle(55);
+        } else if (level == Levels.EJECT) {
+            runToPosition(322);
+            setWristAngle(wristUp);
         }
     }
 

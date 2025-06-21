@@ -47,7 +47,7 @@ public class PreMatch extends LinearOpMode {
                 robot.claw.ejectOps(true)
             ),new InstantAction(()->{robot.claw.stopIntake();})},
             {new WinchTimeAction(robot.climbWinch, 1.75, -1, telemetry), new WinchTimeAction(robot.climbWinch, 1.75, 1, telemetry)},
-            {new SequentialAction(robot.teleIntakePreset(true), robot.intakeDrop(SampleColors.RED)), robot.stopIntakeAction()},
+            {new SequentialAction(robot.teleIntakePreset(true), robot.intakeDrop(SampleColors.RED, gamepad1)), robot.stopIntakeAction()},
             {robot.highBasketAction(), robot.outtakeSample(true)},
             {new SequentialAction(new InstantAction(()->{gamepad1.rumble(1000);}), new SleepAction(1000),
             new InstantAction(()->{
