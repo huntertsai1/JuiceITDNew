@@ -49,7 +49,7 @@ public class Claw {
         power = p;
     }
 
-    public void startIntake() {
+    public void eject() {
         setPower(1);
     }
 
@@ -57,7 +57,7 @@ public class Claw {
         setPower(0);
     }
 
-    public void slowIntake() {setPower((float)SLOW_SPEED);}
+    public void startIntake() {setPower((float)SLOW_SPEED);}
 
     public void smartStopIntake(SampleColors... colors) {
         SampleColors s = detectSampleHead();
@@ -101,15 +101,15 @@ public class Claw {
         return 0;
     }
 
-    public void eject() {
-        setPower((float) -0.25);
-        try {
-            Thread.sleep(500);
-            setPower(0);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public void eject() {
+//        setPower((float) -0.25);
+//        try {
+//            Thread.sleep(500);
+//            setPower(0);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void ejectOps() {
         setPower((float) -0.4);
