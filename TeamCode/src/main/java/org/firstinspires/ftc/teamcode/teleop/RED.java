@@ -36,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 public class RED extends LinearOpMode {
     double oldTime = 0;
     AllianceColor allianceColor = AllianceColor.RED;
+    SampleColors allianceSample = SampleColors.RED;
 
     // STATES
     boolean manualExtension = false;
@@ -83,6 +84,23 @@ public class RED extends LinearOpMode {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
 
+        while (opModeInInit() && !isStopRequested()) {
+            if (gamepad1.square) {
+                allianceColor = AllianceColor.RED;
+                allianceSample = SampleColors.RED;
+                gamepad1.rumbleBlips(1);
+                gamepad1.setLedColor(255, 0, 0, 500);
+            } else if (gamepad1.circle) {
+                allianceColor = AllianceColor.BLUE;
+                allianceSample = SampleColors.BLUE;
+                gamepad1.rumbleBlips(1);
+                gamepad1.setLedColor(0, 0, 255, 500);
+            }
+
+            telemetry.addData("SELECTED COLOR: ", allianceColor);
+            telemetry.update();
+        }
+
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
@@ -99,7 +117,7 @@ public class RED extends LinearOpMode {
                     );
                 } else {
                     actionsQueue.add(
-                            robot.intakeDrop(SampleColors.RED, gamepad1)
+                            robot.intakeDrop(allianceSample, gamepad1)
                     );
                 }
             }

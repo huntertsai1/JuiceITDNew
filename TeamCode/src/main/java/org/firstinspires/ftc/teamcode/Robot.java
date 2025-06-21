@@ -487,7 +487,6 @@ public class Robot {
 
     public Action highRungAuto(boolean action) {
         return new ParallelAction(
-                new SequentialAction(
                 new InstantAction( () -> claw.setPower(-0.3F)
                 ),
                 new InstantAction( () ->
@@ -507,7 +506,7 @@ public class Robot {
 //                new InstantAction(() -> {
 //                    claw.setStall(true);
 //                }
-                ))
+                )
         );
     }
 
