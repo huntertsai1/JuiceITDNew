@@ -251,9 +251,9 @@ public class RED extends LinearOpMode {
                                     new InstantAction(() -> {
                                         robot.arm.runToPreset(Levels.EJECT);
                                     }),
-                                    new SleepAction(0.5),
+                                    new SleepAction(0.3),
                                     robot.claw.ejectSample(true),
-                                    new SleepAction(0.5),
+                                    new SleepAction(0.2),
                                     robot.stopIntakeAction()
                             )
                     );
