@@ -60,8 +60,8 @@ public class SPECIMEN extends LinearOpMode {
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(43, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(59, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(44, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(60, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
