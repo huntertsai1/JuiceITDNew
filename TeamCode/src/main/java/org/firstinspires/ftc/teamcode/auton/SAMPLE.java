@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -15,6 +16,8 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.util.LoopAction;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
+
+import java.util.List;
 
 
 @Autonomous(name = "SAMPLE", group = "Autonomous")
@@ -84,6 +87,11 @@ public class SAMPLE extends LinearOpMode {
                 .lineToX(-20);
 
         robot.initSubsystems();
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+
+        for (LynxModule module : allHubs) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
 
         waitForStart();
 
@@ -140,9 +148,13 @@ public class SAMPLE extends LinearOpMode {
                                 robot.sweeper.sweep()
                         ),
                         new LoopAction(() -> {
+                            for (LynxModule module : allHubs) {
+                                module.clearBulkCache();
+                            }
                             robot.lift.update();
+                            robot.blinky.update();
                         }, this::isStopRequested)
-                        , new WinchTimeAction(robot.climbWinch, 2.2, -1, telemetry)
+//                        , new WinchTimeAction(robot.climbWinch, 2.2, -1, telemetry)
                 )
         );
     }
