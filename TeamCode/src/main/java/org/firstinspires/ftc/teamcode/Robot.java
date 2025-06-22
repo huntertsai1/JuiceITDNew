@@ -153,7 +153,7 @@ public class Robot {
                 }),
                 new SleepAction(0.2),
                 new InstantAction(() -> {
-                    extension.runToPosition(240);
+                    extension.runToPosition(230);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
@@ -161,9 +161,9 @@ public class Robot {
                     claw.eject();
                     intaking = true;
                     state = Levels.INTAKE;}),
-                new SleepAction(1.5),
+                new SleepAction(1.4),
                 new InstantAction(() -> {
-                    extension.runToPosition(280);
+                    extension.runToPosition(270);
                     lift.lift1.resetEncoder();
                 })
                 );

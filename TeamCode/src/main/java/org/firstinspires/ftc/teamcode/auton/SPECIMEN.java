@@ -60,8 +60,8 @@ public class SPECIMEN extends LinearOpMode {
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(44, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(58, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(43, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(59, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
                 .lineToY(HPDeposit,
@@ -69,7 +69,7 @@ public class SPECIMEN extends LinearOpMode {
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(50, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(49, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(64, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
                 .setTangent(Math.toRadians(90))
@@ -79,7 +79,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(20, -47), Math.toRadians(-45));
+                .strafeToLinearHeading(new Vector2d(21, -46), Math.toRadians(-45));
 
         TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
@@ -89,7 +89,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec3 = depositSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(18, -46, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -101,7 +101,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec4 = depositSpec3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(18, -46, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -113,13 +113,13 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec5 = depositSpec4.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(18, -46, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         TrajectoryActionBuilder depositSpec5 = intakeSpec5.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-6, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(0, -31, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
