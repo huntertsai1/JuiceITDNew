@@ -469,21 +469,18 @@ public class Robot {
     }
 
     public Action highRungAuto(boolean action) {
-        return new ParallelAction(
-                new InstantAction( () -> claw.setPower(-0.3F)
-                ),
-                new InstantAction( () -> extension.runToPreset(Levels.HIGH_RUNG)
-                ),
-                new SleepAction(0.1),
-                new InstantAction( () -> arm.runToPreset(Levels.HIGH_RUNG)
-                ),
-                new SleepAction(0.2),
-                new InstantAction(() -> {
-                    claw.setStall(true);
-                    lift.runToPreset(Levels.HIGH_RUNG);
-                    state = Levels.HIGH_RUNG;
-                    }
-                )
+        return new SequentialAction(
+            new InstantAction(() -> claw.setPower(-0.3F)),
+            new InstantAction(() -> {
+                extension.runToPreset(Levels.HIGH_RUNG);
+                arm.runToPreset(Levels.HIGH_RUNG);
+            }),
+            new SleepAction(0.2),
+            new InstantAction(() -> {
+                claw.setStall(true);
+                lift.runToPreset(Levels.HIGH_RUNG);
+                state = Levels.HIGH_RUNG;
+            })
         );
     }
 
