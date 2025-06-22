@@ -1,23 +1,14 @@
 package com.example.meepmeeptesting;
 
-import com.acmerobotics.roadrunner.Arclength;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Pose2dDual;
-import com.acmerobotics.roadrunner.PosePath;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.VelConstraint;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Vector;
-
-public class MeepMeepTesting {
+public class MeepMeepTestingSPEC {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
         Pose2d startPose = new Pose2d(6, -61.8, Math.toRadians(-90));
