@@ -20,83 +20,120 @@ import java.util.Vector;
 public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
-        Pose2d startPose = new Pose2d(6, -62, Math.toRadians(-90));
+        Pose2d startPose = new Pose2d(6, -61.8, Math.toRadians(-90));
 
-        double depositX = -52.8;
-        double depositY = -48.5;
-        double depositWait = 1.2;
-        double intakeWait = 0.9;
+        double HPDeposit = -51;
+        double spikeBack = -16;
+        double waits = 0.2;
+        double intakeWait = 0.3;
 
-        double subSampleX = -6;
-        double subSampleY = -12;
-
-        double veloLim = 50.0;
-        double accelUpperLim = 50;
-        double accelLowerLim = -30.0;
+        double veloLim = 60.0;
+        double accelUpperLim = 60.0;
+        double accelLowerLim = -40.0;
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setDimensions(12.5, 17.5)
-                .setConstraints(120, 120, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(100, 100, Math.toRadians(180), Math.toRadians(180), 12)
                 .build();
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-40, -62, Math.toRadians(90)))
-                // preload = drive.actionBuilder(startPose)
-                        //preload
-                        .setTangent(Math.toRadians(160))
-                        .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(60)), Math.toRadians(90))
-                        .waitSeconds(depositWait)
-             //spike1 = preload.endTrajectory().fresh()
-                        //spike1
-                                .lineToY(-42, new TranslationalVelConstraint(20))
-//
-//        // deposit1 = spike1.endTrajectory().fresh()
-//                //depo1
-//                .setTangent(Math.toRadians(268))
-//                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(60)), Math.toRadians(268))
-//                .waitSeconds(depositWait)
-        // spike2 = deposit1.endTrajectory().fresh()
-                //spike2
-                .setTangent(Math.toRadians(135))
-                .splineToLinearHeading(new Pose2d(-60, depositY, Math.toRadians(85)), Math.toRadians(135))
-                .setTangent(Math.toRadians(85))
-                .lineToY(-42, new TranslationalVelConstraint(20))
-                .waitSeconds(intakeWait + depositWait)
+        myBot.runAction(myBot.getDrive().actionBuilder(startPose)
+                // preload
+                .lineToY(-30,
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
 
+                // all spikes
 
-        // spike3 = deposit2.endTrajectory().fresh()
-                //spike3
-                .setTangent(Math.toRadians(150))
-                .splineToLinearHeading(new Pose2d(-62, -48, Math.toRadians(100)), Math.toRadians(150))
-                .setTangent(Math.toRadians(100))
-                .lineToY(-40, new TranslationalVelConstraint(20))
-                .waitSeconds(intakeWait)
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(26, -48, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
 
+                .splineToLinearHeading(new Pose2d(48, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
-//        // deposit3 = spike3.endTrajectory().fresh()
-//                //depo3
-                .setTangent(Math.toRadians(272))
-                .splineToLinearHeading(new Pose2d(-62, depositY, Math.toRadians(90)), Math.toRadians(272))
-                .waitSeconds(depositWait)
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0))
 
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(44, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(60, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
 
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0))
 
-//        // intake4 = deposit3.endTrajectory().fresh()
-//                // sub intake
-//                .setTangent(Math.toRadians(90))
-//                .splineToLinearHeading(new Pose2d(subSampleX-20, subSampleY, Math.toRadians(0)), Math.toRadians(0))
-//
-//        // deposit4 = intake4.endTrajectory().fresh()
-//                // depo 4
-//                .setTangent(Math.toRadians(90))
-//                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(40)), Math.toRadians(268))
-//
-//        // subDrive = deposit3.endTrajectory().fresh() // CHANGE TO DEPOSIT4 TO DRIVE BACK TO PARK AFTER SUB INTAKE + DEPO
-//                //ascent zone park
-//                .setTangent(Math.toRadians(90))
-//                .splineToLinearHeading(new Pose2d(-48, -11, Math.toRadians(0)), Math.toRadians(0))
-//                .lineToX(-20)
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(49, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(64, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+
+                .setTangent(Math.toRadians(90))
+                .lineToY(HPDeposit,
+                        new TranslationalVelConstraint(120.0),
+                        new ProfileAccelConstraint(-120.0, 120.0))
+
+                // intake spec 2
+
+                .setTangent(Math.toRadians(-90))
+                .strafeToLinearHeading(new Vector2d(21, -46), Math.toRadians(-45))
+
+                // deposit spec 2
+
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(3, -31, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+
+                // intake spec 3
+
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(18, -46, Math.toRadians(-45)), Math.toRadians(0),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+
+                // deposit spec 3
+
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(0, -31, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+
+                // intake spec 4
+
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(18, -46, Math.toRadians(-45)), Math.toRadians(0),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+
+                // deposit spec 4
+
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-3, -31, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+
+                // intake spec 5
+
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(18, -46, Math.toRadians(-45)), Math.toRadians(0),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+
+                // deposit spec 5
+
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(0, -31, Math.toRadians(-92)), Math.toRadians(90),
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
+
+                // park
+
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(40, -53, Math.toRadians(-45)), Math.toRadians(0))
+
                 .build()
         );
 
