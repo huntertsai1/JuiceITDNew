@@ -222,7 +222,8 @@ public class Robot {
                     intaking = true;
                     state = Levels.INTAKE;
                     claw.intakeStatus = 0;
-                }),commands.stopIntake(SampleColors.YELLOW)
+                }),
+                commands.stopIntakeTimeout(3, SampleColors.YELLOW)
         );
     }
 
@@ -389,7 +390,9 @@ public class Robot {
         } else if (r == 1) {
             timeToAction.reset();
             afterAction.reset();
-            gamepad.rumble(250);
+            if (gamepad != null) {
+                gamepad.rumble(250);
+            }
             stopIntake();
             return false;
         } else if (r == -1) {
