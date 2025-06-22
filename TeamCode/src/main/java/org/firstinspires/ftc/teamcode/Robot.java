@@ -472,11 +472,10 @@ public class Robot {
         return new ParallelAction(
                 new InstantAction( () -> claw.setPower(-0.3F)
                 ),
-                new InstantAction( () ->
-                    {
-                        extension.runToPreset(Levels.HIGH_RUNG);
-                        arm.runToPreset(Levels.HIGH_RUNG);
-                    }
+                new InstantAction( () -> extension.runToPreset(Levels.HIGH_RUNG)
+                ),
+                new SleepAction(0.1),
+                new InstantAction( () -> arm.runToPreset(Levels.HIGH_RUNG)
                 ),
                 new SleepAction(0.2),
                 new InstantAction(() -> {
@@ -484,11 +483,6 @@ public class Robot {
                     lift.runToPreset(Levels.HIGH_RUNG);
                     state = Levels.HIGH_RUNG;
                     }
-//                ),
-//                new SleepAction(0.1),
-//                new InstantAction(() -> {
-//                    claw.setStall(true);
-//                }
                 )
         );
     }
