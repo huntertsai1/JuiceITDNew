@@ -129,7 +129,8 @@ public class Robot {
         lift.runToPreset(Levels.INIT);
         extension.runToPreset(Levels.INIT);
         sweeper.setPosition(92);
-        blinky.set(GoBildaLEDIndicator.Colors.YELLOW, GoBildaLEDIndicator.Animation.SOLID);
+        blinky.setAnimation(GoBildaLEDIndicator.Animation.SLOW_BLINK);
+        blinky.setColor(0.3F);
     }
 
     public Action autoSpecimen (boolean action) {
