@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@TeleOp(name="RED")
+@TeleOp(name="MAIN")
 @Config
-public class RED extends LinearOpMode {
+public class MAIN extends LinearOpMode {
     double oldTime = 0;
     AllianceColor allianceColor = AllianceColor.RED;
     SampleColors allianceSample = SampleColors.RED;

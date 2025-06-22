@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.teleop.tuning;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 @TeleOp(group = "competition")
 @Config
-//@Disabled
+@Disabled
 public class IntakeTest extends LinearOpMode {
     StepperServo ext1;
     StepperServo ext2;

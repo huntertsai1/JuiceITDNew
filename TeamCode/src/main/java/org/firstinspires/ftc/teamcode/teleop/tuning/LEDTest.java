@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.StepperServo;
 
 @TeleOp(group = "competition")
 @Config
+@Disabled
 public class LEDTest extends LinearOpMode {
     public static double COLOR = 500;
 

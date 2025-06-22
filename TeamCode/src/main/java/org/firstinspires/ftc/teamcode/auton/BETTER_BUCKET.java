@@ -12,6 +12,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
@@ -24,6 +25,7 @@ import java.util.List;
 
 
 @Autonomous(name = "BUCKET", group = "Autonomous")
+@Disabled
 public class BETTER_BUCKET extends LinearOpMode {
     Robot robot;
     PinpointDrive drive;
