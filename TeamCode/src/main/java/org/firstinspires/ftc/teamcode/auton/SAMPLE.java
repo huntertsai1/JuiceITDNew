@@ -2,13 +2,10 @@ package org.firstinspires.ftc.teamcode.auton;
 
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.TranslationalVelConstraint;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -20,8 +17,8 @@ import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 
 
-@Autonomous(name = "BUCKET", group = "Autonomous")
-public class BETTER_BUCKET extends LinearOpMode {
+@Autonomous(name = "SAMPLE", group = "Autonomous")
+public class SAMPLE extends LinearOpMode {
     Robot robot;
     PinpointDrive drive;
     public void runOpMode() {
