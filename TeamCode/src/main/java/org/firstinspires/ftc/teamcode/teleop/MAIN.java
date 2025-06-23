@@ -136,7 +136,7 @@ public class MAIN extends LinearOpMode {
             if (gamepad1.cross &&!oldCross) {
                 if (robot.mode == Robot.Gamepiece.SAMPLE) {
                     actionsQueue.add(robot.outtakeSample(true));
-                } else if (robot.mode == Robot.Gamepiece.SPECIMEN && driverMode == DRIVER_MODE.AUTO){
+                } else if (robot.mode == Robot.Gamepiece.SPECIMEN && (driverMode == DRIVER_MODE.AUTO || driverMode == DRIVER_MODE.INTERMEDIATE)){
                     robot.blinky.set(GoBildaLEDIndicator.Colors.RED, GoBildaLEDIndicator.Animation.BLINK);
                     currentAutomation = new TeleAutoCycle(drive, robot, gamepad1);
                     actionsQueue.add(
@@ -152,7 +152,7 @@ public class MAIN extends LinearOpMode {
                                     currentAutomation,
                                     new InstantAction(() -> {
                                         currentAutomation = null;
-//                                        driverMode = DRIVER_MODE.HUMAN;
+                                        driverMode = DRIVER_MODE.INTERMEDIATE;
                                     })
                             )
                     );
@@ -240,7 +240,7 @@ public class MAIN extends LinearOpMode {
                                     currentAutomation,
                                     new InstantAction(() -> {
                                         currentAutomation = null;
-//                                        driverMode = DRIVER_MODE.HUMAN;
+                                        driverMode = DRIVER_MODE.INTERMEDIATE;
                                     })
                             )
                     );
@@ -378,13 +378,17 @@ public class MAIN extends LinearOpMode {
             }
             actionsQueue = newActions;
 
-            if (driverMode == DRIVER_MODE.HUMAN) {
+            if (driverMode == DRIVER_MODE.HUMAN || driverMode == DRIVER_MODE.INTERMEDIATE) {
                 double x = -gamepad1.left_stick_x;
                 double y = -gamepad1.left_stick_y;
                 double rx = gamepad1.right_stick_x;
                 robot.setDrivePower(-x, y, rx);
             } else if (driverMode == DRIVER_MODE.AUTO) {
                 //nothing for now
+            }
+
+            if (driverMode == DRIVER_MODE.INTERMEDIATE && Math.abs(gamepad1.left_stick_x + gamepad1.left_stick_y + gamepad1.right_stick_x) >= 0.1) {
+                driverMode = DRIVER_MODE.HUMAN;
             }
 
             robot.lift.update();
@@ -410,6 +414,7 @@ public class MAIN extends LinearOpMode {
     }
     enum DRIVER_MODE {
         HUMAN,
-        AUTO
+        AUTO,
+        INTERMEDIATE
     }
 }
