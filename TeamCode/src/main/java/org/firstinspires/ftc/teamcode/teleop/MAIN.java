@@ -61,7 +61,7 @@ public class MAIN extends LinearOpMode {
 
     double oldTrigger = 0;
     double oldRtrigger = 0.0;
-    int LIFT_INCREMENT = 100;
+    int LIFT_INCREMENT = 20;
     float EXT_INCREMENT = 20;
     int autoWinches = 0;
     float f = 0.1f;
