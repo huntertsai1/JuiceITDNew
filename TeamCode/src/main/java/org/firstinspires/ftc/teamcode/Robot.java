@@ -177,7 +177,7 @@ public class Robot {
                 }),
                 new SleepAction(0.4),
                 new InstantAction(() -> {
-                    extension.runToPosition(190);
+                    extension.runToPosition(250);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
@@ -519,7 +519,7 @@ public class Robot {
         return new SequentialAction(
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(190);
+                    extension.runToPosition(250);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{

@@ -56,13 +56,13 @@ public class TeleAutoCycle extends CancellableAction {
 
             depoPath = drive.actionBuilder(primePos)
                     .setTangent(Math.toRadians(180))
-                    .splineToLinearHeading(new Pose2d(depoTargetX, -31, Math.toRadians(-92)), Math.toRadians(90),
+                    .splineToLinearHeading(new Pose2d(depoTargetX, -31.5, Math.toRadians(-92)), Math.toRadians(90),
                             new TranslationalVelConstraint(veloLim),
                             new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                     .build();
             intakePath = drive.actionBuilder(new Pose2d(depoTargetX, -31, Math.toRadians(-92)))
                     .setTangent(Math.toRadians(-90))
-                    .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(-45)), Math.toRadians(0),
+                    .splineToLinearHeading(new Pose2d(18, -46, Math.toRadians(-45)), Math.toRadians(0),
                             new TranslationalVelConstraint(veloLim),
                             new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                     .build();
@@ -72,7 +72,7 @@ public class TeleAutoCycle extends CancellableAction {
                     new ParallelAction(
                             robot.highRungAuto(true),
                             depoPath,
-                            new InstantAction(()->{depoTargetX -= 1.5;})
+                            new InstantAction(()->{depoTargetX -= 2;})
                     ),
                     robot.autoSpecimen(true),
 

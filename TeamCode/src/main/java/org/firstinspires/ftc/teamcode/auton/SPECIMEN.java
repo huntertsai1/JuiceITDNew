@@ -43,7 +43,7 @@ public class SPECIMEN extends LinearOpMode {
         double accelLowerLim = -40.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
-                .lineToY(-30,
+                .lineToY(-31,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -83,7 +83,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(3, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(3, -31.5, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -95,7 +95,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec3 = intakeSpec3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(0, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(0, -31.5, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -107,7 +107,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec4 = intakeSpec4.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-3, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(-3, -31.5, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -119,7 +119,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec5 = intakeSpec5.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(0, -31, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(0, -31.5, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
