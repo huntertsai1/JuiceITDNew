@@ -33,7 +33,7 @@ public class TeleRelocToHP extends CancellableAction {
         this.robot = robot;
         path = drive.actionBuilder(relocPos)
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(20, -47, Math.toRadians(-45)), Math.toRadians(0),
+                .splineToLinearHeading(new Pose2d(21, -46, Math.toRadians(-45)), Math.toRadians(0),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
                 .build();
