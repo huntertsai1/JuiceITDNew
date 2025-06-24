@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.auton;
 
-import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.NullAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -18,7 +16,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.util.LoopAction;
-import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
 
 import java.util.List;
@@ -33,10 +30,10 @@ public class SPECIMEN extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double HPDeposit = -51;
-        double spikeBack = -16;
-        double waits = 0.2;
-        double intakeWait = 0.3;
+        double HPDepositY = -51;
+        double spikeBackY = -16;
+        double cycleDepositY = -31.5;
+        double intakeWait = 0.2;
 
         double veloLim = 60.0;
         double accelUpperLim = 60.0;
@@ -49,31 +46,31 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder allSpikes = preload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(26, -48, Math.toRadians(-90)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(36, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(26, -48, Math.toRadians(-90)), Math.toRadians(0)) //segment 1 to clear sub
+                .splineToLinearHeading(new Pose2d(36, spikeBackY, Math.toRadians(-90)), Math.toRadians(90)) // segment 2 to strafe over to first spike
 
-                .splineToLinearHeading(new Pose2d(48, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(48, spikeBackY, Math.toRadians(-90)), Math.toRadians(-90)) // strafing and aligning with first spike
 
-                .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit,
+                .setTangent(Math.toRadians(90)) // pushing to sub
+                .lineToY(HPDepositY,
                         new TranslationalVelConstraint(120.0),
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(44, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(60, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(44, spikeBackY, Math.toRadians(-90)), Math.toRadians(90)) // back to spikes
+                .splineToLinearHeading(new Pose2d(60, spikeBackY, Math.toRadians(-90)), Math.toRadians(-90)) // strafe over to spike 2
 
-                .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit,
+                .setTangent(Math.toRadians(90)) // pushing to sub
+                .lineToY(HPDepositY,
                         new TranslationalVelConstraint(120.0),
                         new ProfileAccelConstraint(-120.0, 120.0))
 
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(49, spikeBack, Math.toRadians(-90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(64, spikeBack, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(49, spikeBackY, Math.toRadians(-90)), Math.toRadians(90)) // back to spikes
+                .splineToLinearHeading(new Pose2d(64, spikeBackY, Math.toRadians(-90)), Math.toRadians(-90)) // strafe over to spike 3
 
-                .setTangent(Math.toRadians(90))
-                .lineToY(HPDeposit,
+                .setTangent(Math.toRadians(90)) // pushing to sub
+                .lineToY(HPDepositY,
                         new TranslationalVelConstraint(120.0),
                         new ProfileAccelConstraint(-120.0, 120.0));
 
@@ -83,7 +80,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(3, -31.5, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(3, cycleDepositY, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -95,7 +92,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec3 = intakeSpec3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(0, -31.5, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(0, cycleDepositY, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -107,7 +104,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec4 = intakeSpec4.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-3, -31.5, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(-3, cycleDepositY, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -119,7 +116,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder depositSpec5 = intakeSpec5.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(0, -31.5, Math.toRadians(-92)), Math.toRadians(90),
+                .splineToLinearHeading(new Pose2d(0, cycleDepositY, Math.toRadians(-92)), Math.toRadians(90),
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -150,14 +147,14 @@ public class SPECIMEN extends LinearOpMode {
                             new ParallelAction(
                                     allSpikes.build(),
                                     new SequentialAction(
-                                            new SleepAction(0.2),
+                                            new SleepAction(intakeWait),
                                             robot.commands.preloadEjectFailSafe()
                                     )
                             ),
                             //SPEC2
                             intakeSpec2.build(),
                             robot.autoSpecIntake(true),
-                            new SleepAction(0.2),
+                            new SleepAction(intakeWait),
                                 new ParallelAction(
                                     robot.highRungAuto(true),
                                     depositSpec2.build()
@@ -169,7 +166,7 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec3.build(),
                                         robot.autoSpecIntake(true)
                                 ),
-                            new SleepAction(0.2),
+                            new SleepAction(intakeWait),
                                 new ParallelAction(
                                         robot.highRungAuto(true),
                                         depositSpec3.build()
@@ -181,7 +178,7 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec4.build(),
                                         robot.autoSpecIntake(true)
                                 ),
-                            new SleepAction(0.2),
+                            new SleepAction(intakeWait),
                                 new ParallelAction(
                                         robot.highRungAuto(true),
                                         depositSpec4.build()
@@ -193,7 +190,7 @@ public class SPECIMEN extends LinearOpMode {
                                         intakeSpec5.build(),
                                         robot.autoSpecIntake(true)
                                 ),
-                            new SleepAction(0.2),
+                            new SleepAction(intakeWait),
                                 new ParallelAction(
                                         robot.highRungAuto(true),
                                         depositSpec5.build()
