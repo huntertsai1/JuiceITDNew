@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.auton;
 
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -29,32 +31,38 @@ public class SAMPLE extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double depositX = -52.8;
-        double depositY = -48.5;
+        double depositX = -53;
+        double depositY = -51;
         double depositWait = 1.2;
         double intakeWait = 0.9;
 
-        double veloLim = 60.0;
-        double accelUpperLim = 60.0;
-        double accelLowerLim = -40.0;
+        double veloLim = 20.0;
+        double accelUpperLim = 20.0;
+        double accelLowerLim = -20.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 //preload
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(45)), Math.toRadians(160))
-                .waitSeconds(0.8);
+                .waitSeconds(1);
 
         TrajectoryActionBuilder spike1 = preload.endTrajectory().fresh()
                 //spike1
                 .setTangent(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-45, -48, Math.toRadians(106)), Math.toRadians(45))
+                .splineToLinearHeading(new Pose2d(-47, -49, Math.toRadians(92)), Math.toRadians(45))
                 .waitSeconds(intakeWait);
+
+        TrajectoryActionBuilder spike1feed = spike1.endTrajectory().fresh()
+                .setTangent(Math.toRadians(92))
+                .lineToY(-41,
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         TrajectoryActionBuilder deposit1 = spike1.endTrajectory().fresh()
                 //depo1
                 .setTangent(Math.toRadians(225))
                 .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(30)), Math.toRadians(200))
-                .waitSeconds(depositWait);
+                .waitSeconds(1);
 
         TrajectoryActionBuilder spike2 = deposit1.endTrajectory().fresh()
                 //spike2
@@ -86,7 +94,7 @@ public class SAMPLE extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-48, -11, Math.toRadians(0)), Math.toRadians(0))
                 .lineToX(-20);
 
-        robot.initSubsystems();
+        robot.bucketinitSubsystems();
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
         for (LynxModule module : allHubs) {
@@ -105,47 +113,47 @@ public class SAMPLE extends LinearOpMode {
                                         robot.autoHighBasketAction()
                                 ),
                                 robot.outtakeSample(true),
-
-                                spike1.build(),
-
-                                robot.autoBucketIntake(true),
                                 new SleepAction(1),
-
-                                new InstantAction(() -> robot.claw.setPower(0)),
                                 new ParallelAction(
-                                        robot.autoHighBasketAction(),
-                                        deposit1.build()
+                                        robot.autoBucketIntake(true),
+                                        spike1.build()
                                 ),
-                                robot.outtakeSample(true),
-
-                                spike2.build(),
-
-                                robot.autoBucketIntake(true),
-                                new SleepAction(1),
-
-                                new InstantAction(() -> robot.claw.setPower(0)),
-                                new ParallelAction(
-                                        robot.autoHighBasketAction(),
-                                        deposit2.build()
-                                ),
-                                robot.outtakeSample(true),
-
-                                spike3.build(),
-
-                                robot.autoBucketIntakeTHIRD(true),
-                                new SleepAction(1),
-
-                                new InstantAction(() -> robot.claw.setPower(0)),
-                                new ParallelAction(
-                                        robot.autoHighBasketAction(),
-                                        deposit3.build()
-                                ),
-                                robot.outtakeSample(true),
-                                new SleepAction(1),
-                                subDrive.build(),
-                                robot.sweeper.sweep(),
-                                new SleepAction(1),
-                                robot.sweeper.sweep()
+                                spike1feed.build(),
+                                new SleepAction(1)
+//                                new ParallelAction(
+//                                        robot.autoHighBasketAction(),
+//                                        deposit1.build()
+//                                )
+//                                robot.outtakeSample(true),
+//
+//                                spike2.build(),
+//
+//                                robot.autoBucketIntake(true),
+//                                new SleepAction(1),
+//
+//                                new InstantAction(() -> robot.claw.setPower(0)),
+//                                new ParallelAction(
+//                                        robot.autoHighBasketAction(),
+//                                        deposit2.build()
+//                                ),
+//                                robot.outtakeSample(true),
+//
+//                                spike3.build(),
+//
+//                                robot.autoBucketIntakeTHIRD(true),
+//                                new SleepAction(1),
+//
+//                                new InstantAction(() -> robot.claw.setPower(0)),
+//                                new ParallelAction(
+//                                        robot.autoHighBasketAction(),
+//                                        deposit3.build()
+//                                ),
+//                                robot.outtakeSample(true),
+//                                new SleepAction(1),
+//                                subDrive.build(),
+//                                robot.sweeper.sweep(),
+//                                new SleepAction(1),
+//                                robot.sweeper.sweep()
                         ),
                         new LoopAction(() -> {
                             for (LynxModule module : allHubs) {

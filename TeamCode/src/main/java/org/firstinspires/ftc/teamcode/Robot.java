@@ -128,6 +128,17 @@ public class Robot {
         arm.runToPreset(Levels.INIT);
         lift.runToPreset(Levels.INIT);
         extension.runToPreset(Levels.INIT);
+        claw.setPower(0);
+        sweeper.setPosition(92);
+        blinky.setAnimation(GoBildaLEDIndicator.Animation.SLOW_BLINK);
+        blinky.setColor(0.3F);
+    }
+
+    public void bucketinitSubsystems(){
+        arm.runToPreset(Levels.INTERMEDIATE);
+        lift.runToPreset(Levels.INIT);
+        extension.runToPreset(Levels.INIT);
+        claw.setPower(0);
         sweeper.setPosition(92);
         blinky.setAnimation(GoBildaLEDIndicator.Animation.SLOW_BLINK);
         blinky.setColor(0.3F);
@@ -203,27 +214,21 @@ public class Robot {
         return new SequentialAction(
                 new InstantAction(() -> {
                     lift.runToPreset(Levels.INTAKE);
-                    extension.runToPosition(160);
+                }),
+                new SleepAction(0.2),
+                new InstantAction(() -> {
+                    extension.runToPosition(170);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
                     arm.runToPreset(Levels.INTAKE);
+                    claw.startIntake();
+                    intaking = true;
                     lift.lift1.resetEncoder();
-                    claw.setPower(0.8F);
-                    intaking = true;
-                    state = Levels.INTAKE;}),
-                new SleepAction(0.3), // DELAY BETWEEN ARM DROPPING AND EXTENSION FULLY EXTENDING, EDIT IF NEEDED
-                new InstantAction(() -> {
-                    extension.runToPosition(250);
-                }),
-                new SleepAction(1),
-                new InstantAction(() -> {
-                    extension.runToPosition(285);
-                    intaking = true;
-                    state = Levels.INTAKE;
                     claw.intakeStatus = 0;
-                }),
-                commands.stopIntakeTimeout(3, SampleColors.YELLOW)
+                    state = Levels.INTAKE;}),
+                new SleepAction(1.4),
+                commands.stopIntakeTimeout(3, SampleColors.YELLOW, SampleColors.BLUE, SampleColors.RED)
         );
     }
 
@@ -429,9 +434,8 @@ public class Robot {
                 new InstantAction(() -> {
                     extension.runToPreset(Levels.HIGH_BASKET);
                     lift.runToPreset(Levels.HIGH_BASKET);
-                    arm.runToPreset(Levels.INTERMEDIATE);
                 }),
-                new SleepAction(1.4),
+                new SleepAction(1),
                 new InstantAction(() -> {
                     arm.runToPreset(Levels.HIGH_BASKET);
                     state = Levels.HIGH_BASKET;

@@ -29,6 +29,7 @@ public class StopIntakeTimeout implements Action {
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
         if (!started) {
             timeout = new ElapsedTime();
+            started = true;
         }
         if (timeout.time() <= TIMEOUT) {
             return robot.autoStopIntakeUpdate(null, colors);

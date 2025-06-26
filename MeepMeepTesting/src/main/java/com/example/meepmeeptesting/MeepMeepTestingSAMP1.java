@@ -39,7 +39,6 @@ public class MeepMeepTestingSAMP1 {
                 .setTangent(Math.toRadians(45))
                 .splineToLinearHeading(new Pose2d(-45, -49, Math.toRadians(106)), Math.toRadians(45))
                 .waitSeconds(intakeWait)
-                .setTangent(Math.toRadians(106))
                 .lineToY(-43,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
