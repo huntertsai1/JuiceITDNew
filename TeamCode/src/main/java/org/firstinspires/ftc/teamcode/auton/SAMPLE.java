@@ -50,31 +50,37 @@ public class SAMPLE extends LinearOpMode {
         TrajectoryActionBuilder spike1 = preload.endTrajectory().fresh()
                 //spike1
                 .setTangent(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-47.5, -50, Math.toRadians(94)), Math.toRadians(45));
+                .splineToLinearHeading(new Pose2d(-47.7, -50, Math.toRadians(91)), Math.toRadians(45));
 
         TrajectoryActionBuilder spike1feed = spike1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(94))
+                .setTangent(Math.toRadians(91))
                 .lineToY(-38,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
-        TrajectoryActionBuilder deposit1 = spike1.endTrajectory().fresh()
+        TrajectoryActionBuilder deposit1 = spike1feed.endTrajectory().fresh()
                 //depo1
                 .setTangent(Math.toRadians(225))
-                .splineToLinearHeading(new Pose2d(depositX, -47, Math.toRadians(30)), Math.toRadians(200))
-                .waitSeconds(1);
+                .splineToLinearHeading(new Pose2d(-49, -51, Math.toRadians(30)), Math.toRadians(200))
+                .waitSeconds(0.4);
 
         TrajectoryActionBuilder spike2 = deposit1.endTrajectory().fresh()
                 //spike2
-                .setTangent(Math.toRadians(92))
-                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(112)), Math.toRadians(100))
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57.7, -48, Math.toRadians(91)), Math.toRadians(90))
                 .waitSeconds(intakeWait);
 
-        TrajectoryActionBuilder deposit2 = spike2.endTrajectory().fresh()
+        TrajectoryActionBuilder spike2feed = spike2.endTrajectory().fresh()
+                .setTangent(Math.toRadians(91))
+                .lineToY(-36,
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
+
+        TrajectoryActionBuilder deposit2 = spike2feed.endTrajectory().fresh()
                 //depo2
-                .setTangent(Math.toRadians(272))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(40)), Math.toRadians(272))
-                .waitSeconds(depositWait);
+                .setTangent(Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-51, -50, Math.toRadians(45)), Math.toRadians(270))
+                .waitSeconds(0.4);
 
         TrajectoryActionBuilder spike3 = deposit2.endTrajectory().fresh()
                 //spike3
@@ -113,7 +119,7 @@ public class SAMPLE extends LinearOpMode {
                                         robot.autoHighBasketAction()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(0.2),
+                                new SleepAction(0.3),
                                 new ParallelAction(
                                         robot.autoBucketIntake(true),
                                         spike1.build()
@@ -126,7 +132,26 @@ public class SAMPLE extends LinearOpMode {
                                         robot.autoHighBasketAction(),
                                         deposit1.build()
                                 ),
-                                robot.outtakeSample(true)
+                                robot.outtakeSample(true),
+                                new SleepAction(0.3),
+                                new ParallelAction(
+                                        robot.autoBucketIntake(true),
+                                        spike2.build()
+                                ),
+                                new ParallelAction(
+                                        spike2feed.build(),
+                                        robot.commands.stopIntakeTimeout(3, SampleColors.YELLOW, SampleColors.BLUE, SampleColors.RED)
+                                ),
+                                new ParallelAction(
+                                        robot.autoHighBasketAction(),
+                                        deposit2.build()
+                                ),
+                                robot.outtakeSample(true),
+                                new SleepAction(0.3)
+//                                new ParallelAction(
+//                                        robot.autoHighBasketAction(),
+//                                        deposit1.build()
+//                                )
 //
 //                                spike2.build(),
 //

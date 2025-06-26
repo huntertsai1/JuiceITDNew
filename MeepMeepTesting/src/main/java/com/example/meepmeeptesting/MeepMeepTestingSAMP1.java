@@ -49,18 +49,17 @@ public class MeepMeepTestingSAMP1 {
                 .waitSeconds(1)
 
                 //spike2
-                .setTangent(Math.toRadians(92))
-                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(112)), Math.toRadians(100))
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(112))
-                .lineToY(-43,
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(94)), Math.toRadians(90))
+                .waitSeconds(intakeWait)
+                .setTangent(Math.toRadians(94))
+                .lineToY(-36,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim))
 
-
                 //depo2
-                .setTangent(Math.toRadians(272))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(40)), Math.toRadians(272))
+                .setTangent(Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(40)), Math.toRadians(270))
                 .waitSeconds(1)
 
                 //spike3
