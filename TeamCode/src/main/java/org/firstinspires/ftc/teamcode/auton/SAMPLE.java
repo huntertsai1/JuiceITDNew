@@ -61,14 +61,13 @@ public class SAMPLE extends LinearOpMode {
         TrajectoryActionBuilder deposit1 = spike1feed.endTrajectory().fresh()
                 //depo1
                 .setTangent(Math.toRadians(225))
-                .splineToLinearHeading(new Pose2d(-49, -51, Math.toRadians(30)), Math.toRadians(200))
+                .splineToLinearHeading(new Pose2d(-50, -52, Math.toRadians(30)), Math.toRadians(200))
                 .waitSeconds(0.4);
 
         TrajectoryActionBuilder spike2 = deposit1.endTrajectory().fresh()
                 //spike2
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-57.7, -48, Math.toRadians(91)), Math.toRadians(90))
-                .waitSeconds(intakeWait);
+                .splineToLinearHeading(new Pose2d(-57.7, -48, Math.toRadians(91)), Math.toRadians(90));
 
         TrajectoryActionBuilder spike2feed = spike2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(91))
@@ -79,7 +78,7 @@ public class SAMPLE extends LinearOpMode {
         TrajectoryActionBuilder deposit2 = spike2feed.endTrajectory().fresh()
                 //depo2
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(-51, -50, Math.toRadians(45)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-52, -51, Math.toRadians(45)), Math.toRadians(270))
                 .waitSeconds(0.4);
 
         TrajectoryActionBuilder spike3 = deposit2.endTrajectory().fresh()

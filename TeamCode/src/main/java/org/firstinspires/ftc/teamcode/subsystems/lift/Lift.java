@@ -95,7 +95,7 @@ public class Lift {
         if (level == Levels.INIT) {
             runToPosition(0);
         } else if (level == Levels.INTAKE) {
-            runToPosition(-15);
+            runToPosition(-20);
         } else if (level == Levels.INTERMEDIATE) {
             runToPosition(0);
         } else if (level == Levels.LOCATING_TARGETS) {
