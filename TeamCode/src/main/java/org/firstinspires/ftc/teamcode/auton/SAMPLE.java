@@ -37,9 +37,9 @@ public class SAMPLE extends LinearOpMode {
         double depositWait = 1.2;
         double intakeWait = 0.9;
 
-        double veloLim = 10.0;
-        double accelUpperLim = 10.0;
-        double accelLowerLim = -10.0;
+        double veloLim = 8.0;
+        double accelUpperLim = 8.0;
+        double accelLowerLim = -8.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 //preload
@@ -83,15 +83,20 @@ public class SAMPLE extends LinearOpMode {
 
         TrajectoryActionBuilder spike3 = deposit2.endTrajectory().fresh()
                 //spike3
-                .setTangent(Math.toRadians(88))
-                .splineToLinearHeading(new Pose2d(-64.5, -45, Math.toRadians(119)), Math.toRadians(95))
-                .waitSeconds(intakeWait);
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-60, -50, Math.toRadians(107)), Math.toRadians(90));
 
-        TrajectoryActionBuilder deposit3 = spike3.endTrajectory().fresh()
+        TrajectoryActionBuilder spike3feed = spike3.endTrajectory().fresh()
+                .setTangent(Math.toRadians(100))
+                .lineToY(-36,
+                        new TranslationalVelConstraint(veloLim),
+                        new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
+
+        TrajectoryActionBuilder deposit3 = spike3feed.endTrajectory().fresh()
                 //depo3
-                .setTangent(Math.toRadians(268))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(40)), Math.toRadians(268))
-                .waitSeconds(depositWait);
+                .setTangent(Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-52, -51, Math.toRadians(45)), Math.toRadians(270))
+                .waitSeconds(0.4);
 
         TrajectoryActionBuilder subDrive = deposit3.endTrajectory().fresh()
                 //ascent zone park
@@ -118,7 +123,7 @@ public class SAMPLE extends LinearOpMode {
                                         robot.autoHighBasketAction()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(0.3),
+                                new SleepAction(0.4),
                                 new ParallelAction(
                                         robot.autoBucketIntake(true),
                                         spike1.build()
@@ -132,7 +137,7 @@ public class SAMPLE extends LinearOpMode {
                                         deposit1.build()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(0.3),
+                                new SleepAction(0.4),
                                 new ParallelAction(
                                         robot.autoBucketIntake(true),
                                         spike2.build()
@@ -146,12 +151,21 @@ public class SAMPLE extends LinearOpMode {
                                         deposit2.build()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(0.3)
-//                                new ParallelAction(
-//                                        robot.autoHighBasketAction(),
-//                                        deposit1.build()
-//                                )
-//
+                                new SleepAction(0.4),
+                                new ParallelAction(
+                                        robot.autoBucketIntake(true),
+                                        spike3.build()
+                                ),
+                                new ParallelAction(
+                                        spike3feed.build(),
+                                        robot.commands.stopIntakeTimeout(3, SampleColors.YELLOW, SampleColors.BLUE, SampleColors.RED)
+                                ),
+                                new ParallelAction(
+                                        robot.autoHighBasketAction(),
+                                        deposit3.build()
+                                ),
+                                robot.outtakeSample(true),
+                                new SleepAction(0.4)
 //                                spike2.build(),
 //
 //                                robot.autoBucketIntake(true),
