@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.util.LoopAction;
 import org.firstinspires.ftc.teamcode.commands.WinchTimeAction;
 import org.firstinspires.ftc.teamcode.roadrunner.PinpointDrive;
+import org.firstinspires.ftc.teamcode.util.enums.SampleColors;
 
 import java.util.List;
 
@@ -36,32 +37,31 @@ public class SAMPLE extends LinearOpMode {
         double depositWait = 1.2;
         double intakeWait = 0.9;
 
-        double veloLim = 20.0;
-        double accelUpperLim = 20.0;
-        double accelLowerLim = -20.0;
+        double veloLim = 10.0;
+        double accelUpperLim = 10.0;
+        double accelLowerLim = -10.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 //preload
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(45)), Math.toRadians(160))
-                .waitSeconds(1);
+                .waitSeconds(0.4);
 
         TrajectoryActionBuilder spike1 = preload.endTrajectory().fresh()
                 //spike1
                 .setTangent(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-47, -49, Math.toRadians(92)), Math.toRadians(45))
-                .waitSeconds(intakeWait);
+                .splineToLinearHeading(new Pose2d(-47.5, -50, Math.toRadians(94)), Math.toRadians(45));
 
         TrajectoryActionBuilder spike1feed = spike1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(92))
-                .lineToY(-41,
+                .setTangent(Math.toRadians(94))
+                .lineToY(-38,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
         TrajectoryActionBuilder deposit1 = spike1.endTrajectory().fresh()
                 //depo1
                 .setTangent(Math.toRadians(225))
-                .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(30)), Math.toRadians(200))
+                .splineToLinearHeading(new Pose2d(depositX, -47, Math.toRadians(30)), Math.toRadians(200))
                 .waitSeconds(1);
 
         TrajectoryActionBuilder spike2 = deposit1.endTrajectory().fresh()
@@ -113,18 +113,20 @@ public class SAMPLE extends LinearOpMode {
                                         robot.autoHighBasketAction()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(1),
+                                new SleepAction(0.2),
                                 new ParallelAction(
                                         robot.autoBucketIntake(true),
                                         spike1.build()
                                 ),
-                                spike1feed.build(),
-                                new SleepAction(1)
-//                                new ParallelAction(
-//                                        robot.autoHighBasketAction(),
-//                                        deposit1.build()
-//                                )
-//                                robot.outtakeSample(true),
+                                new ParallelAction(
+                                        spike1feed.build(),
+                                        robot.commands.stopIntakeTimeout(3, SampleColors.YELLOW, SampleColors.BLUE, SampleColors.RED)
+                                ),
+                                new ParallelAction(
+                                        robot.autoHighBasketAction(),
+                                        deposit1.build()
+                                ),
+                                robot.outtakeSample(true)
 //
 //                                spike2.build(),
 //

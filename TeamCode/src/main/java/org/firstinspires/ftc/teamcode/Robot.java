@@ -226,9 +226,7 @@ public class Robot {
                     intaking = true;
                     lift.lift1.resetEncoder();
                     claw.intakeStatus = 0;
-                    state = Levels.INTAKE;}),
-                new SleepAction(1.4),
-                commands.stopIntakeTimeout(3, SampleColors.YELLOW, SampleColors.BLUE, SampleColors.RED)
+                    state = Levels.INTAKE;})
         );
     }
 
