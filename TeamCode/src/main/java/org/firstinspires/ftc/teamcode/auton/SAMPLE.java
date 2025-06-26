@@ -84,11 +84,11 @@ public class SAMPLE extends LinearOpMode {
         TrajectoryActionBuilder spike3 = deposit2.endTrajectory().fresh()
                 //spike3
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-60, -50, Math.toRadians(107)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(-60, -48, Math.toRadians(107)), Math.toRadians(90));
 
         TrajectoryActionBuilder spike3feed = spike3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(100))
-                .lineToY(-36,
+                .lineToY(-35,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -165,35 +165,11 @@ public class SAMPLE extends LinearOpMode {
                                         deposit3.build()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(0.4)
-//                                spike2.build(),
-//
-//                                robot.autoBucketIntake(true),
-//                                new SleepAction(1),
-//
-//                                new InstantAction(() -> robot.claw.setPower(0)),
-//                                new ParallelAction(
-//                                        robot.autoHighBasketAction(),
-//                                        deposit2.build()
-//                                ),
-//                                robot.outtakeSample(true),
-//
-//                                spike3.build(),
-//
-//                                robot.autoBucketIntakeTHIRD(true),
-//                                new SleepAction(1),
-//
-//                                new InstantAction(() -> robot.claw.setPower(0)),
-//                                new ParallelAction(
-//                                        robot.autoHighBasketAction(),
-//                                        deposit3.build()
-//                                ),
-//                                robot.outtakeSample(true),
-//                                new SleepAction(1),
-//                                subDrive.build(),
-//                                robot.sweeper.sweep(),
-//                                new SleepAction(1),
-//                                robot.sweeper.sweep()
+                                new SleepAction(0.4),
+                                subDrive.build(),
+                                robot.sweeper.sweep(),
+                                new SleepAction(0.5),
+                                robot.sweeper.sweep()
                         ),
                         new LoopAction(() -> {
                             for (LynxModule module : allHubs) {
