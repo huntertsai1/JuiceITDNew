@@ -101,7 +101,7 @@ public class SAMPLE extends LinearOpMode {
         TrajectoryActionBuilder subDrive = deposit3.endTrajectory().fresh()
                 //ascent zone park
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-48, -11, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-40, -8, Math.toRadians(0)), Math.toRadians(0))
                 .lineToX(-20);
 
         robot.bucketinitSubsystems();
