@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class Lift {
     private PIDController controller1;
 
-    public static double p = 0.012, i = 0.00, d = 0.0004;
+    public static double p = 0.0125, i = 0.00, d = 0.0004;
     public static double f = 0.15;
 
     public double target = 0;
@@ -31,7 +31,7 @@ public class Lift {
     public ElapsedTime timer = new ElapsedTime();
     public boolean goingDown = false;
     public boolean spiked = false;
-    public double MAX = 1500;
+    public double MAX = 1510;
     public int HIGH_BASKET = 1460;
     public Lift(Motor l1, Motor l2, Motor l3) {
         this.lift1 = l1;
@@ -49,7 +49,7 @@ public class Lift {
         lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        lift1.motor.setCurrentAlert(1, CurrentUnit.AMPS);
+        lift1.motor.setCurrentAlert(1.4, CurrentUnit.AMPS);
 
         timer.reset();
     }
@@ -95,7 +95,7 @@ public class Lift {
         if (level == Levels.INIT) {
             runToPosition(0);
         } else if (level == Levels.INTAKE) {
-            runToPosition(-20);
+            runToPosition(-25);
         } else if (level == Levels.INTERMEDIATE) {
             runToPosition(0);
         } else if (level == Levels.LOCATING_TARGETS) {

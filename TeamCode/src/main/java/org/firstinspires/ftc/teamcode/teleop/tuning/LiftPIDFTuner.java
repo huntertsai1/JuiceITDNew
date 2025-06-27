@@ -21,8 +21,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 public class LiftPIDFTuner extends OpMode {
     private PIDController controller1;
 
-    public static double p = 0.01, i = 0.00, d = 0.0005;
-    public static double f = 0.125;
+    public static double p = 0.0125, i = 0.00, d = 0.0004;
+    public static double f = 0.15;
     public static int target = 0;
 
     private DcMotorEx slides1;
