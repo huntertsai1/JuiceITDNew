@@ -32,8 +32,8 @@ public class Claw {
         servo1 = s1;
         servo2 = s2;
 
-        servo1.servo.setDirection(DcMotorSimple.Direction.REVERSE);
-        servo2.servo.setDirection(DcMotorSimple.Direction.REVERSE);
+//        servo1.servo.setDirection(DcMotorSimple.Direction.REVERSE);
+//        servo2.servo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         colorSensorHead = sensorHead;
         colorSensorTail = sensorTail;
