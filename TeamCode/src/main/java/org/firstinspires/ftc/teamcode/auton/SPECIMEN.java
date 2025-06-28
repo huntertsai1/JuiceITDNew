@@ -30,9 +30,9 @@ public class SPECIMEN extends LinearOpMode {
         robot = new Robot (hardwareMap, true);
         drive = new PinpointDrive(hardwareMap, startPose);
 
-        double HPDepositY = -51;
+        double HPDepositY = -52;
         double spikeBackY = -16;
-        double cycleDepositY = -31;
+        double cycleDepositY = -30.7;
         double intakeWait = 0.2;
 
         double veloLim = 60.0;
@@ -40,7 +40,7 @@ public class SPECIMEN extends LinearOpMode {
         double accelLowerLim = -40.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
-                .lineToY(-30.5,
+                .lineToY(-30,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -76,7 +76,7 @@ public class SPECIMEN extends LinearOpMode {
 
         TrajectoryActionBuilder intakeSpec2 = allSpikes.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(21, -46), Math.toRadians(-45));
+                .strafeToLinearHeading(new Vector2d(20, -45), Math.toRadians(-45));
 
         TrajectoryActionBuilder depositSpec2 = intakeSpec2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
