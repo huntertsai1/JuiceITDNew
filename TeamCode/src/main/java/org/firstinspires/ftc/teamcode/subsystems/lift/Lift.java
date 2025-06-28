@@ -32,7 +32,7 @@ public class Lift {
     public boolean goingDown = false;
     public boolean spiked = false;
     public double MAX = 1510;
-    public int HIGH_BASKET = 1460;
+    public int HIGH_BASKET = 1470;
     public Lift(Motor l1, Motor l2, Motor l3) {
         this.lift1 = l1;
         this.lift2 = l2;
@@ -49,7 +49,7 @@ public class Lift {
         lift2.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         lift3.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        lift1.motor.setCurrentAlert(1.4, CurrentUnit.AMPS);
+        lift1.motor.setCurrentAlert(1.6, CurrentUnit.AMPS);
 
         timer.reset();
     }
