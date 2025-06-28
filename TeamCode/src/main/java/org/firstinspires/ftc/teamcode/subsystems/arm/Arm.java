@@ -10,7 +10,7 @@ public class Arm {
     float target = 0;
     float wristDown = 172;
     float wristUp = 0;
-    public float INTAKE_PRESET = 172;
+    public float INTAKE_PRESET = 171;
 
     public Arm(StepperServo s1, StepperServo s2) {
         servo = s1;
