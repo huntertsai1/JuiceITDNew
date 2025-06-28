@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.util.hardware.ContinuousServo;
 
 @TeleOp(group = "competition")
 @Config
-//@Disabled
+@Disabled
 public class REVColorSensorTest extends LinearOpMode {
     RevColorSensorV3 sensor;
     ContinuousServo servo1;

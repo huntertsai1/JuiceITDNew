@@ -12,6 +12,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -33,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 @TeleOp(name="TESTING")
 @Config
+@Disabled
 public class Testing extends LinearOpMode {
     double oldTime = 0;
     AllianceColor allianceColor = AllianceColor.RED;
