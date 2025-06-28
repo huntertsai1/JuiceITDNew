@@ -37,15 +37,15 @@ public class SAMPLE extends LinearOpMode {
         double depositWait = 1.2;
         double intakeWait = 0.9;
 
-        double veloLim = 8.0;
-        double accelUpperLim = 8.0;
-        double accelLowerLim = -8.0;
+        double veloLim = 6.0;
+        double accelUpperLim = 6.0;
+        double accelLowerLim = -6.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
                 //preload
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(depositX, depositY, Math.toRadians(45)), Math.toRadians(160))
-                .waitSeconds(0.4);
+                .waitSeconds(0.5);
 
         TrajectoryActionBuilder spike1 = preload.endTrajectory().fresh()
                 //spike1
@@ -62,7 +62,7 @@ public class SAMPLE extends LinearOpMode {
                 //depo1
                 .setTangent(Math.toRadians(225))
                 .splineToLinearHeading(new Pose2d(-50, -52, Math.toRadians(30)), Math.toRadians(200))
-                .waitSeconds(0.4);
+                .waitSeconds(0.5);
 
         TrajectoryActionBuilder spike2 = deposit1.endTrajectory().fresh()
                 //spike2
@@ -79,7 +79,7 @@ public class SAMPLE extends LinearOpMode {
                 //depo2
                 .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-52, -51, Math.toRadians(45)), Math.toRadians(270))
-                .waitSeconds(0.4);
+                .waitSeconds(0.5);
 
         TrajectoryActionBuilder spike3 = deposit2.endTrajectory().fresh()
                 //spike3
@@ -96,7 +96,7 @@ public class SAMPLE extends LinearOpMode {
                 //depo3
                 .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-52, -51, Math.toRadians(45)), Math.toRadians(270))
-                .waitSeconds(0.4);
+                .waitSeconds(0.5);
 
         TrajectoryActionBuilder subDrive = deposit3.endTrajectory().fresh()
                 //ascent zone park

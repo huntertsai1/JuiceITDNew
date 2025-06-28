@@ -222,7 +222,7 @@ public class Robot {
                 new SleepAction(0.3),
                 new InstantAction(()->{
                     arm.runToPreset(Levels.INTAKE);
-                    claw.startIntake();
+                    claw.setPower(0.15F);
                     intaking = true;
                     lift.lift1.resetEncoder();
                     claw.intakeStatus = 0;
