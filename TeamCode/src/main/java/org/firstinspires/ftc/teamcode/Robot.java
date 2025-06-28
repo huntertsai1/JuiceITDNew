@@ -476,7 +476,7 @@ public class Robot {
 
     public Action highRungAuto(boolean action) {
         return new SequentialAction(
-            new InstantAction(() -> claw.setPower(-0.3F)),
+            new InstantAction(() -> claw.setPower(-0.32F)),
             new InstantAction(() -> {
                 extension.runToPreset(Levels.HIGH_RUNG);
                 arm.runToPreset(Levels.HIGH_RUNG);

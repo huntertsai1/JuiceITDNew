@@ -156,6 +156,8 @@ public class MAIN extends LinearOpMode {
                                     })
                             )
                     );
+                } else if (robot.mode == Robot.Gamepiece.SPECIMEN && (driverMode == DRIVER_MODE.HUMAN)) {
+                    actionsQueue.add(robot.outtakeSample(true));
                 }
             }
             oldCross = gamepad1.cross;

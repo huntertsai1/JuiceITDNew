@@ -123,7 +123,7 @@ public class SAMPLE extends LinearOpMode {
                                         robot.autoHighBasketAction()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(0.4),
+                                new SleepAction(0.5),
                                 new ParallelAction(
                                         robot.autoBucketIntake(true),
                                         spike1.build()
@@ -137,7 +137,7 @@ public class SAMPLE extends LinearOpMode {
                                         deposit1.build()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(0.4),
+                                new SleepAction(0.5),
                                 new ParallelAction(
                                         robot.autoBucketIntake(true),
                                         spike2.build()
@@ -151,7 +151,7 @@ public class SAMPLE extends LinearOpMode {
                                         deposit2.build()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(0.4),
+                                new SleepAction(0.5),
                                 new ParallelAction(
                                         robot.autoBucketIntake(true),
                                         spike3.build()
@@ -165,7 +165,7 @@ public class SAMPLE extends LinearOpMode {
                                         deposit3.build()
                                 ),
                                 robot.outtakeSample(true),
-                                new SleepAction(0.4),
+                                new SleepAction(0.5),
                                 subDrive.build(),
                                 robot.sweeper.sweep(),
                                 new SleepAction(0.5),
