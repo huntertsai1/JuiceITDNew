@@ -178,7 +178,7 @@ public class SAMPLE extends LinearOpMode {
                             robot.lift.update();
                             robot.blinky.update();
                         }, this::isStopRequested)
-                        , new WinchTimeAction(robot.climbWinch, 2.2, -1, telemetry)
+//                        , new WinchTimeAction(robot.climbWinch, 2.2, -1, telemetry)
                 )
         );
     }

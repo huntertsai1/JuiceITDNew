@@ -209,7 +209,7 @@ public class SPECIMEN extends LinearOpMode {
                             robot.lift.update();
                             robot.blinky.update();
                         }, this::isStopRequested)
-                        , new WinchTimeAction(robot.climbWinch, 1.3, -1, telemetry)
+//                        , new WinchTimeAction(robot.climbWinch, 1.3, -1, telemetry)
                 )
         );
     }
