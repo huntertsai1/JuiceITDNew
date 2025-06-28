@@ -50,7 +50,7 @@ public class SPECIMEN extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(26, -48, Math.toRadians(-90)), Math.toRadians(0)) //segment 1 to clear sub
                 .splineToLinearHeading(new Pose2d(36, spikeBackY, Math.toRadians(-90)), Math.toRadians(90)) // segment 2 to strafe over to first spike
 
-                .splineToLinearHeading(new Pose2d(48, spikeBackY, Math.toRadians(-90)), Math.toRadians(-90)) // strafing and aligning with first spike
+                .splineToLinearHeading(new Pose2d(49, spikeBackY, Math.toRadians(-90)), Math.toRadians(-90)) // strafing and aligning with first spike
 
                 .setTangent(Math.toRadians(90)) // pushing to sub
                 .lineToY(HPDepositY,
