@@ -161,13 +161,13 @@ public class RED extends LinearOpMode {
             oldOptions = gamepad1.options;
             oldOptions2 = gamepad2.options;
 
-            if (gamepad1.square && !oldSquare && robot.state == Levels.INTAKE) {
-                robot.arm.INTAKE_PRESET += 2;
-                robot.arm.runToPosition(robot.arm.INTAKE_PRESET);
-            } else if (gamepad1.circle && !oldCircle && robot.state == Levels.INTAKE) {
-                robot.arm.INTAKE_PRESET -= 2;
-                robot.arm.runToPosition(robot.arm.INTAKE_PRESET);
-            }
+//            if (gamepad1.square && !oldSquare && robot.state == Levels.INTAKE) {
+//                robot.arm.INTAKE_PRESET += 2;
+//                robot.arm.runToPosition(robot.arm.INTAKE_PRESET);
+//            } else if (gamepad1.circle && !oldCircle && robot.state == Levels.INTAKE) {
+//                robot.arm.INTAKE_PRESET -= 2;
+//                robot.arm.runToPosition(robot.arm.INTAKE_PRESET);
+//            }
 
             if (gamepad1.triangle && !oldTriangle){
                 if (robot.toggleGamepiece() == Robot.Gamepiece.SPECIMEN){
@@ -396,12 +396,12 @@ public class RED extends LinearOpMode {
             telemetry.addData("STATE: ", robot.state);
             telemetry.addData("Sample Head ", robot.claw.detectSampleHead());
             telemetry.addData("COLOR ENABLED", robot.activateSensor);
-            telemetry.addData("LIFT POWER", robot.lift.power1);
+//            telemetry.addData("LIFT POWER", robot.lift.power1);
             telemetry.addData("LIFT ", robot.lift.getPos());
             telemetry.addData("LIFT TARGET ", robot.lift.target);
             telemetry.addData("LOOPTIME: ", frequency);
-            telemetry.addData("queue", actionsQueue);
-            telemetry.addData("TIME TO ACTION", robot.timeToAction.time(TimeUnit.MILLISECONDS) - robot.afterAction.time(TimeUnit.MILLISECONDS));
+//            telemetry.addData("queue", actionsQueue);
+//            telemetry.addData("TIME TO ACTION", robot.timeToAction.time(TimeUnit.MILLISECONDS) - robot.afterAction.time(TimeUnit.MILLISECONDS));
             telemetry.update();
         }
     }
