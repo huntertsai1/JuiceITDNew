@@ -29,12 +29,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@TeleOp(name="MAIN")
+@TeleOp(name="BLUE")
 @Config
-public class MAIN extends LinearOpMode {
+public class BLUE extends LinearOpMode {
     double oldTime = 0;
-    AllianceColor allianceColor = AllianceColor.RED;
-    SampleColors allianceSample = SampleColors.RED;
+    AllianceColor allianceColor = AllianceColor.BLUE;
+    SampleColors allianceSample = SampleColors.BLUE;
 
     // STATES
     boolean manualExtension = false;
@@ -83,23 +83,6 @@ public class MAIN extends LinearOpMode {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
 
-        while (opModeInInit() && !isStopRequested()) {
-            if (gamepad1.square) {
-                allianceColor = AllianceColor.RED;
-                allianceSample = SampleColors.RED;
-                gamepad1.rumbleBlips(1);
-                gamepad1.setLedColor(255, 0, 0, 500);
-            } else if (gamepad1.circle) {
-                allianceColor = AllianceColor.BLUE;
-                allianceSample = SampleColors.BLUE;
-                gamepad1.rumbleBlips(1);
-                gamepad1.setLedColor(0, 0, 255, 500);
-            }
-
-            telemetry.addData("SELECTED COLOR: ", allianceColor);
-            telemetry.update();
-        }
-
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested()) {
@@ -125,7 +108,7 @@ public class MAIN extends LinearOpMode {
             if ((gamepad1.right_trigger >= 0.3) && (oldRtrigger <= 0.3)){
                 if (robot.state == Levels.HIGH_RUNG) {
                     actionsQueue.add(robot.specIntakeStop());
-                    }
+                }
                 else {
                     actionsQueue.add(robot.stopIntakeAction());
                 }
@@ -197,23 +180,23 @@ public class MAIN extends LinearOpMode {
 //                    actionsQueue.add(new SequentialAction(new WinchTimeAction(robot.climbWinch, 4, 1, telemetry),  new InstantAction(()-> {autoWinches = 2;})));
 //                }
                 //if (autoWinches == 0 || autoWinches == 2) {
-                    if (gamepad1.dpad_right || gamepad2.dpad_down) {
-                        robot.climbWinch.setPower(-1);
-                    } else if (gamepad1.dpad_left || gamepad2.dpad_up) {
-                        robot.climbWinch.setPower(1);
-                    }else {
-                        robot.climbWinch.setPower(0);
-                        if (autoWinches != 0){
+                if (gamepad1.dpad_right || gamepad2.dpad_down) {
+                    robot.climbWinch.setPower(-1);
+                } else if (gamepad1.dpad_left || gamepad2.dpad_up) {
+                    robot.climbWinch.setPower(1);
+                }else {
+                    robot.climbWinch.setPower(0);
+                    if (autoWinches != 0){
 //                            robot.climbWinch.setPower(0);
 //                        }else{
-                            robot.climbWinch.setPower(f);
-                        }
+                        robot.climbWinch.setPower(f);
                     }
-                    if (gamepad2.dpad_right){
-                        robot.climbWinch.servo1.setSpeed(1);
-                    }else if (gamepad2.dpad_left){
-                        robot.climbWinch.servo2.setSpeed(1);
-                    }
+                }
+                if (gamepad2.dpad_right){
+                    robot.climbWinch.servo1.setSpeed(1);
+                }else if (gamepad2.dpad_left){
+                    robot.climbWinch.servo2.setSpeed(1);
+                }
 
                 oldDpadUp = gamepad1.dpad_up;
                 oldDpadDown = gamepad1.dpad_down;
