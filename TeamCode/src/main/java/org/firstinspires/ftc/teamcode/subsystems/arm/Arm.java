@@ -10,6 +10,7 @@ public class Arm {
     float target = 0;
     float wristDown = 172;
     float wristUp = 0;
+    public float INTAKE_PRESET = 172;
 
     public Arm(StepperServo s1, StepperServo s2) {
         servo = s1;
@@ -27,7 +28,7 @@ public class Arm {
             runToPosition(350);
             setWristAngle(55);
         } else if (level == Levels.INTAKE) {
-            runToPosition(172); //172
+            runToPosition(INTAKE_PRESET); //172
             setWristAngle(200);
         } else if (level == Levels.INTAKE_INTERMEDIATE) {
             runToPosition(185);

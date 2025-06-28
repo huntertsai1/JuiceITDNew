@@ -161,6 +161,14 @@ public class BLUE extends LinearOpMode {
             oldOptions = gamepad1.options;
             oldOptions2 = gamepad2.options;
 
+            if (gamepad1.square && !oldSquare && robot.state == Levels.INTAKE) {
+                robot.arm.INTAKE_PRESET += 2;
+                robot.arm.runToPosition(robot.arm.INTAKE_PRESET);
+            } else if (gamepad1.circle && !oldCircle && robot.state == Levels.INTAKE) {
+                robot.arm.INTAKE_PRESET -= 2;
+                robot.arm.runToPosition(robot.arm.INTAKE_PRESET);
+            }
+
             if (gamepad1.triangle && !oldTriangle){
                 if (robot.toggleGamepiece() == Robot.Gamepiece.SPECIMEN){
                     gamepad1.rumbleBlips(2);
