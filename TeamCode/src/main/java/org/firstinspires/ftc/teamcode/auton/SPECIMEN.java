@@ -32,7 +32,7 @@ public class SPECIMEN extends LinearOpMode {
 
         double HPDepositY = -51;
         double spikeBackY = -16;
-        double cycleDepositY = -31.5;
+        double cycleDepositY = -30.5;
         double intakeWait = 0.2;
 
         double veloLim = 60.0;
@@ -40,7 +40,7 @@ public class SPECIMEN extends LinearOpMode {
         double accelLowerLim = -40.0;
 
         TrajectoryActionBuilder preload = drive.actionBuilder(startPose)
-                .lineToY(-31,
+                .lineToY(-30.5,
                         new TranslationalVelConstraint(veloLim),
                         new ProfileAccelConstraint(accelLowerLim, accelUpperLim));
 
@@ -140,7 +140,7 @@ public class SPECIMEN extends LinearOpMode {
                                 //PRELOAD
                             new ParallelAction(
                                     preload.build(),
-                                    robot.highRungAuto(true)
+                                    robot.highRungAutoPRELOAD(true)
                             ),
                             robot.autoSpecimen(true),
 

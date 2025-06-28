@@ -165,7 +165,7 @@ public class Robot {
                 }),
                 new SleepAction(0.2),
                 new InstantAction(() -> {
-                    extension.runToPosition(230);
+                    extension.runToPosition(220);
                 }),
                 new SleepAction(0.3),
                 new InstantAction(()->{
@@ -175,7 +175,7 @@ public class Robot {
                     state = Levels.INTAKE;}),
                 new SleepAction(1.4),
                 new InstantAction(() -> {
-                    extension.runToPosition(270);
+                    extension.runToPosition(275);
                     lift.lift1.resetEncoder();
                 })
                 );
@@ -202,7 +202,7 @@ public class Robot {
     public Action autoTeleIntakeBoom() {
         return new SequentialAction(
                 new InstantAction(() -> {
-                    extension.runToPosition(270);
+                    extension.runToPosition(275);
                     lift.lift1.resetEncoder();
                 })
         );
@@ -487,6 +487,21 @@ public class Robot {
                 lift.runToPreset(Levels.HIGH_RUNG);
                 state = Levels.HIGH_RUNG;
             })
+        );
+    }
+
+    public Action highRungAutoPRELOAD(boolean action) {
+        return new SequentialAction(
+                new InstantAction(() -> {
+                    extension.runToPreset(Levels.HIGH_RUNG);
+                    arm.runToPreset(Levels.HIGH_RUNG);
+                }),
+                new SleepAction(0.2),
+                new InstantAction(() -> {
+                    claw.setStall(true);
+                    lift.runToPreset(Levels.HIGH_RUNG);
+                    state = Levels.HIGH_RUNG;
+                })
         );
     }
 
