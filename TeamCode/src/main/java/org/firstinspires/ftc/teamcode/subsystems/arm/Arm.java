@@ -30,6 +30,9 @@ public class Arm {
         } else if (level == Levels.INTAKE) {
             runToPosition(INTAKE_PRESET); //172
             setWristAngle(200);
+        } else if (level == Levels.SAMPAUTO) {
+            runToPosition(170);
+            setWristAngle(200);
         } else if (level == Levels.INTAKE_INTERMEDIATE) {
             runToPosition(185);
             setWristAngle(wristDown);
